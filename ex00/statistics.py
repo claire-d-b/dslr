@@ -29,6 +29,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     if len(nlist) % 2:
                         index = len(nlist) / 2
                         ret = nlist[int(index)]
+                        print(ret)
                     else:
                         index = len(nlist) / 2
                         if index:
@@ -96,6 +97,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                         if len(nlist):
                             nlist.remove(nlist[0])
                             nlist.remove(nlist[len(nlist)-1])
+                            nlist = [float(item) for item in nlist]
                             print(nlist)
                         else:
                             print("ERROR")
