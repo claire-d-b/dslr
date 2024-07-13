@@ -1,3 +1,14 @@
+def nearest(quartile: float, lst: list) -> float:
+    distance = 0
+    mindistance = float('inf')
+    index = 0
+    for i in range(len(lst)):
+        distance = abs(lst[i] - quartile)
+        if distance < mindistance:
+            mindistance = distance
+            index = i
+    return lst[index]
+        
 def ft_statistics(*args: any, **kwargs: any) -> None:
 #your code here
     lst = ['mean', 'median', 'variance', 'std', 'quartile']
@@ -74,33 +85,50 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
 
                     if len(nlist):
                         """identify quartile position"""
-                        q1 = (25 / 100) * (len(nlist) + 1)
-                        q2 = (50 / 100) * (len(nlist) + 1)
-                        q3 = (25 / 100) * (len(nlist) + 1)
+                        q1 = float((len(nlist) + 1) / 4)
+                        """ q2 = (50 / 100) * (len(nlist) + 1) """
+                        q3 = float((3 * (len(nlist) + 1)) / 4)
                         """Q1: Interpolate between values:"""
-                        x, y = int(q1), int(q1)+1
-                        ret_lst.append(int(nlist[x] + (0.75 * (nlist[y] - nlist[x]))))
-                        """Q2: Simply the median value:"""
-                        if len(nlist) % 2:
-                            index = int(len(nlist) / 2)
-                            ret_lst.append(nlist[index])
-                        else:
-                            index = int(len(nlist) / 2)
-                            ret_lst.append(int(nlist[index] + nlist[index] + 1) / 2)
-                        """Q3: Interpolate between values:"""
-                        i, j = int(q3), int(q3)+1
-                        ret_lst.append(int(nlist[i] + (0.25 * (nlist[j] - nlist[i]))))
 
-                        for item in ret_lst:
-                            if item in nlist:
-                                nlist.remove(item)
-                        if len(nlist):
-                            nlist.remove(nlist[0])
-                            nlist.remove(nlist[len(nlist)-1])
-                            nlist = [float(item) for item in nlist]
-                            print(nlist)
+                        if not isinstance(q1, int):
+                            pos1, pos2 = nlist[int(q1)], nlist[int(q1) - 1]
+                            q1 = float(pos2 + (pos1 - pos2) * 0.75)
+
                         else:
-                            print("ERROR")
+                            q1 = nlist[q1]
+                        # """Q2: Simply the median value:"""
+                        # if len(nlist) % 2:
+                        #     index = int(len(nlist) / 2)
+                        #     ret_lst.append(nlist[index])
+                        # else:
+                        #     index = int(len(nlist) / 2)
+                        #     ret_lst.append(int(nlist[index] + nlist[index] + 1) / 2)
+                        """Q3: Interpolate between values:"""
+                        # i, j = int(q3), int(q3)+1
+                        # ret_lst.append(int(nlist[i] + (0.25 * (nlist[j] - nlist[i]))))
+
+                        if not isinstance(q3, int):
+                            pos1, pos2 = nlist[int(q3)], nlist[int(q3) - 1]
+                            q3 = float(pos2 + (pos1 - pos2) * 0.25)
+
+                        else:
+                            q3 = nlist[q3]
+                        if len(nlist) % 2:
+                            nlist = [float(nearest(q1, nlist)), float(nearest(q3, nlist))]
+                        else:
+                            nlist = [float(q1), float(q3)]
+
+                        print(nlist)
+                        # for item in ret_lst:
+                        #     if item in nlist:
+                        #         nlist.remove(item)
+                        # if len(nlist):
+                        #     nlist.remove(nlist[0])
+                        #     nlist.remove(nlist[len(nlist)-1])
+                        #     nlist = [float(item) for item in nlist]
+                        #     print(nlist)
+                        # else:
+                        #     print("ERROR")
                     else:
                         print("ERROR")
                         
