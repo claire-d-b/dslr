@@ -32,14 +32,14 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                         print('ERROR')
 
                 elif idx == 1:
-                    """The median is a measure of central tendency that
+                    """ The median is a measure of central tendency that
                     represents the middle value of a dataset when it is
                     ordered from smallest to largest.
                     If the dataset
                     contains an odd number of observations, the median
                     is the middle value. If the dataset contains an
                     even number of observations, the median is the
-                    average of the two middle values."""
+                    average of the two middle values. """
                     nlist = sorted(args)
                     if len(nlist) % 2:
                         index = len(nlist) / 2
@@ -55,7 +55,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                             print("ERROR")
 
                 elif idx == 2 or idx == 3:
-                    """The standard deviation is a measure of
+                    """ The standard deviation is a measure of
                     the amount of variation or dispersion in a set
                     of values. It quantifies how much the values
                     in a dataset deviate from the mean (average)
@@ -63,30 +63,30 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     Variance is a measure of the dispersion or
                     spread of a set of data points.
                     It quantifies how much the values in a dataset
-                    differ from the mean of the dataset."""
+                    differ from the mean of the dataset. """
 
-                    """Calculate the Mean:"""
+                    """ Calculate the Mean: """
                     mean = 0
                     for arg in args:
                         mean += arg
                     mean = mean / len(args)
-                    """Calculate Each Deviation from the Mean and Square It:"""
+                    """ Calculate Each Deviation from the Mean and Square it: """
                     for arg in args:
                         ret_lst.append((arg - mean) ** 2)
-                    """Calculate the Mean of These Squared Deviations:"""
+                    """ Calculate the Mean of These Squared Deviations: """
                     nmean = 0
 
                     for item in ret_lst:
                         nmean += item
                     nmean = nmean / len(ret_lst)
                     if idx == 3:
-                        """Take the Square Root:"""
+                        """ Take the Square Root: """
                         ret = nmean ** 0.5
                         print(ret)
                     print(nmean)
 
                 elif idx == 4:
-                    """Calculating quartiles is a common task
+                    """ Calculating quartiles is a common task
                     in statistics, often used to divide a dataset
                     into four equal parts.
                     Quartiles provide information about the spread
@@ -99,22 +99,22 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     the dataset, dividing it into two halves.
                     Third Quartile (Q3): Also known as the upper
                     quartile, it divides the highest 25% of the
-                    data from the rest."""
+                    data from the rest. """
                     nlist = sorted(args)
 
                     if len(nlist):
-                        """identify quartile position"""
+                        """ identify quartile position """
                         q1 = float((len(nlist) + 1) / 4)
-                        """ q2 = (50 / 100) * (len(nlist) + 1) """
+
                         q3 = float((3 * (len(nlist) + 1)) / 4)
-                        """Q1: Interpolate between values:"""
+                        """ Q1: Interpolate between values: """
                         if not isinstance(q1, int):
                             pos1, pos2 = nlist[int(q1)], nlist[int(q1) - 1]
                             q1 = float(pos2 + (pos1 - pos2) * 0.75)
 
                         else:
                             q1 = nlist[q1]
-                        """Q3: Interpolate between values:"""
+                        """ Q3: Interpolate between values: """
                         if not isinstance(q3, int):
                             pos1, pos2 = nlist[int(q3)], nlist[int(q3) - 1]
                             q3 = float(pos2 + (pos1 - pos2) * 0.25)
