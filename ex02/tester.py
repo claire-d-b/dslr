@@ -1,16 +1,21 @@
 from callLimit import callLimit
 
 
-@callLimit(3)
-def f():
-    print("f()")
+def main():
+    @callLimit(3)
+    def f():
+        print("f()")
 
 
-@callLimit(1)
-def g():
-    print("g()")
+    @callLimit(1)
+    def g():
+        print("g()")
 
 
-for i in range(3):
-    f()
-    g()
+    for i in range(3):
+        f()
+        g()
+
+
+if __name__ == "__main__":
+    main()
