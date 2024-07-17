@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 def generate_id() -> str:
     return "".join(random.choices(string.ascii_lowercase, k=15))
 
+
 def generate_login(name: str, surname: str) -> str:
     return name[0].upper() + surname
 

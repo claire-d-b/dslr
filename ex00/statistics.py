@@ -70,7 +70,8 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     for arg in args:
                         mean += arg
                     mean = mean / len(args)
-                    """ Calculate Each Deviation from the Mean and Square it: """
+                    """ Calculate Each Deviation from the Mean and
+                    Square it: """
                     for arg in args:
                         ret_lst.append((arg - mean) ** 2)
                     """ Calculate the Mean of These Squared Deviations: """
