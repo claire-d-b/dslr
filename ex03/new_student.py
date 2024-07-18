@@ -16,8 +16,8 @@ class Student:
     name: str
     surname: str
     active: bool = True
-    _login: str = field(init=False, repr=True)
-    _id: str = field(init=False, repr=True)
+    login: str = field(init=False, repr=True)
+    id: str = field(init=False, repr=True)
 
     """ In Python's dataclasses module, the __post_init__ method is a
     special method that gets called automatically after the dataclass's
@@ -28,5 +28,5 @@ class Student:
     def __post_init__(self):
         """ Set the _login attribute based on first_name and last_name
         after instance creation """
-        self._login = generate_login(self.name, self.surname)
-        self._id = generate_id()
+        self.login = generate_login(self.name, self.surname)
+        self.id = generate_id()
