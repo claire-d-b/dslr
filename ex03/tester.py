@@ -2,12 +2,18 @@ from new_student import Student
 
 
 def main():
-    student = Student(name="Edward", surname="agle")
-    print(student)
+    try:
+        student = Student(name="Edward", surname="agle")
+        print(student)
 
-    student = Student(name="Edward", surname="agle", id="toto")
-    print(student)
+        student = Student(name="Edward", surname="agle", id="toto")
+        print(student)
+    except Exception as e:
+        raise AssertionError(f"Error: {e}")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except AssertionError as e:
+        print(f"Error: {e}")

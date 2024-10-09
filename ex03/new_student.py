@@ -26,7 +26,7 @@ class Student:
     to occur after the initial setting of the dataclass's fields. """
 
     def __post_init__(self):
-        """ Set the _login attribute based on first_name and last_name
-        after instance creation """
+        """Set the _login attribute based on first_name and last_name
+        after instance creation"""
         self.login = generate_login(self.name, self.surname)
         self.id = generate_id()
