@@ -4,12 +4,12 @@ import numpy as np
 
 def main():
     ft_statistics(1, 42, 360, 11, 64, toto="mean", tutu="median",
-                tata="quartile")
+                  tata="quartile")
     print("-----")
     ft_statistics(5, 75, 450, 18, 597, 27474, 48575, hello="std", world="var")
     print("-----")
     ft_statistics(5, 75, 450, 18, 597, 27474, 48575, ejfhhe="heheh",
-                ejdjdejn="kdekem")
+                  ejdjdejn="kdekem")
     print("-----")
     ft_statistics(toto="mean", tutu="median", tata="quartile")
     print("-----")
@@ -44,9 +44,11 @@ def main():
     ft_statistics(434, 34, 562, 73, 121, 9, 8, 67, 322, toto="quartile")
     ft_statistics(34, 3, 62, 730, 11, 0, 67, 6, toto="quartile")
 
+    ft_statistics()
+
 
 if __name__ == "__main__":
     try:
         main()
     except AssertionError as e:
-        print("ERROR")
+        print(f"{e}")

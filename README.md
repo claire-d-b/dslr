@@ -5,14 +5,13 @@ source venv/bin/activate
 echo alias python='./venv/bin/python' >> ./venv/bin/activate
 source venv/bin/activate
 
-pip install flake8
 alias norminette=flake8
 
-pip install numpy
+pip3 freeze > requirements.txt
 
 python tester.py
 
 deactivate
 
-rm -rf __pycache__
+rm -rf **pycache**
 rm -rf venv

@@ -19,4 +19,4 @@ if __name__ == "__main__":
     try:
         main()
     except AssertionError as e:
-        print("ERROR")
+        print(f"Error: {e}")

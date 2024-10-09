@@ -15,7 +15,6 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
     idx = 0
     ret = 0
     i = 0
-    ret_lst = []
 
     largs = list(args)
 
@@ -31,7 +30,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                             ret += arg
                         ret = ret / len(largs)
                         print(ret)
-                    except Exception as e:
+                    except Exception:
                         print("ERROR")
 
                 elif idx == 1:
@@ -39,8 +38,8 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # represents the middle value of a dataset when it is
                     # ordered from smallest to largest.
                     # If the dataset contains an odd number of observations,
-                    # the median is the middle value. If the dataset contains an
-                    # even number of observations, the median is the average
+                    # the median is the middle value. If the dataset contains
+                    # an even number of observations, the median is the average
                     # of the two middle values.
                     try:
                         len(largs)
@@ -53,9 +52,9 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                         else:
                             index = len(largs) / 2
                             ret = (largs[int(index - 1) +
-                                    largs[int(index)]]) / 2
+                                   largs[int(index)]]) / 2
                             print(ret)
-                    except Exception as e:
+                    except Exception:
                         print("ERROR")
 
                 elif idx == 2 or idx == 3:
@@ -92,7 +91,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                             print(sd_mean ** 0.5)
                         else:
                             print(sd_mean)
-                    except Exception as e:
+                    except Exception:
                         print("ERROR")
 
                 elif idx == 4:
@@ -113,9 +112,11 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # Steps:
 
                     # Sort the data: First, sort the data in ascending order.
-                    # Find the median: The second quartile (Q2) is the median of the dataset.
-                    # Find Q1 and Q3: Q1 is the median of the lower half of the data
-                    # (below the median), and Q3 is the median of the upper half (above the median).
+                    # Find the median: The second quartile (Q2) is the median
+                    # of the dataset.
+                    # Find Q1 and Q3: Q1 is the median of the lower half of the
+                    # data (below the median), and Q3 is the median of the
+                    # upper half (above the median).
                     try:
                         len(largs)
                         largs.sort(key=None, reverse=False)
@@ -141,10 +142,10 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
 
                         if len(largs) % 2:
                             largs = [float(nearest(q1, largs)),
-                                    float(nearest(q3, largs))]
+                                     float(nearest(q3, largs))]
                         else:
                             largs = [float(q1), float(q3)]
                         print(largs)
 
-                    except Exception as e:
+                    except Exception:
                         print("ERROR")
