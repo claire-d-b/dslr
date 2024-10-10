@@ -27,7 +27,6 @@ def outer(x: int | float, function) -> object:
         nonlocal x
 
         try:
-            print(isinstance(x, (int, float)))
             count = function(x)
             x = count
             return x

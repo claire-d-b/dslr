@@ -4,12 +4,13 @@ def length(lst: list):
         i += 1
     return i
 
+
 def sort_list(sort_list: list):
     n = length(sort_list)
     for i in range(n):
         # Find the minimum element in the unsorted part of the list
         min_index = i
-        for j in range (i + 1, n):
+        for j in range(i + 1, n):
             if sort_list[j] < sort_list[min_index]:
                 min_index = j
         # Swap the found minimum element with the first element
@@ -117,7 +118,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                 elif idx == 4:
                     # Calculating quartiles is a common task
                     # in statistics, often used to divide a dataset
-                    # into four equal parts.                        length(largs)
+                    # into four equal parts.
                     # Quartiles provide information about the spread
                     # and distribution of data.
                     # There are three main quartiles:
@@ -144,9 +145,7 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # fractional part of the index surrounded by i and j.
                     try:
                         length(largs)
-                        print("largs", largs)
                         largs = sort_list(largs)
-                        print("largs", largs)
 
                         # identify quartile position
                         q1 = float((length(largs) + 1) / 4)
@@ -174,5 +173,5 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                             largs = [float(q1), float(q3)]
                         print(largs)
 
-                    except Exception as e:
+                    except Exception:
                         print("ERROR")

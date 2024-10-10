@@ -16,4 +16,4 @@ if __name__ == "__main__":
     try:
         main()
     except AssertionError as e:
-        print(f"Error: {e}")
+        print(f"{e}")
