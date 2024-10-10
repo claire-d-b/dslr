@@ -117,6 +117,11 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # Find Q1 and Q3: Q1 is the median of the lower half of the
                     # data (below the median), and Q3 is the median of the
                     # upper half (above the median).
+
+                    # How to use interpolation to find percentiles?
+                    # The linear interpolation formula for percentiles is:
+                    # linear: i + (j - i) * fraction, where fraction is the
+                    # fractional part of the index surrounded by i and j.
                     try:
                         len(largs)
                         largs.sort(key=None, reverse=False)
