@@ -1,12 +1,13 @@
 # scores / standard deviation / range
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              show, hist, xlabel, ylabel, title, bar
+                              show, hist, xlabel, ylabel, title, bar, ylim
 from collections import Counter
+from numpy import arange
 
 
 def get_col_values(df: DataFrame) -> any:
-    houses = ["Slytherin", "Ravenclaw", "Gryffindor", "Hufflepuff"]
+    houses = ["Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin"]
 
     dist_to_mean = []
     ranges = []
@@ -32,7 +33,6 @@ def get_col_values(df: DataFrame) -> any:
     table = sorted(table)
     ntable = DataFrame(table)
 
-    fig, ax = subplots()
     # for i in range(ntable.shape[1]):
     #     for j in range(ntable.shape[0]):
     #     # ax.plot(col_unit)
@@ -41,13 +41,40 @@ def get_col_values(df: DataFrame) -> any:
     # Group by 'Category' and sum the 'Value' column
     grouped = ntable.groupby(0)[ntable.columns[1:]].sum().reset_index()
     print("GROUEPD", grouped)
+    i = 0
 
     std_deviation = float("inf")
     min_deviation_index = 0
-    for i, category in enumerate(houses):
+    value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
+    # X-axis positions for each group of bars
+    x = arange(len(houses))
+    bar_width = 0.2
+    colors = ["lightblue", "pink", "lightgray", "lightgreen"]
+    for i, house in enumerate(houses):
+        fig, ax = subplots(figsize=(8, 6))
+
+        value_1 = [int(x) for x in grouped.iloc[i].index[1:]]
+        value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
+        value_3 = houses
+        print("val1", value_1)
+        print("val2", value_2)
+        print("val3", value_3)
+        print("VALUUUUE", value_2[i])
+
+        for j, metric in enumerate(value_2):
+            # hist(value_2[j], bins=sorted(value_2))
+            ax.bar(value_1[j], metric, width=bar_width, label=house, color=colors[i])
         # print("un", grouped.iloc[i][1:])
         # print("deux", grouped.iloc[i][1:].index)
-        ax.bar(grouped.iloc[i][1:].index, grouped.iloc[i][1:])
+            print("valJ", value_2[j])
+            print("i", i)
+            tight_layout()
+            ylim(-5000, 5000)
+            xlabel("Course n°")
+            ylabel("Scores")
+            title("Histogram of Data")
+            savefig(house)
+
         # print("HAHA", grouped.iloc[i][0:].values[1:])
         # # Convert to floats using list comprehension
         # float_list = [float(x) for x in grouped.iloc[i][0:].values[1:]]
@@ -62,9 +89,6 @@ def get_col_values(df: DataFrame) -> any:
 
 
     # Add labels and title
-    xlabel("Course n°")
-    ylabel("Scores")
-    title("Histogram of Data")
 
     #print(ntable)
 
@@ -78,11 +102,6 @@ def get_col_values(df: DataFrame) -> any:
     # print(ntable)
     # print(ntable.iloc[0])
 
-    # ax.scatter(lhs, rhs)
-
-    tight_layout()
-    savefig("output_histogram")
-    show()
 
 
 def get_distance_to_mean(largs: list) -> any:
