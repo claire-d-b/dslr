@@ -1,12 +1,12 @@
 # scores / standard deviation / range
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              show, hist, xlabel, ylabel, title, bar, ylim
+                              show, hist, xlabel, ylabel, title, bar, ylim, scatter
 from collections import Counter
 from numpy import arange
 
 
-def get_col_values(df: DataFrame) -> any:
+def get_scatter_plot(df: DataFrame) -> any:
     houses = ["Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin"]
 
     dist_to_mean = []
@@ -49,9 +49,10 @@ def get_col_values(df: DataFrame) -> any:
     # X-axis positions for each group of bars
     x = arange(len(houses))
     bar_width = 0.2
-    colors = ["lightblue", "pink", "lightgray", "lightgreen"]
+    colors = ["blue", "green", "purple", "red"]
+    j = 0
+    fig, ax = subplots(figsize=(8, 6))
     for i, house in enumerate(houses):
-        fig, ax = subplots(figsize=(8, 6))
 
         value_1 = [int(x) for x in grouped.iloc[i].index[1:]]
         value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
@@ -61,19 +62,21 @@ def get_col_values(df: DataFrame) -> any:
         print("val3", value_3)
         print("VALUUUUE", value_2[i])
 
-        for j, metric in enumerate(value_2):
+        # for j, metric in enumerate(value_2):
+        #     ax.scatter(value_1[j], metric, color=colors[i])
+        ax.scatter(value_1, value_2, c=colors[i])
             # hist(value_2[j], bins=sorted(value_2))
-            ax.bar(value_1[j], metric, width=bar_width, label=house, color=colors[i])
         # print("un", grouped.iloc[i][1:])
         # print("deux", grouped.iloc[i][1:].index)
-            print("valJ", value_2[j])
-            print("i", i)
-            tight_layout()
-            # ylim(-1000, 1000)
-            xlabel("Course n°")
-            ylabel("Scores")
-            title("Histogram of Data")
-            savefig(house)
+        print("valJ", value_2[i])
+        print("i", i)
+        j += 1
+    tight_layout()
+    ylim(-500, 500)
+    xlabel("Course n°")
+    ylabel("Scores")
+    title("Histogram of Data")
+    savefig("score_vs_course")
 
         # print("HAHA", grouped.iloc[i][0:].values[1:])
         # # Convert to floats using list comprehension
