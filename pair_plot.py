@@ -1,10 +1,11 @@
 # scores / standard deviation / range
 from pandas import DataFrame, concat
-from pandas.plotting import scatter_matrix
+from seaborn import pairplot
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               show, hist, xlabel, ylabel, title, bar, ylim, scatter
 from collections import Counter
 from numpy import arange
+from pandas import DataFrame, read_csv, set_option
 
 
 def get_scatter_plot_matrix(df: DataFrame) -> any:
@@ -40,37 +41,51 @@ def get_scatter_plot_matrix(df: DataFrame) -> any:
     #         print(ntable[i][j])
     
     # Group by 'Category' and sum the 'Value' column
-    grouped = ntable.groupby(0)[ntable.columns[1:]].sum().reset_index()
-    print("GROUEPD", grouped)
+    grouped = ntable
+    # for i in range(len(ntable)):
+    #     grouped.iloc[1:][0:].set_index(i)
     i = 0
 
     std_deviation = float("inf")
     min_deviation_index = 0
-    value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
+    # value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
     # X-axis positions for each group of bars
     x = arange(len(houses))
     bar_width = 0.2
     colors = ["blue", "green", "purple", "red"]
     j = 0
 
-    for i, house in enumerate(houses):
+    # for i, house in enumerate(houses):
 
-        value_1 = [int(x) for x in grouped.iloc[i].index[1:]]
-        value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
-        value_3 = houses
-        print("val1", value_1)
-        print("val2", value_2)
-        print("val3", value_3)
-        print("VALUUUUE", value_2[i])
+    #     value_1 = [int(x) for x in grouped.iloc[i].index[1:]]
+    #     value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
+    #     value_3 = houses
+    #     print("val1", value_1)
+    #     print("val2", value_2)
+    #     print("val3", value_3)
+    #     print("VALUUUUE", value_2[i])
 
         # for j, metric in enumerate(value_2):
         #     ax.scatter(value_1[j], metric, color=colors[i])
-    data = []
-    for i, unit in enumerate(grouped[:][:].values[:]):
-        print("gRPZ", unit)
-        data.append(unit)
-    print("DATA", data)
-    scatter_matrix(DataFrame(data), figsize=(20, 20), alpha=0.7, diagonal='hist', marker='o')
+    # data = []
+    # for i, unit in enumerate(grouped[:][:].values[:]):
+        # print("gRPZ", unit)
+        # data.append(unit)
+    # print("DATA", data)
+    # grouped = DataFrame(grouped.values, rows=df.rows)
+
+    # grouped = grouped.to_csv("output.csv", index=False)
+    # df = read_csv("output.csv", index_col=0)
+    print("GRhey", grouped)
+
+    # Get the first column as a DataFrame
+    print("dfiloc",grouped.index[0])
+    # Add the index as a new column (categorical)
+    # df['Hogwarts House'] = df.index
+    # print("dff", df)
+    # print("ffd")
+    # scatter_matrix(DataFrame(df), figsize=(20, 20), alpha=0.7, diagonal='hist', marker='o')
+    pairplot(grouped, hue=grouped.index[0], palette='Set1', markers=["o", "s", "D", "X"])
             # hist(value_2[j], bins=sorted(value_2))
         # print("un", grouped.iloc[i][1:])
         # print("deux", grouped.iloc[i][1:].index)
