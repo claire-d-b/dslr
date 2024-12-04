@@ -1,13 +1,14 @@
 # scores / standard deviation / range
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              show, hist, xlabel, ylabel, title, bar, ylim
+                              show, hist, xlabel, ylabel, title, bar, ylim, legend
 from collections import Counter
 from numpy import arange
+from matplotlib.patches import Rectangle
 
 
 def get_bars(df: DataFrame) -> any:
-    houses = ["Gryffindor", "Ravenclaw", "Hufflepuff", "Slytherin"]
+    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
     dist_to_mean = []
     ranges = []
@@ -40,6 +41,8 @@ def get_bars(df: DataFrame) -> any:
     colors = ["lightblue", "pink", "lightgray", "lightgreen"]
     size = [-1.5, -0.5, 0.5, 1.5]
 
+    handles = [Rectangle((0, 0), 1, 1, color=color) for color in colors]
+
     for i, house in enumerate(houses):
         values = [float(x) for x in grouped.iloc[i][0:].values[1:]]
 
@@ -49,12 +52,13 @@ def get_bars(df: DataFrame) -> any:
             # X-axis positions for each group of bars
             ax.bar(x[j] + size[i] * bar_width, metric, width=bar_width, label=house, color=colors[i])
 
-        tight_layout()
-        # ylim(-1000, 1000)
-        xlabel("Course n°")
-        ylabel("Scores")
-        title("Histogram of Data")
-        savefig("histogram")
+    tight_layout()
+    legend(handles=handles, labels=houses)
+    # ylim(-1000, 1000)
+    xlabel("Course n°")
+    ylabel("Scores")
+    title("Histogram of Data")
+    savefig("histogram")
 
 
 # def get_distance_to_mean(largs: list) -> any:
