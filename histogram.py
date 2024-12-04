@@ -47,11 +47,11 @@ def get_col_values(df: DataFrame) -> any:
     min_deviation_index = 0
     value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
     # X-axis positions for each group of bars
+    fig, ax = subplots(figsize=(8, 6))
     x = arange(len(houses))
     bar_width = 0.2
     colors = ["lightblue", "pink", "lightgray", "lightgreen"]
     for i, house in enumerate(houses):
-        fig, ax = subplots(figsize=(8, 6))
 
         value_1 = [int(x) for x in grouped.iloc[i].index[1:]]
         value_2 = [float(x) for x in grouped.iloc[i][0:].values[1:]]
@@ -61,19 +61,20 @@ def get_col_values(df: DataFrame) -> any:
         print("val3", value_3)
         print("VALUUUUE", value_2[i])
 
+        wi = [-1.5, -0.5, 0.5, 1.5]
         for j, metric in enumerate(value_2):
             # hist(value_2[j], bins=sorted(value_2))
-            ax.bar(value_1[j], metric, width=bar_width, label=house, color=colors[i])
+            ax.bar(value_1[j] + wi[i] * bar_width, metric, width=bar_width, label=house, color=colors[i])
         # print("un", grouped.iloc[i][1:])
         # print("deux", grouped.iloc[i][1:].index)
             print("valJ", value_2[j])
             print("i", i)
-            tight_layout()
-            # ylim(-1000, 1000)
-            xlabel("Course n°")
-            ylabel("Scores")
-            title("Histogram of Data")
-            savefig(house)
+        tight_layout()
+        # ylim(-1000, 1000)
+        xlabel("Course n°")
+        ylabel("Scores")
+        title("Histogram of Data")
+        savefig("hist")
 
         # print("HAHA", grouped.iloc[i][0:].values[1:])
         # # Convert to floats using list comprehension

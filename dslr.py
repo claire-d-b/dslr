@@ -7,8 +7,8 @@ def main():
     df = load("dataset_train.csv")
 
     get_col_values(df)
-    get_scatter_plot(df)
-    get_scatter_plot_matrix(df)
+    # get_scatter_plot(df)
+    # get_scatter_plot_matrix(df)
 
 
 if __name__ == "__main__":
