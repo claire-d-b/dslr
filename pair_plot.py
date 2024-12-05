@@ -23,7 +23,6 @@ def get_pair_plot(df: DataFrame) -> any:
 
     grouped = DataFrame(table)
 
-    print("maison", grouped.index[0])
     pairplot(grouped, hue=grouped.index[0], palette='Set1',
              markers=["o", "s", "D", "X"])
 
