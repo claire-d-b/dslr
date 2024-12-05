@@ -40,13 +40,17 @@ def load(path: str) -> DataFrame:
         df = read_csv(path, index_col=0)
         # Solution: When reading the CSV, specify:
         # index_col=0 if the first column is an index.
-        # header=None if there’s no header row in the file, then rename columns manually.
+        # header=None if there’s no header row in the file,
+        # then rename columns manually.
 
         # Change pandas display options
         set_option('display.max_rows', None)  # Show all rows
-        set_option('display.max_columns', None)  # Show all columns
-        set_option('display.width', None)  # Adjust the display width for wrapping
-        set_option('display.colheader_justify', 'left')  # Align headers to the left
+        set_option('display.max_columns', None)  # Show all
+        # columns
+        set_option('display.width', None)  # Adjust the display
+        # width for wrapping
+        set_option('display.colheader_justify', 'lseft')  # Align headers
+        # to the left
 
     except Exception as e:
         raise AssertionError(f"Error: {e}")
@@ -56,7 +60,7 @@ def load(path: str) -> DataFrame:
 def get_values(df: DataFrame, keyword: str) -> DataFrame:
     """Search for a keyword in the entire DataFrame and
     returns associated values"""
-    try: 
+    try:
         isinstance(df, DataFrame)
 
         # Search for a keyword in the entire DataFrame

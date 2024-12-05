@@ -3,6 +3,7 @@ from histogram import get_bars
 from scatter_plot import get_scatter_plot
 from pair_plot import get_pair_plot
 
+
 def main():
     df = load("dataset_train.csv")
 

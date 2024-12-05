@@ -1,8 +1,7 @@
 # scores / standard deviation / range
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              show, hist, xlabel, ylabel, title, bar, ylim, legend
-from collections import Counter
+                              xlabel, ylabel, title, legend
 from numpy import arange
 from matplotlib.patches import Rectangle
 
@@ -10,11 +9,9 @@ from matplotlib.patches import Rectangle
 def get_bars(df: DataFrame) -> any:
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
-    dist_to_mean = []
-    ranges = []
-    std_deviation = []
     df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
-    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6) onward
+    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
+    # onward
     df = concat([df_house, df_courses], axis=1)
 
     table = []
@@ -31,7 +28,7 @@ def get_bars(df: DataFrame) -> any:
 
     table = sorted(table)
     ntable = DataFrame(table)
-    
+
     # Group by 'Category' and sum the 'Value' column
     grouped = ntable.groupby(0)[ntable.columns[1:]].sum().reset_index()
 
@@ -50,7 +47,8 @@ def get_bars(df: DataFrame) -> any:
 
         for j, metric in enumerate(values):
             # X-axis positions for each group of bars
-            ax.bar(x[j] + size[i] * bar_width, metric, width=bar_width, label=house, color=colors[i])
+            ax.bar(x[j] + size[i] * bar_width, metric, width=bar_width,
+                   label=house, color=colors[i])
 
     tight_layout()
     legend(handles=handles, labels=houses)
