@@ -1,3 +1,9 @@
+NDF Hogwarts House
+Gryffindor    327
+Hufflepuff    529
+Ravenclaw     443
+Slytherin     301
+dtype: int64
 df       Hogwarts House    Astronomy  Herbology  Defense Against the Dark Arts  Divination  Muggle Studies  Ancient Runes  History of Magic  Transfiguration    Potions  Care of Magical Creatures     Charms  Flying
 Index                                                                                                                                                                                                             
 0          Ravenclaw  -487.886086   5.727180                       4.878861       4.722      272.035831     532.484226          5.231058      1039.788281   3.790369                   0.715939 -232.79405  -26.89

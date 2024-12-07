@@ -10,7 +10,10 @@ def print_dataframe(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
     df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
     # onward
+    ndf = df.groupby('Hogwarts House').size()
     df = concat([df_house, df_courses], axis=1)
+
+    print("NDF", ndf)
     print("df", df)
     print("fd")
 
