@@ -1,4 +1,4 @@
-def length(lst: list):
+def len(lst: list):
     i = 0
     for item in lst:
         i += 1
@@ -6,7 +6,7 @@ def length(lst: list):
 
 
 def sort_list(sort_list: list):
-    n = length(sort_list)
+    n = len(sort_list)
     for i in range(n):
         # Find the minimum element in the unsorted part of the list
         min_index = i
@@ -23,12 +23,128 @@ def nearest(number: float, lst: list) -> float:
     distance = 0
     mindistance = float('inf')
     index = 0
-    for i in range(length(lst)):
+    for i in range(len(lst)):
         distance = abs(lst[i] - number)
         if distance < mindistance:
             mindistance = distance
             index = i
     return lst[index]
+
+def get_mean(largs: any) -> float:
+    ret = 0
+    try:
+        len(largs)
+        for arg in largs:
+            ret += arg
+        ret = ret / len(largs)
+        return ret
+    except Exception:
+        print("ERROR")
+
+def get_median(largs: any) -> float:
+    ret = 0
+    try:
+        len(largs)
+        largs = sort_list(largs)
+
+        if len(largs) % 2:
+            index = int(len(largs) / 2)
+            ret = largs[index]
+
+        else:
+            index = int(len(largs) / 2)
+            ret = (largs[index - 1] +
+                    largs[index]) / 2
+        return ret
+    except Exception as e:
+        print(f"ERROR:{e}")
+
+
+def get_variance(largs: any) -> float:
+    ret = 0
+    try:
+        len(largs)
+        # Calculate the Mean:
+        mean = 0
+        for arg in largs:
+            mean += arg
+        mean = mean / len(largs)
+        # Calculate Each Deviation from the Mean and
+        # Square it:
+        deviation_lst = []
+        for arg in largs:
+            deviation_lst.append((arg - mean) ** 2)
+        # Calculate the Mean of These Squared Deviations:
+        sd_mean = 0
+
+        for item in deviation_lst:
+            sd_mean += item
+        sd_mean = sd_mean / len(deviation_lst)
+        return sd_mean
+    except Exception:
+        print("ERROR")
+
+
+def get_standard_deviation(largs: any) -> float:
+    ret = 0
+    try:
+        len(largs)
+        # Calculate the Mean:
+        mean = 0
+        for arg in largs:
+            mean += arg
+        mean = mean / len(largs)
+        # Calculate Each Deviation from the Mean and
+        # Square it:
+        deviation_lst = []
+        for arg in largs:
+            deviation_lst.append((arg - mean) ** 2)
+        # Calculate the Mean of These Squared Deviations:
+        sd_mean = 0
+
+        for item in deviation_lst:
+            sd_mean += item
+        sd_mean = sd_mean / len(deviation_lst)
+
+        # Take the Square Root:
+        return sd_mean ** 0.5
+    except Exception:
+        print("ERROR")
+
+def get_quartile(largs: any) -> float:
+    ret = []
+    try:
+        len(largs)
+        largs = sort_list(largs)
+
+        # identify quartile position
+        q1 = float((len(largs) + 1) / 4)
+
+        q3 = float((3 * (len(largs) + 1)) / 4)
+        # Q1: Interpolate between values:
+        if not isinstance(q1, int):
+            pos1, pos2 = largs[int(q1)], largs[int(q1) - 1]
+            q1 = float(pos2 + (pos1 - pos2) * 0.75)
+
+        else:
+            q1 = largs[q1]
+        # Q3: Interpolate between values:
+        if not isinstance(q3, int):
+            pos1, pos2 = largs[int(q3)], largs[int(q3) - 1]
+            q3 = float(pos2 + (pos1 - pos2) * 0.25)
+
+        else:
+            q3 = largs[q3]
+
+        if len(largs) % 2:
+            largs = [float(nearest(q1, largs)),
+                        float(nearest(q3, largs))]
+        else:
+            largs = [float(q1), float(q3)]
+        return largs
+
+    except Exception:
+        print("ERROR")
 
 
 def ft_statistics(*args: any, **kwargs: any) -> None:
@@ -40,17 +156,17 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
     largs = list(args)
 
     for key in kwargs:
-        for i in range(length(lst)):
+        for i in range(len(lst)):
             if kwargs[key] == lst[i]:
                 idx = i
 
                 if idx == 0:
                     try:
-                        length(largs)
+                        len(largs)
                         for arg in largs:
                             ret += arg
-                        ret = ret / length(largs)
-                        print(ret)
+                        ret = ret / len(largs)
+                        return ret
                     except Exception:
                         print("ERROR")
 
@@ -63,18 +179,18 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # an even number of observations, the median is the average
                     # of the two middle values.
                     try:
-                        length(largs)
+                        len(largs)
                         largs = sort_list(largs)
 
-                        if length(largs) % 2:
-                            index = length(largs) / 2
+                        if len(largs) % 2:
+                            index = len(largs) / 2
                             ret = largs[int(index)]
-                            print(ret)
+                            return ret
                         else:
-                            index = length(largs) / 2
+                            index = len(largs) / 2
                             ret = (largs[int(index - 1) +
                                    largs[int(index)]]) / 2
-                            print(ret)
+                            return ret
                     except Exception:
                         print("ERROR")
 
@@ -89,12 +205,12 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # It quantifies how much the values in a dataset
                     # differ from the mean of the dataset. """
                     try:
-                        length(largs)
+                        len(largs)
                         # Calculate the Mean:
                         mean = 0
                         for arg in largs:
                             mean += arg
-                        mean = mean / length(largs)
+                        mean = mean / len(largs)
                         # Calculate Each Deviation from the Mean and
                         # Square it:
                         deviation_lst = []
@@ -105,13 +221,13 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
 
                         for item in deviation_lst:
                             sd_mean += item
-                        sd_mean = sd_mean / length(deviation_lst)
+                        sd_mean = sd_mean / len(deviation_lst)
 
                         if idx == 3:
                             # Take the Square Root:
-                            print(sd_mean ** 0.5)
+                            return sd_mean ** 0.5
                         else:
-                            print(sd_mean)
+                            return sd_mean
                     except Exception:
                         print("ERROR")
 
@@ -144,13 +260,13 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                     # linear: i + (j - i) * fraction, where fraction is the
                     # fractional part of the index surrounded by i and j.
                     try:
-                        length(largs)
+                        len(largs)
                         largs = sort_list(largs)
 
                         # identify quartile position
-                        q1 = float((length(largs) + 1) / 4)
+                        q1 = float((len(largs) + 1) / 4)
 
-                        q3 = float((3 * (length(largs) + 1)) / 4)
+                        q3 = float((3 * (len(largs) + 1)) / 4)
                         # Q1: Interpolate between values:
                         if not isinstance(q1, int):
                             pos1, pos2 = largs[int(q1)], largs[int(q1) - 1]
@@ -166,12 +282,12 @@ def ft_statistics(*args: any, **kwargs: any) -> None:
                         else:
                             q3 = largs[q3]
 
-                        if length(largs) % 2:
+                        if len(largs) % 2:
                             largs = [float(nearest(q1, largs)),
                                      float(nearest(q3, largs))]
                         else:
                             largs = [float(q1), float(q3)]
-                        print(largs)
+                        return largs
 
                     except Exception:
                         print("ERROR")
