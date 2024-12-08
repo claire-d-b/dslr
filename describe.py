@@ -13,6 +13,8 @@ def print_dataframe(df: DataFrame) -> any:
     ndf = df.groupby('Hogwarts House').size()
     df = concat([df_house, df_courses], axis=1)
 
+    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+
     print("NDF", ndf)
     print("df", df)
     print("fd")
@@ -35,9 +37,12 @@ def print_dataframe(df: DataFrame) -> any:
     print("grouped", grouped)
     ngrouped = grouped.iloc[:, 1:]
     print("ngrouped", ngrouped)
+    ret = DataFrame(columns=houses)
+    nrows = []
 
     for i in range(ngrouped.shape[0]):
         print("i", i)
+        print(houses[i])
         lst = ngrouped[i:i+1].values.tolist()
         # Flatten using list comprehension
         flattened_lst = [item for sublist in lst for item in sublist]
@@ -47,3 +52,17 @@ def print_dataframe(df: DataFrame) -> any:
         print("variance:", get_variance(flattened_lst))
         print("std deviation:", get_standard_deviation(flattened_lst))
         print("quartile:", get_quartile(flattened_lst))
+
+        nrows.insert(i, [get_mean(flattened_lst), get_median(flattened_lst), get_variance(flattened_lst),
+                      get_standard_deviation(flattened_lst), get_quartile(flattened_lst)[0],
+                      get_quartile(flattened_lst)[1]])
+
+        nrows_df = DataFrame(nrows)  # Convert to DataFrame
+        # ret = concat([ret, new_row_df], axis=0, ignore_index=True)
+    for i in range(4):
+        print("nr", nrows[i])
+        ret[houses[i]] = nrows[i] # Convert list to DataFrame
+
+    # ngrouped = DataFrame(columns=houses)
+    # nngrouped = concat([ngrouped, nrows], ignore_index=True)
+    print(ret)
