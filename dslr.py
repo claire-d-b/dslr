@@ -64,10 +64,12 @@ def main():
     print("tableNEW", houses)
     print("NTABLE0", ntable.columns) # houses
     print("NTABLE1", scores) # scores
+    print("INDEXES", [x for x in ntable.index]) # scores
+    indexes = [x for x in ntable.index]
     # for i, unit in enumerate(ntable[0].values):
         # remplacer le nom des maisons par 0, 1, 2, 3
 
-    rhs = array(houses)
+    rhs = array(indexes)
     lhs = array(scores)
 
     print("hs:", rhs)
@@ -94,8 +96,13 @@ def main():
     print("Predictions:", predictions)
 
     lhs = [sum(sublist) / len(sublist) for sublist in lhs]
-    scatter(lhs, predictions)
-    # plot(lhs, predictions)
+
+    # Map categories to colors
+    
+    color_map = {0: 'red', 1: 'blue'}
+    colors = [color_map[label] for label in houses]
+    scatter(rhs, lhs, c=colors, alpha=0.8, edgecolor='k')
+    plot(rhs, predictions)
     # Create a grid of a and b values
     # A, B = meshgrid(lhs, rhs)
 
