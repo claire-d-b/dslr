@@ -72,8 +72,8 @@ def main():
     rhs = array(indexes)
     lhs = array(scores)
 
-    print("hs:", rhs)
-    print("ss:", lhs)
+    print("hs:", len(rhs))
+    print("ss:", len(lhs))
 
     pred = []
 
@@ -86,7 +86,8 @@ def main():
     # Run logistic regression
     learning_rate = 0.1
     epochs = 1000
-    weights, bias = train_model(lhs, rhs)
+    weights, bias = train_model(lhs, houses)
+    print("wlen", len(weights))
 
     # Final parameters
     print("\nFinal weights:", weights)
@@ -102,7 +103,48 @@ def main():
     color_map = {0: 'red', 1: 'blue'}
     colors = [color_map[label] for label in houses]
     scatter(rhs, lhs, c=colors, alpha=0.8, edgecolor='k')
-    plot(rhs, predictions)
+    
+    # print("lenpred", len(predictions))
+    # for idx, pred_unit in enumerate(predictions):
+    #     se = 
+
+    savefig("output_train")
+
+     # Create a grid of a and b values
+    A, B = meshgrid(lhs, houses)
+    print("LENHOUSE", len(houses))
+
+    # Calculate the squared error for each combination of a and b
+    squared_error = zeros_like(A)
+
+    print("shapeshape", A.shape[1])
+    print("predz, predictions")
+
+    for i in range(A.shape[0]):
+        for j in range(A.shape[1]):
+            predicted_y = predictions[j]  # Predicted function
+            print("pred?", predicted_y)
+            squared_error[i, j] = mean((predicted_y - B[i, j]) ** 2)
+            # Mean squared error
+
+    # 111: These are subplot grid parameters encoded as a single integer.
+    # For example, "111" means "1x1 grid, first subplot" and "234" means
+    # "2x3 grid, 4th subplot".
+    # Alternative form for add_subplot(111) is add_subplot(1, 1, 1).
+    fig = figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    surface = ax.plot_surface(A, B, squared_error, cmap='viridis',
+                              edgecolor='none')
+    fig.colorbar(surface, ax=ax, shrink=0.5, aspect=5)
+    # Color bar to show the scale of error
+    title("3D surface plot for Squared Error")
+    ax.set_xlabel("scores")
+    ax.set_ylabel("stud_nb")
+    ax.set_zlabel("cost")
+    savefig("cost")
+
+    plot(lhs, predictions)
     # Create a grid of a and b values
     # A, B = meshgrid(lhs, rhs)
 
@@ -138,11 +180,55 @@ def main():
     # ax.set_xlabel("house")
     # ax.set_ylabel("score")
     # ax.set_zlabel("cost")
-    savefig("cost_logistic_reg")
-    show()
+    # show()
 
+    ndf = load("dataset_test.csv")
+    # Replace NaN with 0
+    ndf = ndf.fillna(0)
     # print(theta_1)
     # print(theta_0)
+    ndf_courses = ndf.iloc[:, 6:]   # Select columns starting from 7th (index 6)
+    ndf_house = ndf.iloc[:, [0]]  # Select the 2nd column (index 1)
+
+    nhouses = []
+    nscores = []
+    ndf = concat([ndf_house, ndf_courses], axis=1)
+
+    for i in range(ndf.shape[0]):
+        table.insert(i, [])
+        nscores.insert(i, [])
+        for j in range(ndf.shape[1]):
+
+            if j == 0:
+                print("case:", ndf.iloc[[i], [j]].values[0][0])
+                table[i].insert(j, switch_case(ndf.iloc[[i], [j]].values[0][0]))
+                nhouses.append(switch_case(ndf.iloc[[i], [j]].values[0][0]))
+                
+            else:
+                table[i].insert(j, float(ndf.iloc[[i], [j]].values[0][0]))
+                nscores[i].insert(j, float(ndf.iloc[[i], [j]].values[0][0]))
+        
+    print("houze", nhouses)
+
+    print("NASHAPE", array(nscores).shape)
+
+    npredictions = predict(array(nscores), weights, bias)
+
+    print("alors?", len(npredictions))
+    fig, ax = subplots()
+    nnscores = [sum(sublist) for sublist in nscores]
+    nnindexes = [index for index, item in enumerate(nnscores)]
+    print("nnindexes", nnindexes)
+
+    # Map categories to colors
+    ncolor_map = {0: 'red', 1: 'blue'}
+    ncolors = [ncolor_map[label] for label in npredictions]
+    scatter(nnindexes, nnscores, c=ncolors, alpha=0.8, edgecolor='k')
+
+    plot(nnindexes, npredictions)
+
+    savefig("output_test")
+
 
 
 if __name__ == "__main__":
