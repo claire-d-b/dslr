@@ -103,7 +103,7 @@ def main():
     color_map = {0: 'red', 1: 'blue'}
     colors = [color_map[label] for label in houses]
     scatter(rhs, lhs, c=colors, alpha=0.8, edgecolor='k')
-    
+    plot(rhs, predictions)
     # print("lenpred", len(predictions))
     # for idx, pred_unit in enumerate(predictions):
     #     se = 
