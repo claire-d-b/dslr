@@ -1,6 +1,20 @@
 from pandas import DataFrame, read_csv
 
 
+def switch_case(case_value) -> int | None:
+    match case_value:
+        case 'Gryffindor':
+            return 3
+        case 'Ravenclaw':
+            return 2
+        case 'Hufflepuff':
+            return 1
+        case 'Slytherin':
+            return 0
+        case _:
+            return None
+
+
 def open_thetas_file(name: str) -> tuple:
     theta_0 = 0
     theta_1 = 0
