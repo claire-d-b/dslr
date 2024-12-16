@@ -1,4 +1,4 @@
-from pandas import DataFrame, read_csv
+from pandas import DataFrame, read_csv, set_option
 
 
 def open_thetas_file(name: str) -> tuple:
@@ -37,11 +37,24 @@ def load(path: str) -> DataFrame:
     try:
         # Ici open est un gestionnaire de contexte qui retourne un
         # object-fichier
-        file = read_csv(path)
+        df = read_csv(path, index_col=0)
+        # Solution: When reading the CSV, specify:
+        # index_col=0 if the first column is an index.
+        # header=None if there’s no header row in the file,
+        # then rename columns manually.
+
+        # Change pandas display options
+        set_option('display.max_rows', None)  # Show all rows
+        set_option('display.max_columns', None)  # Show all
+        # columns
+        set_option('display.width', None)  # Adjust the display
+        # width for wrapping
+        set_option('display.colheader_justify', 'lseft')  # Align headers
+        # to the left
 
     except Exception as e:
         raise AssertionError(f"Error: {e}")
-    return file
+    return df
 
 
 def get_values(df: DataFrame, keyword: str) -> DataFrame:

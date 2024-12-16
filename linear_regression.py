@@ -1,5 +1,7 @@
 from pandas import DataFrame
 import random
+from numpy import log
+from math import e
 
 
 def get_affine_function(mileage: list, price: list, theta_0: float,
@@ -38,12 +40,26 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_mileage: float,
     for i in range(minimum, maximum, 1):
         theta_1 = float(i / ((2 * m) / learning_rate))
 
-        # real_price = theta_1 * real_mileage + theta_0
-        # real_price - theta_0 = theta_1 * real_mileage
-        # -theta_0 = theta_1 * real_mileage - real_price
-        # theta_0 = -(theta_1 * real_mileage - real_price)
+        # real_price = 1 / (1 + e ** -(theta_1 * real_mileage + theta_0))
+        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) * real_price = 1
+        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) = 1 / real_price
+        # e ** -(theta_1 * real_mileage + theta_0) = 1 / real_price - 1
+        # log(e ** -(theta_1 * real_mileage + theta_0)) = log(1 / real_price - 1)
+        # -(theta_1 * real_mileage) - theta_0 = log(1 / real_price - 1)
+        # - theta_0 = log(1 / real_price - 1) + (theta_1 * real_mileage)
+        if (real_price):
+            theta_0 = -(log(1 / real_price) + (theta_1 * real_mileage))
+        else:
+            theta_0 = -(log(1 / abs(real_price - 1)) + (theta_1 * real_mileage))
+
+        # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
+        # is defined as the inverse of the exponential function:
+        # ln(e)=1
+        # This is true because:
+        # e1=e
+        
         theta_0 = -theta_1 * real_mileage + real_price
-        se = ((theta_1 * real_mileage + theta_0) - real_price) ** 2
+        se = ((1 / 1 + e ** -(theta_1 * real_mileage + theta_0)) - real_price) ** 2
         if se < limit:
 
             limit = se
@@ -61,8 +77,10 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
 
-    mileage = list(float(x) for x in lhs)
-    price = list(float(x) for x in rhs)
+    print("scores", lhs)
+    print("houses", rhs)
+    mileage = [sum(x) for x in lhs]
+    price = [float(x) for x in rhs]
 
     theta_0, theta_1, mse = get_affine_function(mileage, price,
                                                 theta_0, theta_1,

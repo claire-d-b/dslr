@@ -54,3 +54,8 @@ def predict(scores, w, b):
     y_pred = sigmoid(z)
     return [1 if p > 0.5 else 0 for p in y_pred]
 
+# Make predictions
+def predict_real(scores, w, b):
+    z = dot(scores, w) + b
+    y_pred = sigmoid(z)
+    return [p for p in y_pred]
