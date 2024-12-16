@@ -4,11 +4,11 @@ from pandas import DataFrame, read_csv
 def switch_case(case_value) -> int | None:
     match case_value:
         case 'Gryffindor':
-            return 3
-        case 'Ravenclaw':
-            return 2
-        case 'Hufflepuff':
             return 1
+        case 'Ravenclaw':
+            return 0
+        case 'Hufflepuff':
+            return 0
         case 'Slytherin':
             return 0
         case _:

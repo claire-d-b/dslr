@@ -49,21 +49,23 @@ def main():
 
     fig, ax = subplots()
 
-    color_map = {0: 'red', 1: 'blue', 2: 'gray', 3: 'green'}
-    colors = [color_map[label] for label in houses]
+    # Ici, faire correspondre des valeurs de 0.1 à 0.9 à des couleurs
+    print("predz", rhs)
+    color_map = {0: 'red', 1: 'blue'}
+    colors = [color_map[round(label)] for label in rhs]
 
     scatter(indexes, lhs, c=colors, alpha=0.8, edgecolor='k')
-    plot(pred)
+
     tight_layout()
     savefig("output_classification_I")
     # Use computed thetas for predictions
 
     ndf = load("dataset_test.csv")
     # Replace NaN with 0
-    ndf = df.fillna(0)
+    ndf = ndf.fillna(0)
 
     # ndf_house = df.iloc[:, [1]]  # Select the 2nd column - house
-    ndf = df.iloc[:, 6:]   # Select courses columns
+    ndf = ndf.iloc[:, 6:]   # Select courses columns
     # ndf = concat([ndf_house, ndf_courses], axis=1)
 
     ntable = []
@@ -96,9 +98,12 @@ def main():
         npred.insert(i, 1 / (1 + (e ** -(unit * weights + bias))))
 
     fig, ax = subplots()
+    # Ici, faire correspondre des valeurs de 0.1 à 0.9 à des couleurs
+    print("npredz", [round(x) for x in npred])
+    ncolors = [color_map[round(x)] for x in npred]
 
-    scatter(nindexes, nlhs, c=colors, alpha=0.8, edgecolor='k')
-    plot(npred)
+    scatter(nindexes, nlhs, c=ncolors, alpha=0.8, edgecolor='k')
+
     tight_layout()
     savefig("output_classification_II")
 
