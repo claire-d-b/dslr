@@ -4,65 +4,56 @@ from matplotlib.pyplot import savefig, tight_layout, subplots, \
 from numpy import arange
 from matplotlib.patches import Rectangle
 from stats import get_mean, get_median, get_variance, get_standard_deviation, get_quartile
+from utils import load
 
 
 def print_dataframe(df: DataFrame) -> any:
-    df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
-    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
-    # onward
-    ndf = df.groupby('Hogwarts House').size()
+    # Select the 2nd column (index 1)
+    df_house = df.iloc[:, [1]]
+    print("house", df_house.values)
+    # Select courses
+    df_courses = df.iloc[:, 6:]
+    print("courses", df_courses)
+
     df = concat([df_house, df_courses], axis=1)
+    # Group by house and sum up values for each course accordingly
+    df = df.groupby('Hogwarts House').sum()
 
-    houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+    indexes = list(df.index)
 
-    print("NDF", ndf)
-    print("df", df)
-    print("fd")
-
-    table = []
+    values = []
+    data = ["Count:", "Std:", "Min:", "25%:", "50%:", "75%:", "Max:"]
+    ndf = DataFrame(data)
 
     for i in range(df.shape[0]):
-        table.insert(i, [])
+        values.insert(i, [])
+        # Get scores for all 12 courses in a specific house
+        row_values = [value for value in df.iloc[i]]
 
-        for j in range(df.shape[1]):
+        values[i].append(get_mean(row_values))
+        # print("variance:", get_variance(row_values))
+        values[i].append(get_standard_deviation(row_values))
+        values[i].append(min(row_values))
+        values[i].append(get_quartile(row_values)[0])
+        values[i].append(get_median(row_values))
+        values[i].append(get_quartile(row_values)[1])
+        values[i].append(max(row_values))
+        ndf = concat([ndf, DataFrame(values[i])], axis=1)
 
-            if j == 0:
-                table[i].insert(j, df.iloc[[i], [j]].values[0][0])
-            else:
-                table[i].insert(j, float(df.iloc[[i], [j]].values[0][0]))
+    ndf = DataFrame(ndf)
+    
+    # Get the current columns
+    columns = ndf.columns.tolist()
+    # Rename columns to new names
+    columns[1:5] = indexes
+    # Assign the new column names back to the DataFrame
+    ndf.columns = columns
 
-    ntable = DataFrame(sorted(table))
-    # Group by 'Category' and sum the 'Value' column
-    grouped = ntable.groupby(0)[ntable.columns[1:]].sum().reset_index()
-    print("grouped", grouped)
-    ngrouped = grouped.iloc[:, 1:]
-    print("ngrouped", ngrouped)
-    ret = DataFrame(columns=houses)
-    nrows = []
+    print(ndf)
+    return ndf
 
-    for i in range(ngrouped.shape[0]):
-        print("i", i)
-        print(houses[i])
-        lst = ngrouped[i:i+1].values.tolist()
-        # Flatten using list comprehension
-        flattened_lst = [item for sublist in lst for item in sublist]
-        print(flattened_lst)
-        print("mean:", get_mean(flattened_lst))
-        print("median:", get_median(flattened_lst))
-        print("variance:", get_variance(flattened_lst))
-        print("std deviation:", get_standard_deviation(flattened_lst))
-        print("quartile:", get_quartile(flattened_lst))
-
-        nrows.insert(i, [get_mean(flattened_lst), get_median(flattened_lst), get_variance(flattened_lst),
-                      get_standard_deviation(flattened_lst), get_quartile(flattened_lst)[0],
-                      get_quartile(flattened_lst)[1]])
-
-        nrows_df = DataFrame(nrows)  # Convert to DataFrame
-        # ret = concat([ret, new_row_df], axis=0, ignore_index=True)
-    for i in range(4):
-        print("nr", nrows[i])
-        ret[houses[i]] = nrows[i] # Convert list to DataFrame
-
-    # ngrouped = DataFrame(columns=houses)
-    # nngrouped = concat([ngrouped, nrows], ignore_index=True)
-    print(ret)
+if __name__ == "__main__":
+    try:
+        print_dataframe(load("../dataset_train.csv"))
+    except AssertionError as error:
+        print(f"{error}")

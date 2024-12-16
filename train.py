@@ -1,9 +1,8 @@
-from utils import get_lists_from_dataframe, load, switch_case
-# from linear_regression_test import train_model
+from utils import load, switch_case
 from logistic_regression import train_model
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              show, scatter, plot
-from pandas import DataFrame, concat
+                              scatter
+from pandas import concat
 from numpy import array
 from math import e
 
@@ -13,23 +12,22 @@ def main():
     # Replace NaN with 0
     df = df.fillna(0)
 
-    df_house = df.iloc[:, [1]] # Select the 2nd column - house
-    df_courses = df.iloc[:, 6:] # Select courses columns
+    # Select the 2nd column - house
+    df_house = df.iloc[:, [1]]
+    # Select courses columns
+    df_courses = df.iloc[:, 6:]
     df = concat([df_house, df_courses], axis=1)
 
-    table = []
     houses = []
     scores = []
 
     for i in range(df.shape[0]):
         scores.insert(i, [])
         for j in range(df.shape[1]):
-            
             if j == 0:
                 # switch_case returns 0 or 1 depending on the house
                 # print(df.iloc[[i], [j]].values[0][0])
                 houses.append(switch_case(df.iloc[[i], [j]].values[0][0]))
-                
             else:
                 scores[i].insert(j, float(df.iloc[[i], [j]].values[0][0]))
 
@@ -50,7 +48,7 @@ def main():
     fig, ax = subplots()
 
     # Ici, faire correspondre des valeurs de 0.1 à 0.9 à des couleurs
-    print("predz", rhs)
+
     color_map = {0: 'red', 1: 'blue'}
     colors = [color_map[round(label)] for label in rhs]
 
@@ -68,25 +66,16 @@ def main():
     ndf = ndf.iloc[:, 6:]   # Select courses columns
     # ndf = concat([ndf_house, ndf_courses], axis=1)
 
-    ntable = []
-    nhouses = []
     nscores = []
 
     for i in range(ndf.shape[0]):
         nscores.insert(i, [])
         for j in range(ndf.shape[1]):
-
-            # if j == 0:
-            #     # switch_case returns 0 or 1 depending on the house
-            #     nhouses.append(switch_case(ndf.iloc[[i], [j]].values[0][0]))
-                
-            # else:
             nscores[i].insert(j, float(ndf.iloc[[i], [j]].values[0][0]))
 
     # nrhs = array(nhouses)
     nlhs = array(nscores)
     nindexes = [i for i in range(len(nscores))]
-
 
     # Run logistic regression
     learning_rate = 0.01
@@ -98,12 +87,8 @@ def main():
         npred.insert(i, 1 / (1 + (e ** -(unit * weights + bias))))
 
     fig, ax = subplots()
-    # Ici, faire correspondre des valeurs de 0.1 à 0.9 à des couleurs
-    print("npredz", [round(x) for x in npred])
     ncolors = [color_map[round(x)] for x in npred]
-
     scatter(nindexes, nlhs, c=ncolors, alpha=0.8, edgecolor='k')
-
     tight_layout()
     savefig("output_classification_II")
 
@@ -111,5 +96,5 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except AssertionError as e:
-        print(f"{e}")
+    except AssertionError as error:
+        print(f"{error}")

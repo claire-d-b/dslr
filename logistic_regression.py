@@ -44,7 +44,8 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # 1 + (e ** -(theta_1 * real_mileage + theta_0)) * real_price = 1
         # 1 + (e ** -(theta_1 * real_mileage + theta_0)) = 1 / real_price
         # e ** -(theta_1 * real_mileage + theta_0) = 1 / real_price - 1
-        # log(e ** -(theta_1 * real_mileage + theta_0)) = log(1 / real_price - 1)
+        # log(e ** -(theta_1 * real_mileage + theta_0))
+        # = log(1 / real_price - 1)
         # -(theta_1 * real_mileage) - theta_0 = log(1 / real_price - 1)
         # - theta_0 = log(1 / real_price - 1) + (theta_1 * real_mileage)
         if (real_house):
@@ -57,9 +58,10 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # ln(e)=1
         # This is true because:
         # e1=e
-        
+
         theta_0 = -theta_1 * real_score + real_house
-        se = ((1 / 1 + e ** -(theta_1 * real_score + theta_0)) - real_house) ** 2
+        se = ((1 / 1 + e ** -(theta_1 * real_score + theta_0)) -
+              real_house) ** 2
         if se < limit:
 
             limit = se
