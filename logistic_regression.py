@@ -1,61 +1,87 @@
+from pandas import DataFrame
+import random
+from numpy import log
 from math import e
-from numpy import dot, log, zeros, array, clip, isnan
-
-# Sigmoid function
-def sigmoid(z):
-    z = clip(z, -500, 500)  # Prevent extreme values
-    return 1 / (1 + e ** -z)
-
-# Manual logistic regression function
-def train_model(scores, houses, learning_rate=0.01, epochs=1000):
-    # Initialize parameters (weights and bias)
-    m, n = scores.shape  # m: number of samples, n: number of features
-    w = zeros(n)  # Weights initialized to 0
-    b = 0  # Bias initialized to 0
-    houses = array(houses)
-    scores = array(scores)
-
-    epsilon = 1e-7  # Small constant to prevent log(0)
-
-    # Gradient descent loop
-    for epoch in range(epochs):
-        # Forward pass: Compute predictions
-        z = dot(scores, w) + b  # Linear part: w.X + b
-        y_pred = sigmoid(z)  # Sigmoid activation
-
-        # Assuming m is the number of samples, houses is your true target vector, y_pred is your predicted probabilities
-        y_pred = clip(y_pred, epsilon, 1 - epsilon) # Clip the predictions to a range to prevent log(0)
-
-        # Compute cost (Binary Cross-Entropy Loss)
-        cost = -(1/m) * sum(houses * log(y_pred) + (1 - houses) * log(1 - y_pred))
-
-        # Backward pass: Compute gradients
-        dw = (1/m) * dot(scores.T, (y_pred - houses))  # Gradient of weights
-        db = (1/m) * sum(y_pred - houses)        # Gradient of bias
-
-        # Update parameters
-        w -= learning_rate * dw
-        b -= learning_rate * db
-
-        # Check for NaN
-        if isnan(w).any() or isnan(b):
-            print("NaN encountered during training at epoch:", epoch)
-            break
-        # Print cost every 100 epochs for monitoring
-        if epoch % 100 == 0:
-            print(f"Epoch {epoch}, Cost: {cost}")
-
-    return w, b
 
 
-# Make predictions
-def predict(scores, w, b):
-    z = dot(scores, w) + b
-    y_pred = sigmoid(z)
-    return [1 if p > 0.5 else 0 for p in y_pred]
+def get_affine_function(score: list, house: list, theta_0: float,
+                        theta_1: float, learning_rate: float) -> tuple:
+    """Take all values from x-axis and y-axis lists and calculate the
+    mean square error for minimum square errors, update thetas"""
+    # y = w * x + b
+    mse = 0.0
+    m = len(score)
 
-# Make predictions
-def predict_real(scores, w, b):
-    z = dot(scores, w) + b
-    y_pred = sigmoid(z)
-    return [p for p in y_pred]
+    for score_unit, house_unit in zip(score, house):
+        b, w, se = minimize_cost(m, theta_0, theta_1, score_unit,
+                                 house_unit, learning_rate)
+        theta_0 += b
+        theta_1 += w
+
+        mse += se
+    ret_mse = mse * 1 / (2 * m)
+    theta_0 /= len(score)
+    theta_1 /= len(score)
+
+    return theta_0, theta_1, ret_mse
+
+
+def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
+                  real_house: float, learning_rate: float) -> tuple:
+    """Test with a slope value between -0.01 and 0.01, update y-interceipt
+    value, take the smallest square error and return corresponding w and b"""
+    limit = float("inf")
+    w = 0.0
+    b = 0.0
+
+    minimum = int(- 1 / learning_rate)
+    maximum = int(1 / learning_rate)
+
+    for i in range(minimum, maximum, 1):
+        theta_1 = float(i / ((2 * m) / learning_rate))
+
+        # real_price = 1 / (1 + e ** -(theta_1 * real_mileage + theta_0))
+        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) * real_price = 1
+        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) = 1 / real_price
+        # e ** -(theta_1 * real_mileage + theta_0) = 1 / real_price - 1
+        # log(e ** -(theta_1 * real_mileage + theta_0)) = log(1 / real_price - 1)
+        # -(theta_1 * real_mileage) - theta_0 = log(1 / real_price - 1)
+        # - theta_0 = log(1 / real_price - 1) + (theta_1 * real_mileage)
+        if (real_house):
+            theta_0 = -(log(1 / real_house) + (theta_1 * real_score))
+        else:
+            theta_0 = -(log(1 / abs(real_house - 1)) + (theta_1 * real_score))
+
+        # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
+        # is defined as the inverse of the exponential function:
+        # ln(e)=1
+        # This is true because:
+        # e1=e
+        
+        theta_0 = -theta_1 * real_score + real_house
+        se = ((1 / 1 + e ** -(theta_1 * real_score + theta_0)) - real_house) ** 2
+        if se < limit:
+
+            limit = se
+            b = theta_0
+            w = theta_1
+
+    return b, w, limit
+
+
+def train_model(lhs: DataFrame, rhs: DataFrame,
+                learning_rate: float) -> tuple:
+    """Get thetas that minimizes the mean square error"""
+
+    # Generate a random floating-point number between -0.01 and 0.01
+    theta_0 = random.uniform(-0.01, 0.01)
+    theta_1 = random.uniform(-0.01, 0.01)
+
+    score = [sum(x) for x in lhs]
+    house = [float(x) for x in rhs]
+
+    theta_0, theta_1, mse = get_affine_function(score, house,
+                                                theta_0, theta_1,
+                                                learning_rate)
+
+    return theta_1, theta_0
