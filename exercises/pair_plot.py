@@ -5,7 +5,9 @@ from utils_figures import load
 
 
 def get_pair_plot(df: DataFrame) -> any:
-
+    """Display a scatter plot matrix with colors, showing how
+    students' scores are spread for each course. Different
+    colors are used to distinguish houses."""
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 6:]
 

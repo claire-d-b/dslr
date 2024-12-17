@@ -4,11 +4,11 @@ from numpy import log
 from math import e
 
 
-def get_affine_function(score: list, house: list, theta_0: float,
+def get_sigmoid_function(score: list, house: list, theta_0: float,
                         theta_1: float, learning_rate: float) -> tuple:
     """Take all values from x-axis and y-axis lists and calculate the
     mean square error for minimum square errors, update thetas"""
-    # y = w * x + b
+
     mse = 0.0
     m = len(score)
 
@@ -39,15 +39,15 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
     for i in range(minimum, maximum, 1):
         theta_1 = float(i / ((2 * m) / learning_rate))
-
-        # real_price = 1 / (1 + e ** -(theta_1 * real_mileage + theta_0))
-        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) * real_price = 1
-        # 1 + (e ** -(theta_1 * real_mileage + theta_0)) = 1 / real_price
-        # e ** -(theta_1 * real_mileage + theta_0) = 1 / real_price - 1
-        # log(e ** -(theta_1 * real_mileage + theta_0))
-        # = log(1 / real_price - 1)
-        # -(theta_1 * real_mileage) - theta_0 = log(1 / real_price - 1)
-        # - theta_0 = log(1 / real_price - 1) + (theta_1 * real_mileage)
+        # Below formula is that of the sigoid function
+        # real_house = 1 / (1 + e ** -(theta_1 * real_score + theta_0))
+        # 1 + (e ** -(theta_1 * real_score + theta_0)) * real_house = 1
+        # 1 + (e ** -(theta_1 * real_score + theta_0)) = 1 / real_house
+        # e ** -(theta_1 * real_score + theta_0) = 1 / real_house - 1
+        # log(e ** -(theta_1 * real_score + theta_0))
+        # = log(1 / real_house - 1)
+        # -(theta_1 * real_score) - theta_0 = log(1 / real_house - 1)
+        # - theta_0 = log(1 / real_house - 1) + (theta_1 * real_score)
         if (real_house):
             theta_0 = -(log(1 / real_house) + (theta_1 * real_score))
         else:
@@ -55,9 +55,9 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
         # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
         # is defined as the inverse of the exponential function:
-        # ln(e)=1
+        # ln(e) = 1
         # This is true because:
-        # e1=e
+        # e**1 = e
 
         theta_0 = -theta_1 * real_score + real_house
         se = ((1 / 1 + e ** -(theta_1 * real_score + theta_0)) -
@@ -82,7 +82,7 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     score = [sum(x) for x in lhs]
     house = [float(x) for x in rhs]
 
-    theta_0, theta_1, mse = get_affine_function(score, house,
+    theta_0, theta_1, mse = get_sigmoid_function(score, house,
                                                 theta_0, theta_1,
                                                 learning_rate)
 

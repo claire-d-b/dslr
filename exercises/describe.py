@@ -8,6 +8,7 @@ from utils import load
 
 
 def print_dataframe(df: DataFrame) -> any:
+    """Print statistics per category from a dataframe's values"""
     # Select the 2nd column (index 1)
     df_house = df.iloc[:, [1]]
     print("house", df_house.values)

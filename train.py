@@ -7,7 +7,9 @@ from numpy import array
 from math import e
 
 
-def main():
+def train():
+    """Function 1) computing w and b that inimize loss/cost
+    2) using b and w to make predictions"""
     df = load("dataset_train.csv")
     # Replace NaN with 0
     df = df.fillna(0)
@@ -47,8 +49,6 @@ def main():
 
     fig, ax = subplots()
 
-    # Ici, faire correspondre des valeurs de 0.1 à 0.9 à des couleurs
-
     color_map = {0: 'red', 1: 'blue'}
     colors = [color_map[round(label)] for label in rhs]
 
@@ -62,9 +62,7 @@ def main():
     # Replace NaN with 0
     ndf = ndf.fillna(0)
 
-    # ndf_house = df.iloc[:, [1]]  # Select the 2nd column - house
     ndf = ndf.iloc[:, 6:]   # Select courses columns
-    # ndf = concat([ndf_house, ndf_courses], axis=1)
 
     nscores = []
 
@@ -95,6 +93,6 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        train()
     except AssertionError as error:
         print(f"{error}")

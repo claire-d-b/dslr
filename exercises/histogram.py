@@ -8,6 +8,7 @@ from utils_figures import load
 
 
 def get_bars(df: DataFrame) -> any:
+    """Create a bar chart plotting each house's scores per course"""
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
     # Select the 2nd column (index 1)

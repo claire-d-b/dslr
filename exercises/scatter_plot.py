@@ -7,7 +7,9 @@ from utils_figures import load
 
 
 def get_scatter_plot(df: DataFrame) -> any:
-
+    """Disay a scatter plot with colored points, student
+    number as x-axis vs student score as y-axis. Each
+    color representing the house of the student."""
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 6:]
 

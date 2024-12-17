@@ -2,6 +2,7 @@ from pandas import DataFrame, read_csv
 
 
 def switch_case(case_value) -> int | None:
+    """Defines 'true house' vs 'wrong houses'"""
     match case_value:
         case 'Gryffindor':
             return 1
