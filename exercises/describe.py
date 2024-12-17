@@ -1,9 +1,6 @@
 from pandas import DataFrame, concat
-from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              xlabel, ylabel, title, legend
-from numpy import arange
-from matplotlib.patches import Rectangle
-from stats import get_mean, get_median, get_variance, get_standard_deviation, get_quartile
+from stats import get_mean, get_median, get_standard_deviation, \
+                  get_quartile
 from utils import load
 
 
@@ -42,7 +39,7 @@ def print_dataframe(df: DataFrame) -> any:
         ndf = concat([ndf, DataFrame(values[i])], axis=1)
 
     ndf = DataFrame(ndf)
-    
+
     # Get the current columns
     columns = ndf.columns.tolist()
     # Rename columns to new names
@@ -52,6 +49,7 @@ def print_dataframe(df: DataFrame) -> any:
 
     print(ndf)
     return ndf
+
 
 if __name__ == "__main__":
     try:

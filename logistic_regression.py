@@ -5,7 +5,7 @@ from math import e
 
 
 def get_sigmoid_function(score: list, house: list, theta_0: float,
-                        theta_1: float, learning_rate: float) -> tuple:
+                         theta_1: float, learning_rate: float) -> tuple:
     """Take all values from x-axis and y-axis lists and calculate the
     mean square error for minimum square errors, update thetas"""
 
@@ -83,7 +83,7 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     house = [float(x) for x in rhs]
 
     theta_0, theta_1, mse = get_sigmoid_function(score, house,
-                                                theta_0, theta_1,
-                                                learning_rate)
+                                                 theta_0, theta_1,
+                                                 learning_rate)
 
     return theta_1, theta_0
