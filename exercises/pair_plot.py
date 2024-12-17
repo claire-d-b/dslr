@@ -26,7 +26,11 @@ def get_pair_plot(df: DataFrame) -> any:
 
     grouped = DataFrame(table)
 
-    pairplot(grouped, hue=grouped.index[0], palette='Set1',
+    # print(grouped.iloc[:, 0]) stands for houses for all 1600 students.
+    # Below, hue is the name of variable in data:
+    # variable in data to map plot aspects to different colors.
+
+    pairplot(grouped, hue=grouped.index[0], palette=["lightblue", "pink", "lightgray", "lightgreen"],
              markers=["o", "s", "D", "X"])
 
     tight_layout()

@@ -22,25 +22,22 @@ def get_scatter_plot(df: DataFrame) -> any:
 
     categories = df.iloc[:, 0].values.tolist()  # Category (color)
 
-    colors = {"Ravenclaw": "blue", "Slytherin": "green",
-              "Gryffindor": "red", "Hufflepuff": "gray"}
+    colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
+              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
     # Color map for categories
     fig, ax = subplots(figsize=(8, 6))
 
     scatter(xaxis, yaxis, c=[colors[category] for category in categories])
 
     tight_layout()
-    # Define RGB value for gray
-    gray_rgb = (0.5, 0.5, 0.5)
 
-    red_patch = Patch(color='b', label='Ravenclaw')
-    blue_patch = Patch(color='g', label='Slytherin')
-    green_patch = Patch(color='r', label='Gryffindor')
-    # Create a Patch with the gray color
-    gray_patch = Patch(color=gray_rgb, label='HufflePuff')
+    blue_patch = Patch(color='lightblue', label='Gryffindor')
+    pink_patch = Patch(color='pink', label='HufflePuff')
+    gray_patch = Patch(color='lightgray', label='Ravenclaw')
+    green_patch = Patch(color='lightgreen', label='Slytherin')
 
-    legend(title='Categories', handles=[red_patch, blue_patch,
-                                        green_patch, gray_patch])
+    legend(title='Categories', handles=[blue_patch, pink_patch,
+                                        gray_patch, green_patch])
 
     # Add the legend to the plot with custom colors and labels
     xlabel("Student n°")
