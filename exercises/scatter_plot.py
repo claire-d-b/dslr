@@ -3,17 +3,17 @@ from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title, scatter, legend
 from matplotlib.patches import Patch
+from utils_figures import load
 
 
 def get_scatter_plot(df: DataFrame) -> any:
 
-    df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
-    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
-    # onward
+    df_house = df.iloc[:, [0]]
+    df_courses = df.iloc[:, 6:]
+
     grouped = concat([df_house, df_courses], axis=1)
 
     xaxis = grouped.iloc[:, 0:].index.tolist()  # Height (x-axis)
-
     yaxis = grouped.iloc[:, 1:].values.tolist()  # Weight (y-axis)
 
     yaxis = [sum(row) for row in yaxis]
@@ -28,7 +28,7 @@ def get_scatter_plot(df: DataFrame) -> any:
     scatter(xaxis, yaxis, c=[colors[category] for category in categories])
 
     tight_layout()
-    # Define RGB value for purple
+    # Define RGB value for gray
     gray_rgb = (0.5, 0.5, 0.5)
 
     red_patch = Patch(color='b', label='Ravenclaw')
@@ -45,3 +45,10 @@ def get_scatter_plot(df: DataFrame) -> any:
     ylabel("Scores")
     title("Histogram of Data")
     savefig("scatterplot")
+
+
+if __name__ == "__main__":
+    try:
+        get_scatter_plot(load("../dataset_train.csv"))
+    except AssertionError as error:
+        print(f"{error}")

@@ -1,13 +1,14 @@
 from pandas import DataFrame, concat
 from seaborn import pairplot
 from matplotlib.pyplot import savefig, tight_layout
+from utils_figures import load
 
 
 def get_pair_plot(df: DataFrame) -> any:
 
-    df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
-    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
-    # onward
+    df_house = df.iloc[:, [0]]
+    df_courses = df.iloc[:, 6:]
+
     df = concat([df_house, df_courses], axis=1)
 
     table = []
@@ -28,3 +29,10 @@ def get_pair_plot(df: DataFrame) -> any:
 
     tight_layout()
     savefig("pairplot")
+
+
+if __name__ == "__main__":
+    try:
+        get_pair_plot(load("../dataset_train.csv"))
+    except AssertionError as error:
+        print(f"{error}")

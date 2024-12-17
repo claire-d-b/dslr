@@ -4,14 +4,16 @@ from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title, legend
 from numpy import arange
 from matplotlib.patches import Rectangle
+from utils_figures import load
 
 
 def get_bars(df: DataFrame) -> any:
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
-    df_house = df.iloc[:, [0]]  # Select the 2nd column (index 1)
-    df_courses = df.iloc[:, 6:]   # Select columns starting from 7th (index 6)
-    # onward
+    # Select the 2nd column (index 1)
+    df_house = df.iloc[:, [0]]
+    # Select columns starting from 7th (index 6) onward
+    df_courses = df.iloc[:, 6:]
     df = concat([df_house, df_courses], axis=1)
 
     table = []
@@ -29,7 +31,8 @@ def get_bars(df: DataFrame) -> any:
     table = sorted(table)
     ntable = DataFrame(table)
 
-    # Group by 'Category' and sum the 'Value' column
+    # Group by 'Hogwarts House' and sum up all columns so we get a table with
+    # one row per house
     grouped = ntable.groupby(0)[ntable.columns[1:]].sum().reset_index()
 
     fig, ax = subplots(figsize=(8, 6))
@@ -59,48 +62,8 @@ def get_bars(df: DataFrame) -> any:
     savefig("histogram")
 
 
-# def get_distance_to_mean(largs: list) -> any:
-#     try:
-#         len(largs)
-#         for arg in largs:
-#             ret += arg
-#         ret = ret / len(largs)
-
-#     except Exception:
-#         print("ERROR")
-#     else:
-#         return ret
-
-# def get_range(largs: list) -> any:
-#     try:
-#         largs.sort()
-#         for i, lst_unit in enumerate(largs):
-#             range.insert(i, lst_unit - largs[len(largs) - 1])
-#     except Exception:
-#         print("ERROR")
-#     else:
-#         return range
-
-# def get_standard_deviation(largs: list) -> float:
-#     try:
-#         len(largs)
-#         # Calculate the Mean:
-#         mean = 0
-#         for arg in largs:
-#             mean += arg
-#         mean = mean / len(largs)
-#         # Calculate Each Deviation from the Mean and
-#         # Square it:
-#         deviation_lst = []
-#         for arg in largs:
-#             deviation_lst.append((arg - mean) ** 2)
-#         # Calculate the Mean of These Squared Deviations:
-#         sd_mean = 0
-
-#         for item in deviation_lst:
-#             sd_mean += item
-#         sd_mean = sd_mean / len(deviation_lst)
-#     except Exception as e:
-#         print(f"ERROR: {e}")
-#     else:
-#         return sd_mean
+if __name__ == "__main__":
+    try:
+        get_bars(load("../dataset_train.csv"))
+    except AssertionError as error:
+        print(f"{error}")
