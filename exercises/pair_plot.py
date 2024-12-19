@@ -11,28 +11,22 @@ def get_pair_plot(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 6:]
 
-    df = concat([df_house, df_courses], axis=1)
+    grouped = concat([df_house, df_courses], axis=1)
 
-    table = []
+    grouped = grouped.sort_values(by='Hogwarts House')
 
-    for i in range(df.shape[0]):
-        table.insert(i, [])
+    # Group by house - does not work if no operation like "sum"
+    # Bool "as index" to avoid autoindexing of first column
+    ngrouped = grouped.groupby('Hogwarts House', as_index=False).sum()
+    categories = ngrouped["Hogwarts House"]
 
-        for j in range(df.shape[1]):
-            if j == 0:
-                table[i].insert(j, df.iloc[[i], [j]].values[0][0])
-            else:
-                table[i].insert(j, float(df.iloc[[i], [j]].values[0][0]))
+    colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
+              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
 
-    grouped = DataFrame(table)
-
-    # print(grouped.iloc[:, 0]) stands for houses for all 1600 students.
     # Below, hue is the name of variable in data:
     # variable in data to map plot aspects to different colors.
 
-    pairplot(grouped, hue=grouped.index[0], palette=["lightblue", "pink",
-                                                     "lightgray",
-                                                     "lightgreen"],
+    pairplot(grouped, hue="Hogwarts House", palette=[colors[category] for category in categories],
              markers=["o", "s", "D", "X"])
 
     tight_layout()

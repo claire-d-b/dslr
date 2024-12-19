@@ -20,7 +20,7 @@ def get_scatter_plot(df: DataFrame) -> any:
 
     yaxis = [sum(row) for row in yaxis]
 
-    categories = df.iloc[:, 0].values.tolist()  # Category (color)
+    categories = grouped.iloc[:, 0].values.tolist()  # Category (color)
 
     colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
               "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
