@@ -1,94 +1,76 @@
 from utils import load, switch_case
 from logistic_regression import train_model
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              scatter
-from pandas import concat
+                              scatter, legend, xlabel, ylabel, title
+from matplotlib.patches import Patch
+from pandas import concat, DataFrame
 from numpy import array
 from math import e
 
 
 def train():
-    """Function 1) computing w and b that inimize loss/cost
-    2) using b and w to make predictions"""
+
     df = load("dataset_train.csv")
     # Replace NaN with 0
     df = df.fillna(0)
-
-    # Select the 2nd column - house
     df_house = df.iloc[:, [1]]
-    # Select courses columns
     df_courses = df.iloc[:, 6:]
-    df = concat([df_house, df_courses], axis=1)
 
-    houses = []
-    scores = []
+    grouped = concat([df_house, df_courses], axis=1)
 
-    for i in range(df.shape[0]):
-        scores.insert(i, [])
-        for j in range(df.shape[1]):
-            if j == 0:
-                # switch_case returns 0 or 1 depending on the house
-                # print(df.iloc[[i], [j]].values[0][0])
-                houses.append(switch_case(df.iloc[[i], [j]].values[0][0]))
-            else:
-                scores[i].insert(j, float(df.iloc[[i], [j]].values[0][0]))
+    indexes = grouped.iloc[:, 0:].index.tolist()
+    xaxis = grouped.iloc[:, 1:].values.tolist()
+    xaxis = [sum(row) for row in xaxis]
+    yaxis = [value for sublist in df_house.values for value in sublist]
 
-    rhs = array(houses)
-    lhs = array(scores)
-    indexes = [i for i in range(len(scores))]
+    print("axis - x", xaxis)
+    print("axis - y", yaxis)
 
-    # Run logistic regression
-    learning_rate = 0.01
-    pred = []
+    categories = grouped.iloc[:, 0].values.tolist()
 
-    weights, bias = train_model(lhs, houses, learning_rate)
-    lhs = [sum(x) for x in lhs]
+    colors = {0: "lightblue", 1: "lightgray"}
 
-    for i, unit in enumerate(lhs):
-        pred.insert(i, 1 / (1 + (e ** -(unit * weights + bias))))
+    fig, ax = subplots(figsize=(8, 6))
 
-    fig, ax = subplots()
-
-    color_map = {0: 'red', 1: 'blue'}
-    colors = [color_map[round(label)] for label in rhs]
-
-    scatter(indexes, lhs, c=colors, alpha=0.8, edgecolor='k')
+    scatter(indexes, xaxis, c=[colors[switch_case(y_axis_unit)] for y_axis_unit in yaxis])
 
     tight_layout()
-    savefig("output_classification_I")
-    # Use computed thetas for predictions
+
+    blue_patch = Patch(color='lightblue', label=0)
+    gray_patch = Patch(color='lightgray', label=1)
+
+    legend(title='Categories', handles=[blue_patch, gray_patch])
+
+    xlabel("Student n°")
+    ylabel("Scores")
+    title("Histogram of Data")
+    savefig("output_class_I")
+
+    weights, bias = train_model(xaxis, yaxis, 0.01)
 
     ndf = load("dataset_test.csv")
-    # Replace NaN with 0
     ndf = ndf.fillna(0)
 
-    ndf = ndf.iloc[:, 6:]   # Select courses columns
+    nindexes = ndf.iloc[:, 0:].index.tolist()
+    nxaxis = ndf.iloc[:, 6:].values
+    nxaxis = [sum(row) for row in nxaxis]
 
-    nscores = []
+    predictions = []
+    for i, score_unit in enumerate(nxaxis):
+        predictions.insert(i, 1 / (1 + (e ** -(score_unit * weights + bias))))
 
-    for i in range(ndf.shape[0]):
-        nscores.insert(i, [])
-        for j in range(ndf.shape[1]):
-            nscores[i].insert(j, float(ndf.iloc[[i], [j]].values[0][0]))
+    fig, ax = subplots(figsize=(8, 6))
 
-    # nrhs = array(nhouses)
-    nlhs = array(nscores)
-    nindexes = [i for i in range(len(nscores))]
+    scatter(nindexes, nxaxis, c=[colors[round(prediction_unit)] for prediction_unit in predictions])
 
-    # Run logistic regression
-    learning_rate = 0.01
-    npred = []
-
-    nlhs = [sum(x) for x in nlhs]
-
-    for i, unit in enumerate(nlhs):
-        npred.insert(i, 1 / (1 + (e ** -(unit * weights + bias))))
-
-    fig, ax = subplots()
-    ncolors = [color_map[round(x)] for x in npred]
-    scatter(nindexes, nlhs, c=ncolors, alpha=0.8, edgecolor='k')
     tight_layout()
-    savefig("output_classification_II")
+
+    legend(title='Categories', handles=[blue_patch, gray_patch])
+
+    xlabel("Student n°")
+    ylabel("Scores")
+    title("Histogram of Data")
+    savefig("output_class_II")
 
 
 if __name__ == "__main__":

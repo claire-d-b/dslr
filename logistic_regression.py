@@ -2,6 +2,7 @@ from pandas import DataFrame
 import random
 from numpy import log
 from math import e
+from utils import switch_case
 
 
 def get_sigmoid_function(score: list, house: list, theta_0: float,
@@ -79,8 +80,8 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
 
-    score = [sum(x) for x in lhs]
-    house = [float(x) for x in rhs]
+    score = lhs
+    house = [switch_case(x) for x in rhs]
 
     theta_0, theta_1, mse = get_sigmoid_function(score, house,
                                                  theta_0, theta_1,

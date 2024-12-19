@@ -13,6 +13,7 @@ def switch_case(case_value) -> int | None:
         case 'Slytherin':
             return 0
         case _:
+            print("case val", case_value)
             return None
 
 
