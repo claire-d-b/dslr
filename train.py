@@ -23,9 +23,6 @@ def train():
     xaxis = [sum(row) for row in xaxis]
     yaxis = [value for sublist in df_house.values for value in sublist]
 
-    print("axis - x", xaxis)
-    print("axis - y", yaxis)
-
     categories = grouped.iloc[:, 0].values.tolist()
 
     colors = {0: "lightblue", 1: "lightgray"}
@@ -38,7 +35,6 @@ def train():
 
     xlabel("Student n°")
     ylabel("Scores")
-    title("Histogram of Data")
     savefig("output_class_I")
 
     weights, bias = train_model(xaxis, yaxis, 0.01)
@@ -62,7 +58,6 @@ def train():
 
     xlabel("Student n°")
     ylabel("Scores")
-    title("Histogram of Data")
     savefig("output_class_II")
 
 
