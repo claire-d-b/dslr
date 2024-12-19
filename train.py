@@ -36,11 +36,6 @@ def train():
 
     tight_layout()
 
-    blue_patch = Patch(color='lightblue', label=0)
-    gray_patch = Patch(color='lightgray', label=1)
-
-    legend(title='Categories', handles=[blue_patch, gray_patch])
-
     xlabel("Student n°")
     ylabel("Scores")
     title("Histogram of Data")
@@ -64,8 +59,6 @@ def train():
     scatter(nindexes, nxaxis, c=[colors[round(prediction_unit)] for prediction_unit in predictions])
 
     tight_layout()
-
-    legend(title='Categories', handles=[blue_patch, gray_patch])
 
     xlabel("Student n°")
     ylabel("Scores")
