@@ -1,15 +1,14 @@
 from utils import load, switch_case
 from logistic_regression import train_model
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              scatter, legend, xlabel, ylabel, title
-from matplotlib.patches import Patch
+                              xlabel, ylabel
 from pandas import concat, DataFrame
-from numpy import array
+from seaborn import pairplot
 from math import e
 
 
 def train():
-
+    """Plot the scores per course and classify"""
     df = load("dataset_train.csv")
     # Replace NaN with 0
     df = df.fillna(0)
@@ -18,19 +17,28 @@ def train():
 
     grouped = concat([df_house, df_courses], axis=1)
 
-    indexes = grouped.iloc[:, 0:].index.tolist()
+    grouped = grouped.sort_values(by='Hogwarts House')
+
+    # Group by house - does not work if no operation like "sum"
+    # Bool "as index" to avoid autoindexing of first column
+    ngrouped = grouped.groupby('Hogwarts House', as_index=False).sum()
+    categories = ngrouped["Hogwarts House"]
+
     xaxis = grouped.iloc[:, 1:].values.tolist()
     xaxis = [sum(row) for row in xaxis]
     yaxis = [value for sublist in df_house.values for value in sublist]
 
-    categories = grouped.iloc[:, 0].values.tolist()
+    grouped = grouped.sort_values(by='Hogwarts House')
 
     colors = {0: "lightblue", 1: "lightgray"}
 
     fig, ax = subplots(figsize=(8, 6))
 
-    scatter(indexes, xaxis, c=[colors[switch_case(y_axis_unit)] for y_axis_unit in yaxis])
-
+    pairplot(grouped, hue="Hogwarts House", palette=[colors
+                                                     [switch_case(category)]
+                                                     for category in
+                                                     categories],
+             markers=["o", "s", "D", "X"])
     tight_layout()
 
     xlabel("Student n°")
@@ -42,17 +50,28 @@ def train():
     ndf = load("dataset_test.csv")
     ndf = ndf.fillna(0)
 
-    nindexes = ndf.iloc[:, 0:].index.tolist()
-    nxaxis = ndf.iloc[:, 6:].values
+    ndf_courses = ndf.iloc[:, 6:]
+    ndf = ndf_courses
+
+    nxaxis = ndf_courses.values
     nxaxis = [sum(row) for row in nxaxis]
 
     predictions = []
     for i, score_unit in enumerate(nxaxis):
         predictions.insert(i, 1 / (1 + (e ** -(score_unit * weights + bias))))
 
+    grouped = concat([DataFrame(predictions), ndf_courses], axis=1)
+
     fig, ax = subplots(figsize=(8, 6))
 
-    scatter(nindexes, nxaxis, c=[colors[round(prediction_unit)] for prediction_unit in predictions])
+    ngrouped = [round(x) for x in grouped.iloc[:, 0].values]
+
+    categories = [round(x) for x in grouped.iloc[:, 0]]
+    grouped = concat([DataFrame(categories), ndf_courses], axis=1)
+
+    pairplot(grouped, hue=grouped.columns[0], palette={0: 'lightblue',
+                                                       1: 'lightgray'},
+             markers=["o", "s"])
 
     tight_layout()
 
