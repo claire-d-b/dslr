@@ -61,7 +61,7 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # e**1 = e
 
         theta_0 = -theta_1 * real_score + real_house
-        se = ((1 / 1 + e ** -(theta_1 * real_score + theta_0)) -
+        se = ((1 / (1 + e ** -(theta_1 * real_score + theta_0))) -
               real_house) ** 2
         if se < limit:
 
@@ -80,7 +80,7 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
 
-    score = lhs
+    score = [float(sum(x) / len(x)) for x in lhs]
     house = [switch_case(x) for x in rhs]
 
     theta_0, theta_1, mse = get_sigmoid_function(score, house,

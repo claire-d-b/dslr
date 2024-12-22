@@ -25,24 +25,18 @@ def train():
     categories = ngrouped["Hogwarts House"]
 
     xaxis = grouped.iloc[:, 1:].values.tolist()
-    xaxis = [sum(row) for row in xaxis]
     yaxis = [value for sublist in df_house.values for value in sublist]
 
-    grouped = grouped.sort_values(by='Hogwarts House')
+    colors = {0: "lightblue", 1: "pink"}
 
-    colors = {0: "lightblue", 1: "lightgray"}
-
-    fig, ax = subplots(figsize=(8, 6))
-
+    # fig, ax = subplots(figsize=(8, 6))
+    # print("grouped1", grouped)
     pairplot(grouped, hue="Hogwarts House", palette=[colors
                                                      [switch_case(category)]
                                                      for category in
                                                      categories],
              markers=["o", "s", "D", "X"])
     tight_layout()
-
-    xlabel("Student n°")
-    ylabel("Scores")
     savefig("output_class_I")
 
     weights, bias = train_model(xaxis, yaxis, 0.01)
@@ -51,32 +45,34 @@ def train():
     ndf = ndf.fillna(0)
 
     ndf_courses = ndf.iloc[:, 6:]
-    ndf = ndf_courses
+    cols = ndf.columns[6:].values
 
-    nxaxis = ndf_courses.values
-    nxaxis = [sum(row) for row in nxaxis]
+    nxaxis = ndf.iloc[:, 6:].values.tolist()
 
     predictions = []
-    for i, score_unit in enumerate(nxaxis):
-        predictions.insert(i, 1 / (1 + (e ** -(score_unit * weights + bias))))
+    for i, scores in enumerate(nxaxis):
+        predictions.insert(i, float(1 / (1 + (e ** -((sum(scores) / len(scores)) * weights + bias)))))
+    
+    grouped = concat([ndf[col] for col in cols], axis=1)
 
-    grouped = concat([DataFrame(predictions), ndf_courses], axis=1)
+    grouped.insert(0, 'Hogwarts House', [round(p) for p in predictions])
+    ngrouped = grouped.groupby('Hogwarts House', as_index=False).sum()
+    categories = ngrouped["Hogwarts House"]
 
-    fig, ax = subplots(figsize=(8, 6))
+    # fig, ax = subplots(figsize=(8, 6))
 
-    ngrouped = [round(x) for x in grouped.iloc[:, 0].values]
+    grouped = grouped.sort_values(by='Hogwarts House')
 
-    categories = [round(x) for x in grouped.iloc[:, 0]]
-    grouped = concat([DataFrame(categories), ndf_courses], axis=1)
-
-    pairplot(grouped, hue=grouped.columns[0], palette={0: 'lightblue',
-                                                       1: 'lightgray'},
+    # Write the entire DataFrame to a CSV file
+    grouped.to_csv("dataset_test_completed.csv", index=True)
+    # print("grouped2", grouped)
+    pairplot(grouped, hue="Hogwarts House", palette=[colors
+                                                     [category]
+                                                     for category in
+                                                     categories],
              markers=["o", "s"])
 
     tight_layout()
-
-    xlabel("Student n°")
-    ylabel("Scores")
     savefig("output_class_II")
 
 
