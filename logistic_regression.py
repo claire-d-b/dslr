@@ -1,6 +1,6 @@
 from pandas import DataFrame
 import random
-from numpy import log
+from numpy import log, sum
 from math import e
 from utils import switch_case
 
@@ -40,32 +40,25 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
     for i in range(minimum, maximum, 1):
         theta_1 = float(i / ((2 * m) / learning_rate))
-        # Below formula is that of the sigoid function
-        # real_house = 1 / (1 + e ** -(theta_1 * real_score + theta_0))
-        # 1 + (e ** -(theta_1 * real_score + theta_0)) * real_house = 1
-        # 1 + (e ** -(theta_1 * real_score + theta_0)) = 1 / real_house
-        # e ** -(theta_1 * real_score + theta_0) = 1 / real_house - 1
-        # log(e ** -(theta_1 * real_score + theta_0))
-        # = log(1 / real_house - 1)
-        # -(theta_1 * real_score) - theta_0 = log(1 / real_house - 1)
-        # - theta_0 = log(1 / real_house - 1) + (theta_1 * real_score)
-        if (real_house):
-            theta_0 = -(log(1 / real_house) + (theta_1 * real_score))
-        else:
-            theta_0 = -(log(1 / abs(real_house - 1)) + (theta_1 * real_score))
-
-        # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
-        # is defined as the inverse of the exponential function:
-        # ln(e) = 1
-        # This is true because:
-        # e**1 = e
-
+        # real_price = theta_1 * real_mileage + theta_0
+        # real_price - theta_0 = theta_1 * real_mileage
+        # -theta_0 = theta_1 * real_mileage - real_price
+        # theta_0 = -(theta_1 * real_mileage - real_price)
         theta_0 = -theta_1 * real_score + real_house
-        se = ((1 / (1 + e ** -(theta_1 * real_score + theta_0))) -
-              real_house) ** 2
-        if se < limit:
+        z = theta_1 * real_score + theta_0
 
-            limit = se
+        # # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
+        # # is defined as the inverse of the exponential function:
+        # # ln(e) = 1
+        # # This is true because:
+        # # e**1 = e
+
+        # theta_0 = -theta_1 * real_score + real_house
+        loss = ((1 / (1 + e ** -(theta_1 * real_score + theta_0))) -
+              real_house) ** 2
+        if loss < limit:
+
+            limit = loss
             b = theta_0
             w = theta_1
 
