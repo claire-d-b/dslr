@@ -1,20 +1,6 @@
 from pandas import DataFrame, read_csv, set_option
 
 
-def switch_case(case_value) -> int | None:
-    match case_value:
-        case 'Gryffindor':
-            return 1
-        case 'Ravenclaw':
-            return 0
-        case 'Hufflepuff':
-            return 0
-        case 'Slytherin':
-            return 0
-        case _:
-            return None
-
-
 def load(path: str) -> DataFrame:
     """Function that opens a file and display inner data in the shape
     of a datatable"""

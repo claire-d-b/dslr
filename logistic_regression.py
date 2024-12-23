@@ -58,7 +58,7 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # e**1 = e
 
         # theta_0 = -theta_1 * real_score + real_house
-        loss = ((1 / (1 + e ** -z)) - real_house) ** 2
+        loss = ((1 / (1 + e ** -z)) - real_house)
         if loss < limit:
 
             limit = loss
