@@ -1,30 +1,33 @@
 from pandas import DataFrame
 import random
-from numpy import log, sum
 from math import e
 from utils import switch_case
 
 
-def get_sigmoid_function(score: list, house: list, theta_0: float,
+def get_sigmoid_function(scores: list, house: list, theta_0: float,
                          theta_1: float, learning_rate: float) -> tuple:
     """Take all values from x-axis and y-axis lists and calculate the
     mean square error for minimum square errors, update thetas"""
 
     mse = 0.0
-    m = len(score)
+    m = len(scores)
+    weights = []
 
-    for score_unit, house_unit in zip(score, house):
-        b, w, se = minimize_cost(m, theta_0, theta_1, score_unit,
-                                 house_unit, learning_rate)
-        theta_0 += b
-        theta_1 += w
+    for i, (score_row, house_unit) in enumerate(zip(scores, house)):
+        weights.insert(i, [])
+        for j, score_unit in enumerate(score_row):
+            b, w, se = minimize_cost(m, theta_0, theta_1, score_unit,
+                                     house_unit, learning_rate)
+            theta_0 += b
+            theta_1 += w
+            weights[i].insert(j, theta_1 / len(score_row))
 
         mse += se
     ret_mse = mse * 1 / (2 * m)
-    theta_0 /= len(score)
-    theta_1 /= len(score)
+    theta_0 /= len(scores) * len(score_row)
+    bias = theta_0
 
-    return theta_0, theta_1, ret_mse
+    return bias, weights, ret_mse
 
 
 def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
@@ -47,15 +50,15 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         theta_0 = -theta_1 * real_score + real_house
         z = theta_1 * real_score + theta_0
 
-        # # The natural logarithm (ln⁡) of e is 1, because the natural logarithm
-        # # is defined as the inverse of the exponential function:
-        # # ln(e) = 1
-        # # This is true because:
-        # # e**1 = e
+        # The natural logarithm (ln⁡) of e is 1, because the
+        # natural logarithm is defined as the inverse of the
+        # exponential function:
+        # ln(e) = 1
+        # This is true because:
+        # e**1 = e
 
         # theta_0 = -theta_1 * real_score + real_house
-        loss = ((1 / (1 + e ** -(theta_1 * real_score + theta_0))) -
-              real_house) ** 2
+        loss = ((1 / (1 + e ** -z)) - real_house) ** 2
         if loss < limit:
 
             limit = loss
@@ -73,10 +76,10 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
 
-    score = [float(sum(x) / len(x)) for x in lhs]
+    scores = lhs
     house = [switch_case(x) for x in rhs]
 
-    theta_0, theta_1, mse = get_sigmoid_function(score, house,
+    theta_0, theta_1, mse = get_sigmoid_function(scores, house,
                                                  theta_0, theta_1,
                                                  learning_rate)
 

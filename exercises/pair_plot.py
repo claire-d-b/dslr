@@ -26,7 +26,9 @@ def get_pair_plot(df: DataFrame) -> any:
     # Below, hue is the name of variable in data:
     # variable in data to map plot aspects to different colors.
 
-    pairplot(grouped, hue="Hogwarts House", palette=[colors[category] for category in categories],
+    pairplot(grouped, hue="Hogwarts House", palette=[colors[category]
+                                                     for category
+                                                     in categories],
              markers=["o", "s", "D", "X"])
 
     tight_layout()

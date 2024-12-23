@@ -5,13 +5,13 @@ def switch_case(case_value) -> int | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
         case 'Gryffindor':
-            return 0
+            return 1
         case 'Ravenclaw':
             return 0
         case 'Hufflepuff':
             return 0
         case 'Slytherin':
-            return 1
+            return 0
         case _:
             return None
 
