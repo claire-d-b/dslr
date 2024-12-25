@@ -9,9 +9,9 @@ def switch_case(case_value) -> int | None:
         case 'Ravenclaw':
             return 0
         case 'Hufflepuff':
-            return 0
-        case 'Slytherin':
             return 1
+        case 'Slytherin':
+            return 0
         case _:
             return None
 

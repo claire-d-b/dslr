@@ -16,6 +16,10 @@ def get_sigmoid_function(scores: list, house: list, theta_0: float,
     for i, (score_row, house_unit) in enumerate(zip(scores, house)):
         weights.insert(i, [])
         for j, score_unit in enumerate(score_row):
+            print("theta_0", theta_0)
+            print("theta_1", theta_1)
+            print("score unit", score_unit)
+            print("house unit", house_unit)
             b, w, se = minimize_cost(m, theta_0, theta_1, score_unit,
                                      house_unit, learning_rate)
             theta_0 += b
