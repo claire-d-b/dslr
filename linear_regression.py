@@ -1,44 +1,30 @@
 from pandas import DataFrame
+from math import e, log
+from utils import switch_case, stable_sigmoid
 import random
-from math import e
-from utils import switch_case
 
 
-def get_sigmoid_function(scores: list, house: list, theta_0: float,
-                         theta_1: float, learning_rate: float) -> tuple:
+def get_affine_function(scores: list, house: list, theta_0: float,
+                        theta_1: float, learning_rate: float) -> tuple:
     """Take all values from x-axis and y-axis lists and calculate the
     mean square error for minimum square errors, update thetas"""
-
+    # y = w * x + b
     mse = 0.0
     m = len(scores)
-    weights = []
-
-    for i, (score_row, house_unit) in enumerate(zip(scores, house)):
-        print("jay_i", i)
-        weights.insert(i, [])
-        for j, score_unit in enumerate(score_row):
-            print("jayz", j)
-
-            print("theta_0", theta_0)
-            print("theta_1", theta_1)
-            print("score unit", score_unit)
-            print("house unit", house_unit)
-            b, w, se = minimize_cost(m, theta_0, theta_1, score_unit,
-                                     house_unit, learning_rate)
-            print("jayw", w)
-            theta_0 += b
-            theta_1 += w
-            weights.insert(j, w)
+    for i, (scores_unit, house_unit) in enumerate(zip(scores, house)):
+        b, w, se = minimize_cost(m, theta_0, theta_1, scores_unit,
+                                 house_unit, learning_rate)
+            
+        theta_0 += b
+        theta_1 += w
+        # weights.insert(j, theta_1 / len(scores_unit))
 
         mse += se
-
-    weights = [sum(sublist) / len(sublist) for sublist in weights]
-    print("SUM", weights)
     ret_mse = mse * 1 / (2 * m)
-    theta_0 /= len(scores) * len(score_row)
-    bias = theta_0
+    theta_0 /= len(scores)
+    theta_1 /= len(scores)
 
-    return bias, weights, ret_mse
+    return theta_0, theta_1, ret_mse
 
 
 def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
@@ -51,14 +37,19 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
     minimum = int(- 1 / learning_rate)
     maximum = int(1 / learning_rate)
-
     for i in range(minimum, maximum, 1):
         theta_1 = float(i / ((2 * m) / learning_rate))
+
         # real_price = theta_1 * real_mileage + theta_0
         # real_price - theta_0 = theta_1 * real_mileage
         # -theta_0 = theta_1 * real_mileage - real_price
         # theta_0 = -(theta_1 * real_mileage - real_price)
         theta_0 = -theta_1 * real_score + real_house
+        # real_house = theta_1 * real_scores + theta_0
+        # real_house - theta_0 = theta_1 * real_scores
+        # -theta_0 = theta_1 * real_scores - real_house
+        # theta_0 = -(theta_1 * real_scores - real_house)
+        # theta_0 = -theta_1 * real_score + real_house
         z = theta_1 * real_score + theta_0
 
         # The natural logarithm (ln⁡) of e is 1, because the
@@ -69,7 +60,8 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # e**1 = e
 
         # theta_0 = -theta_1 * real_score + real_house
-        loss = ((1 / (1 + e ** -z)) - real_house)
+        loss = real_house * log(stable_sigmoid(-z)) + (1 - real_house) * log(1 - stable_sigmoid(-z))
+
         if loss < limit:
 
             limit = loss
@@ -87,11 +79,11 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
 
-    scores = lhs
-    house = [switch_case(x) for x in rhs]
+    scores = list(x for x in lhs)
+    house = list(switch_case(x) for x in rhs)
 
-    theta_0, theta_1, mse = get_sigmoid_function(scores, house,
-                                                 theta_0, theta_1,
-                                                 learning_rate)
+    theta_0, theta_1, mse = get_affine_function(scores, house,
+                                                theta_0, theta_1,
+                                                learning_rate)
 
     return theta_1, theta_0
