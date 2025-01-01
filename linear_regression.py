@@ -1,6 +1,5 @@
 from pandas import DataFrame
-from math import e, log
-from utils import switch_case, stable_sigmoid
+from utils import switch_case
 import random
 
 
@@ -14,7 +13,7 @@ def get_affine_function(scores: list, house: list, theta_0: float,
     for i, (scores_unit, house_unit) in enumerate(zip(scores, house)):
         b, w, se = minimize_cost(m, theta_0, theta_1, scores_unit,
                                  house_unit, learning_rate)
-            
+
         theta_0 += b
         theta_1 += w
         # weights.insert(j, theta_1 / len(scores_unit))
@@ -37,34 +36,19 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
     minimum = int(- 1 / learning_rate)
     maximum = int(1 / learning_rate)
+
     for i in range(minimum, maximum, 1):
         theta_1 = float(i / ((2 * m) / learning_rate))
 
-        # real_price = theta_1 * real_mileage + theta_0
-        # real_price - theta_0 = theta_1 * real_mileage
-        # -theta_0 = theta_1 * real_mileage - real_price
-        # theta_0 = -(theta_1 * real_mileage - real_price)
+        # real_house = theta_1 * real_score + theta_0
+        # real_house - theta_0 = theta_1 * real_score
+        # -theta_0 = theta_1 * real_score - real_house
+        # theta_0 = -(theta_1 * real_score - real_house)
         theta_0 = -theta_1 * real_score + real_house
-        # real_house = theta_1 * real_scores + theta_0
-        # real_house - theta_0 = theta_1 * real_scores
-        # -theta_0 = theta_1 * real_scores - real_house
-        # theta_0 = -(theta_1 * real_scores - real_house)
-        # theta_0 = -theta_1 * real_score + real_house
-        z = theta_1 * real_score + theta_0
+        se = ((theta_1 * real_score + theta_0) - real_house) ** 2
+        if se < limit:
 
-        # The natural logarithm (ln⁡) of e is 1, because the
-        # natural logarithm is defined as the inverse of the
-        # exponential function:
-        # ln(e) = 1
-        # This is true because:
-        # e**1 = e
-
-        # theta_0 = -theta_1 * real_score + real_house
-        loss = real_house * log(stable_sigmoid(-z)) + (1 - real_house) * log(1 - stable_sigmoid(-z))
-
-        if loss < limit:
-
-            limit = loss
+            limit = se
             b = theta_0
             w = theta_1
 
