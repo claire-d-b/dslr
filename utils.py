@@ -2,27 +2,17 @@ from pandas import DataFrame, read_csv
 from math import e
 
 
-def stable_sigmoid(z) -> float:
-    """Compute the sigmoid function in a numerically stable way."""
-    if z >= 0:
-        exp_neg_z = e ** -z
-        return 1 / (1 + exp_neg_z)
-    else:
-        exp_pos_z = e ** z
-        return exp_pos_z / (1 + exp_pos_z)
-
-
 def switch_case(case_value) -> int | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
         case 'Gryffindor':
             return 0
         case 'Ravenclaw':
-            return 0
+            return 1
         case 'Hufflepuff':
             return 0
         case 'Slytherin':
-            return 1
+            return 0
         case _:
             return None
 
