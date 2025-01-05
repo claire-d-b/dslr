@@ -1,5 +1,4 @@
 from pandas import DataFrame, read_csv
-from math import e
 
 
 def get_housenumber(case_value) -> int | None:
@@ -15,6 +14,7 @@ def get_housenumber(case_value) -> int | None:
             return 0
         case _:
             return None
+
 
 def get_housename(case_value) -> str | None:
     """Defines 'true house' vs 'wrong houses'"""
@@ -42,6 +42,7 @@ def load(path: str) -> DataFrame:
     except Exception as e:
         raise AssertionError(f"Error: {e}")
     return file
+
 
 # Normalisation manuelle entre -1 et 1
 def normalize_column(col, min_val, max_val):

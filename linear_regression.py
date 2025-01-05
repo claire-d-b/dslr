@@ -45,7 +45,8 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # -theta_0 = theta_1 * real_score - real_house
         # theta_0 = -(theta_1 * real_score - real_house)
         theta_0 = -theta_1 * real_score + get_housenumber(real_house)
-        se = ((theta_1 * real_score + theta_0) - get_housenumber(real_house)) ** 2
+        se = ((theta_1 * real_score + theta_0) -
+              get_housenumber(real_house)) ** 2
 
         if se < limit:
 

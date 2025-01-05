@@ -1,10 +1,10 @@
-from utils import load, get_housename, get_housenumber, normalize_column
-from linear_regression import train_model, minimize_cost
+from utils import load, get_housename, normalize_column
+from linear_regression import minimize_cost
 from matplotlib.pyplot import savefig, clf, close
-from pandas import concat, DataFrame, set_option
+from pandas import concat
 from seaborn import pairplot
 from math import e
-from numpy import round, dot
+from numpy import dot
 import random
 
 
@@ -21,7 +21,8 @@ def train():
     min_values = df_course.min()
     max_values = df_course.max()
     # -> résultats entre -1 et 1
-    df_course = df_course.apply(lambda col: normalize_column(col, min_values[col.name], max_values[col.name]))
+    df_course = df_course.apply(lambda col: normalize_column(col,
+                                min_values[col.name], max_values[col.name]))
 
     df = concat([df_house, df_course], axis=1)
     df = df.sort_values(by='Hogwarts House')
@@ -37,10 +38,13 @@ def train():
         w.insert(i, [])
         b.insert(i, [])
         # Scores of all students in the 13 courses for each house
-        overall_scores = [item for sublist in summed_df[summed_df['Hogwarts House'] == houses[i]].iloc[:, 1:].values for item in sublist]
+        overall_scores = [item for sublist in summed_df[summed_df
+                          ['Hogwarts House'] == houses[i]].iloc[:, 1:].values
+                          for item in sublist]
 
         for j, item in enumerate(overall_scores):
-            weight, bias, mse = minimize_cost(len(origin_df), theta_0, theta_1, item, houses[i], 0.01)
+            weight, bias, mse = minimize_cost(len(origin_df), theta_0, theta_1,
+                                              item, houses[i], 0.01)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
 
@@ -59,7 +63,8 @@ def train():
              markers=["o", "s", "D", "X"])
 
     savefig("output_class_I")
-    clf() # Clear the figure content
+    # Clear the figure content
+    clf()
     close()
 
     ndf = load("dataset_test.csv")
@@ -71,7 +76,8 @@ def train():
     min_values = ndf_course.min()
     max_values = ndf_course.max()  # Valeurs maximales par colonne
     # Normalization of data (between -1 and 1)
-    ndf_course = ndf_course.apply(lambda col: normalize_column(col, min_values[col.name], max_values[col.name]))
+    ndf_course = ndf_course.apply(lambda col: normalize_column(col,
+                                  min_values[col.name], max_values[col.name]))
 
     ndf = concat([ndf_house, ndf_course], axis=1)
 
@@ -83,7 +89,8 @@ def train():
             z = dot(col, w[j]) + bias
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
 
-    ndf['Hogwarts House'] = [get_housename(p.index(max(p))) for p in predictions]
+    ndf['Hogwarts House'] = [get_housename(p.index(max(p))) for p
+                             in predictions]
 
     ndf = ndf.sort_values(by='Hogwarts House')
 
