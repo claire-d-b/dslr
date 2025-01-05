@@ -1,5 +1,5 @@
 from pandas import DataFrame
-from utils import switch_case
+from utils import get_housenumber
 import random
 
 
@@ -44,8 +44,8 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # real_house - theta_0 = theta_1 * real_score
         # -theta_0 = theta_1 * real_score - real_house
         # theta_0 = -(theta_1 * real_score - real_house)
-        theta_0 = -theta_1 * real_score + real_house
-        se = ((theta_1 * real_score + theta_0) - real_house) ** 2
+        theta_0 = -theta_1 * real_score + get_housenumber(real_house)
+        se = ((theta_1 * real_score + theta_0) - get_housenumber(real_house)) ** 2
 
         if se < limit:
 

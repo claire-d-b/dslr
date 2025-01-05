@@ -2,7 +2,7 @@ from pandas import DataFrame, read_csv
 from math import e
 
 
-def switch_case(case_value) -> int | None:
+def get_housenumber(case_value) -> int | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
         case 'Gryffindor':
@@ -16,7 +16,7 @@ def switch_case(case_value) -> int | None:
         case _:
             return None
 
-def switch_case_rev(case_value) -> str | None:
+def get_housename(case_value) -> str | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
         case 0:
