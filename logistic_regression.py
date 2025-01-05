@@ -26,9 +26,11 @@ def train():
     df_course = df_course.apply(lambda col: normalize_column(col, min_values[col.name], max_values[col.name]))
 
     df = concat([df_house, df_course], axis=1)
+    df = df.sort_values(by='Hogwarts House')
+    print("classé 1", df)
     # print("DF", df)
-    df = df.groupby("Hogwarts House", as_index=False).sum()
-
+    summed_df = df.groupby("Hogwarts House", as_index=False).sum()
+    print("LEN", len(df))
     # print("DF", df)
     w = []
     b = []
@@ -39,7 +41,7 @@ def train():
     for i in range(len(houses)):
         w.insert(i, [])
         b.insert(i, [])
-        flat_values = [item for sublist in df[df['Hogwarts House'] == houses[i]].iloc[:, 1:].values for item in sublist]
+        flat_values = [item for sublist in summed_df[summed_df['Hogwarts House'] == houses[i]].iloc[:, 1:].values for item in sublist]
         for j, item in enumerate(flat_values):
             # print("item", len(origin_df))
             # print("itemmmm", item)
@@ -55,14 +57,15 @@ def train():
     # Calculate the average of all elements
     bias = total_sum / total_length
 
-    categories = [switch_case(x) for x in houses]
+    # categories = [0, 1, 2, 3]
     colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
-    onevsall_categories = [0, 1, 2, 3]
+    categories = [i for i, x in enumerate(houses)]
+    print("categorues", categories)
     
     # print("w", w)
 
     # print("bias", bias)
-    # print("df1", df)
+    print("df1", df)
     pairplot(df, hue="Hogwarts House", palette=[colors
                                                 [category]
                                                 for category in
@@ -98,6 +101,7 @@ def train():
     # flat = [w[row][col] for col in range(len(w[0])) for row in range(len(w))]
     # print("flatlist", len(flat))
     # print("ha", ndf.iloc[:, 1:].values)
+    print("LEN2", len(ndf))
     which_house = []
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])
@@ -122,10 +126,12 @@ def train():
     ndf['Hogwarts House'] = [switch_case_rev(p.index(max(p))) for p in predictions]
 
     print("ndf", ndf)
+    ndf = ndf.sort_values(by='Hogwarts House')
+    print("classé 2", ndf)
     pairplot(ndf, hue="Hogwarts House", palette=[colors
                                                  [category]
                                                  for category in
-                                                 onevsall_categories],
+                                                 categories],
              markers=["o", "s", "D", "X"])
 
     savefig("output_class_II")
