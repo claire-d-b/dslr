@@ -3,14 +3,14 @@ from utils import switch_case
 import random
 
 
-def get_affine_function(scores: list, house: list, theta_0: float,
+def get_affine_function(scores: list, house_unit: int, theta_0: float,
                         theta_1: float, learning_rate: float) -> tuple:
     """Take all values from x-axis and y-axis lists and calculate the
     mean square error for minimum square errors, update thetas"""
     # y = w * x + b
     mse = 0.0
     m = len(scores)
-    for i, (scores_unit, house_unit) in enumerate(zip(scores, house)):
+    for i, scores_unit in enumerate(scores):
         b, w, se = minimize_cost(m, theta_0, theta_1, scores_unit,
                                  house_unit, learning_rate)
 
@@ -46,6 +46,7 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # theta_0 = -(theta_1 * real_score - real_house)
         theta_0 = -theta_1 * real_score + real_house
         se = ((theta_1 * real_score + theta_0) - real_house) ** 2
+
         if se < limit:
 
             limit = se
@@ -64,7 +65,7 @@ def train_model(lhs: DataFrame, rhs: DataFrame,
     theta_1 = random.uniform(-0.01, 0.01)
 
     scores = list(x for x in lhs)
-    house = list(switch_case(x) for x in rhs)
+    house = rhs
 
     theta_0, theta_1, mse = get_affine_function(scores, house,
                                                 theta_0, theta_1,

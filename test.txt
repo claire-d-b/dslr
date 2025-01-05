@@ -1,0 +1,17 @@
+dataf       Hogwarts House  Arithmancy  ...     Charms  Flying
+Index                             ...                   
+3         Gryffindor     32667.0  ... -256.84675  200.64
+4         Gryffindor     60158.0  ... -256.38730  157.98
+6         Gryffindor     49167.0  ... -257.83447  261.55
+8         Gryffindor     20278.0  ... -252.27561  244.11
+16        Gryffindor     41907.0  ... -252.27344  174.27
+...              ...         ...  ...        ...     ...
+1573      Gryffindor     53984.0  ... -258.26397  164.28
+1578      Gryffindor     62103.0  ... -253.18160  150.95
+1592      Gryffindor     60006.0  ... -249.35589  193.78
+1595      Gryffindor     49009.0  ... -250.39401  185.83
+1597      Gryffindor     63905.0  ... -251.63679  198.47
+
+[327 rows x 14 columns]
+cats ['Gryffindor']
+t0 0.044464031385691265
