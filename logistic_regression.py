@@ -94,6 +94,11 @@ def train():
 
     ndf = ndf.sort_values(by='Hogwarts House')
 
+    for i in range(len(houses)):
+        filtered_df = ndf[ndf['Hogwarts House'] == houses[i]]
+        percent = len(filtered_df) * 100 / len(ndf)
+        print(f"There are {percent}% students from test data who would probably belong to {houses[i]}")
+
     pairplot(ndf, hue="Hogwarts House", palette=[colors
                                                  [category]
                                                  for category in
