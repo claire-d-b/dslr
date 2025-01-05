@@ -57,8 +57,7 @@ def train():
 
     categories = [switch_case(x) for x in houses]
     colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
-    onevsall_categories = [0, 1]
-    onevsall_colors = {0: "lightblue", 1: "pink"}
+    onevsall_categories = [0, 1, 2, 3]
     
     # print("w", w)
 
@@ -123,7 +122,7 @@ def train():
     ndf['Hogwarts House'] = [switch_case_rev(p.index(max(p))) for p in predictions]
 
     print("ndf", ndf)
-    pairplot(ndf, hue="Hogwarts House", palette=[onevsall_colors
+    pairplot(ndf, hue="Hogwarts House", palette=[colors
                                                  [category]
                                                  for category in
                                                  onevsall_categories],
