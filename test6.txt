@@ -1,0 +1,4 @@
+There are 20.75% student from test data who belong to Gryffindor
+There are 35.0% student from test data who belong to Hufflepuff
+There are 28.5% student from test data who belong to Ravenclaw
+There are 15.75% student from test data who belong to Slytherin
