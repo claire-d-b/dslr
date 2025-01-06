@@ -4,7 +4,7 @@ from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title, legend
 from numpy import arange
 from matplotlib.patches import Rectangle
-from utils_figures import load
+from utils_figures import load, normalize_column
 
 
 def get_bars(df: DataFrame) -> any:
@@ -15,6 +15,9 @@ def get_bars(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     # Select columns starting from 7th (index 6) onward
     df_courses = df.iloc[:, 6:]
+    min_value = df_courses.min()
+    max_value = df_courses.max()
+    df_courses = normalize_column(df_courses, min_value, max_value)
     df = concat([df_house, df_courses], axis=1)
 
     table = []
