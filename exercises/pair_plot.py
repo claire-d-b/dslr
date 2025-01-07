@@ -1,7 +1,7 @@
 from pandas import DataFrame, concat
 from seaborn import pairplot
 from matplotlib.pyplot import savefig, tight_layout
-from utils_figures import load
+from utils_figures import load, normalize_column
 
 
 def get_pair_plot(df: DataFrame) -> any:
@@ -9,22 +9,17 @@ def get_pair_plot(df: DataFrame) -> any:
     students' scores are spread for each course. Different
     colors are used to distinguish houses."""
     df_house = df.iloc[:, [0]]
-    df_courses = df.iloc[:, 6:]
+    df_courses = df.iloc[:, 5:]
 
+    min_value = df_courses.min()
+    max_value = df_courses.max()
+    df_courses = normalize_column(df_courses, min_value, max_value)
     grouped = concat([df_house, df_courses], axis=1)
-
     grouped = grouped.sort_values(by='Hogwarts House')
 
-    # Group by house - does not work if no operation like "sum"
-    # Bool "as index" to avoid autoindexing of first column
-    ngrouped = grouped.groupby('Hogwarts House', as_index=False).sum()
-    categories = ngrouped["Hogwarts House"]
-
+    categories = sorted(set(grouped['Hogwarts House']))
     colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
               "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
-
-    # Below, hue is the name of variable in data:
-    # variable in data to map plot aspects to different colors.
 
     pairplot(grouped, hue="Hogwarts House", palette=[colors[category]
                                                      for category

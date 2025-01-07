@@ -1,29 +1,4 @@
-from pandas import DataFrame
 from utils import get_housenumber
-import random
-
-
-def get_affine_function(scores: list, house_unit: int, theta_0: float,
-                        theta_1: float, learning_rate: float) -> tuple:
-    """Take all values from x-axis and y-axis lists and calculate the
-    mean square error for minimum square errors, update thetas"""
-    # y = w * x + b
-    mse = 0.0
-    m = len(scores)
-    for i, scores_unit in enumerate(scores):
-        b, w, se = minimize_cost(m, theta_0, theta_1, scores_unit,
-                                 house_unit, learning_rate)
-
-        theta_0 += b
-        theta_1 += w
-        # weights.insert(j, theta_1 / len(scores_unit))
-
-        mse += se
-    ret_mse = mse * 1 / (2 * m)
-    theta_0 /= len(scores)
-    theta_1 /= len(scores)
-
-    return theta_0, theta_1, ret_mse
 
 
 def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
@@ -55,21 +30,3 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
             w = theta_1
 
     return b, w, limit
-
-
-def train_model(lhs: DataFrame, rhs: DataFrame,
-                learning_rate: float) -> tuple:
-    """Get thetas that minimizes the mean square error"""
-
-    # Generate a random floating-point number between -0.01 and 0.01
-    theta_0 = random.uniform(-0.01, 0.01)
-    theta_1 = random.uniform(-0.01, 0.01)
-
-    scores = list(x for x in lhs)
-    house = rhs
-
-    theta_0, theta_1, mse = get_affine_function(scores, house,
-                                                theta_0, theta_1,
-                                                learning_rate)
-
-    return theta_1, theta_0

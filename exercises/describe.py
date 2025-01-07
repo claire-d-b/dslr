@@ -31,7 +31,6 @@ def print_dataframe(df: DataFrame) -> any:
         row_values = [value for value in df.iloc[i]]
 
         values[i].append(houses_count.iloc[i])
-        # print("variance:", get_variance(row_values))
         values[i].append(get_standard_deviation(row_values))
         values[i].append(min(row_values))
         values[i].append(get_quartile(row_values)[0])
@@ -49,7 +48,7 @@ def print_dataframe(df: DataFrame) -> any:
     # Assign the new column names back to the DataFrame
     ndf.columns = columns
 
-      # Write the entire DataFrame to a CSV file
+    # Write the entire DataFrame to a CSV file
     ndf.to_csv("describe.csv", index=False)
     return ndf
 

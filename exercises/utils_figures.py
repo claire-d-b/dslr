@@ -27,6 +27,7 @@ def load(path: str) -> DataFrame:
         raise AssertionError(f"Error: {e}")
     return df
 
+
 # Normalisation manuelle entre -1 et 1
 def normalize_column(col, min_val, max_val):
     return 2 * (col - min_val) / (max_val - min_val) - 1
