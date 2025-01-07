@@ -92,6 +92,9 @@ def train():
     ndf['Hogwarts House'] = [get_housename(p.index(max(p))) for p
                              in predictions]
 
+    # Write the entire DataFrame to a CSV file
+    ndf.iloc[:, 0].to_csv("houses.csv")
+
     ndf = ndf.sort_values(by='Hogwarts House')
 
     for i in range(len(houses)):
