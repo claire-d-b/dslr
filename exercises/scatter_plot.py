@@ -4,6 +4,7 @@ from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title, scatter, legend
 from matplotlib.patches import Patch
 from utils_figures import load, normalize_column
+from numpy import repeat
 
 
 def get_scatter_plot(df: DataFrame) -> any:
@@ -29,21 +30,21 @@ def get_scatter_plot(df: DataFrame) -> any:
     # xaxis = grouped.iloc[:, 1:].values
     # xaxis = xaxis.mean(axis=0)
     yaxis = grouped.groupby("Hogwarts House").mean()
-    # categories = DataFrame(grouped.groupby("Hogwarts House").mean().iloc[:, 0])
-    # categories = grouped.iloc[:, 0].values
-    scores = grouped.iloc[:, 1:].mean(axis=1)
-    # print("yaxis", yaxis)
-    houses = [x for sublist in sorted(df_house.values) for x in sublist]
-    # houses = DataFrame([x for sublist in grouped.groupby("Hogwarts House").mean().values for x in sublist])
-    # categories = grouped.iloc[:, 0].mean(axis=0) # Category (color)
-    print("scores", scores.shape)
-    print("houses", houses)
-    print("cats", DataFrame(categories))
+    houses = grouped['Hogwarts House']
+    categories = sorted(set(grouped['Hogwarts House']))
+    
+    courses = repeat(df_courses.columns, 1600)
+    courses_values = [x for sublist in df_courses.values.T for x in sublist]
+    print("courses name", courses.shape)
+    print("courses value", DataFrame(courses_values).shape)
     colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
-              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
-    # Color map for categories
-    subplots(figsize=(8, 6))
-    scatter(houses, scores, c=[colors[category] for category in houses])
+              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}    # Color map for categories
+    fig, ax = subplots(figsize=(20, 8))
+    # for i in range(12):
+    #     print("val", scores.values[i])
+    #     
+    ax.scatter(courses, courses_values, c=[colors[category] for category in repeat(houses, 13)])
+    # scatter(repeat(grouped.index, 13), scores, c=[colors[category] for category in repeat(houses, 13)])
     # scatter(xaxis, yaxis.T, c=[colors[category] for category in categories])
     # course, score, house
 
@@ -56,9 +57,9 @@ def get_scatter_plot(df: DataFrame) -> any:
                                         gray_patch, green_patch], framealpha=0.25)
 
     # Add the legend to the plot with custom colors and labels
-    xlabel("House")
-    ylabel("Scores")
-    title("Spread of scores per house")
+    xlabel("course")
+    ylabel("scores")
+    title("scores vs course")
     tight_layout()
     savefig("scatterplot")
 
