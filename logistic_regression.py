@@ -68,7 +68,6 @@ def train():
     close()
 
     ndf = load("dataset_test.csv")
-    ndf = ndf.fillna(0)
 
     ndf_house = ndf['Hogwarts House']
     ndf_course = ndf.iloc[:, 5:]

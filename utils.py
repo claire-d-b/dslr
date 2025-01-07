@@ -38,6 +38,7 @@ def load(path: str) -> DataFrame:
         # Ici open est un gestionnaire de contexte qui retourne un
         # object-fichier
         file = read_csv(path, index_col=0)
+        file = file.fillna(0)
 
     except Exception as e:
         raise AssertionError(f"Error: {e}")
