@@ -8,6 +8,7 @@ def load(path: str) -> DataFrame:
         # Ici open est un gestionnaire de contexte qui retourne un
         # object-fichier
         df = read_csv(path, index_col=0)
+        df = df.fillna(0)
         # Solution: When reading the CSV, specify:
         # index_col=0 if the first column is an index.
         # header=None if there’s no header row in the file,

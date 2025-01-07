@@ -49,7 +49,8 @@ def print_dataframe(df: DataFrame) -> any:
     # Assign the new column names back to the DataFrame
     ndf.columns = columns
 
-    print(ndf)
+      # Write the entire DataFrame to a CSV file
+    ndf.to_csv("describe.csv", index=False)
     return ndf
 
 
