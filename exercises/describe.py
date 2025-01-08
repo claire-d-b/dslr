@@ -56,6 +56,6 @@ def print_dataframe(df: DataFrame) -> any:
 if __name__ == "__main__":
     try:
         print_dataframe(load("../dataset_train.csv"))
-        print_dataframe(load("../dataset_test_completed.csv"))
+        # print_dataframe(load("../dataset_test_completed.csv"))
     except AssertionError as error:
         print(f"{error}")
