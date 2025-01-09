@@ -52,6 +52,10 @@ def train():
     total_length = sum(len(sublist) for sublist in b)
     bias = total_sum / total_length
 
+    f = open("thetas.csv", "w")
+    f.write(f"theta_0: {bias}\ntheta_1: {[[float(x) for x in row] for row in w]}")
+    f.close()
+
     colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
     # index of category (0 to 3)
     categories = [i for i, x in enumerate(houses)]
@@ -64,51 +68,6 @@ def train():
 
     savefig("output_class_I")
     # Clear the figure content
-    clf()
-    close()
-
-    ndf = load("dataset_test.csv")
-
-    ndf_house = ndf['Hogwarts House']
-    ndf_course = ndf.iloc[:, 5:]
-
-    min_values = ndf_course.min()
-    max_values = ndf_course.max()  # Valeurs maximales par colonne
-    # Normalization of data (between -1 and 1)
-    ndf_course = ndf_course.apply(lambda col: normalize_column(col,
-                                  min_values[col.name], max_values[col.name]))
-
-    ndf = concat([ndf_house, ndf_course], axis=1)
-
-    predictions = []
-    for i, col in enumerate(ndf.iloc[:, 1:].values):
-        predictions.insert(i, [])
-
-        for j in range(len(houses)):
-            z = dot(col, w[j]) + bias
-            predictions[i].insert(j, 1 / (1 + (e ** -z)))
-
-    ndf['Hogwarts House'] = [get_housename(p.index(max(p))) for p
-                             in predictions]
-
-    # Write the entire DataFrame to a CSV file
-    ndf.iloc[:, 0].to_csv("houses.csv")
-
-    ndf = ndf.sort_values(by='Hogwarts House')
-
-    for i in range(len(houses)):
-        filtered_df = ndf[ndf['Hogwarts House'] == houses[i]]
-        percent = len(filtered_df) * 100 / len(ndf)
-        print(f"There are {percent}% students from test data \
-who would probably belong to {houses[i]}")
-
-    pairplot(ndf, hue="Hogwarts House", palette=[colors
-                                                 [category]
-                                                 for category in
-                                                 categories],
-             markers=["o", "s", "D", "X"])
-
-    savefig("output_class_II")
     clf()
     close()
 

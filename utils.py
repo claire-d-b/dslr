@@ -1,6 +1,26 @@
 from pandas import DataFrame, read_csv
 
 
+def open_thetas_file(name: str) -> tuple:
+    theta_0 = 0
+    theta_1 = []
+    try:
+        f = open(name, "r")
+        file_content = f.read()
+
+        index = file_content.find("theta_0:")
+        i = index + len("theta_0:")
+        theta_0 = file_content[i:file_content.find("\n")]
+
+        index = file_content.find("theta_1:")
+        i = index + len('\ntheta_1:')
+        theta_1 = file_content[i:]
+
+        return theta_0, theta_1
+    except Exception as e:
+        raise AssertionError(f"Error: {e}")
+
+
 def get_housenumber(case_value) -> int | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
