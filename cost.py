@@ -61,8 +61,8 @@ def get_cost() -> any:
             z = dot(col, w[j]) + bias
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
 
-    predictions = [p.index(max(p)) for p in predictions]
-
+    # predictions = [p.index(max(p)) for p in predictions]
+    predictions = [1 if p.index(max(p)) == 0 else 0 for p in predictions]
 
     A, B = meshgrid(rhs.mean(), predictions)
 
@@ -73,7 +73,7 @@ def get_cost() -> any:
         for j in range(A.shape[1]):
             z = A[i, j] * mean(theta_1) + theta_0
             y_hat[i, j] = 1 / (1 + e ** -z)
-            loss[i, j] = B[i, j] * log(y_hat[i, j]) + (1 - B[i, j]) * log(1 - y_hat[i, j])
+            loss[i, j] = -B[i, j] * log(y_hat[i, j]) - (1 - B[i, j]) * log(1 - y_hat[i, j])
 
     # colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
     # categories = [i for i, x in enumerate(houses)]
