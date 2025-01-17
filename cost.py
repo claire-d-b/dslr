@@ -62,6 +62,7 @@ def get_cost() -> any:
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
 
     # predictions = [p.index(max(p)) for p in predictions]
+    # Choose here 0, 1, 2 or 3 depending on the house you want to analyze
     predictions = [1 if p.index(max(p)) == 0 else 0 for p in predictions]
 
     A, B = meshgrid(rhs.mean(), predictions)
@@ -74,9 +75,6 @@ def get_cost() -> any:
             z = A[i, j] * mean(theta_1) + theta_0
             y_hat[i, j] = 1 / (1 + e ** -z)
             loss[i, j] = -B[i, j] * log(y_hat[i, j]) - (1 - B[i, j]) * log(1 - y_hat[i, j])
-
-    # colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
-    # categories = [i for i, x in enumerate(houses)]
 
     fig = figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
