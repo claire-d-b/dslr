@@ -10,21 +10,6 @@ from matplotlib.pyplot import savefig, show, \
                               title, figure
 
 
-# Sigmoid function
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
-
-
-# Logistic regression cost function
-def compute_cost(theta_0, theta, X, y):
-    m = len(y)
-    print("tita", theta)
-    theta.insert(0, theta_0)
-    predictions = sigmoid(X.dot(theta))  # Compute the model predictions
-    cost = -1/m * np.sum(y * np.log(predictions) + (1 - y) * np.log(1 - predictions))
-    return cost
-
-
 def get_cost() -> any:
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
@@ -45,40 +30,67 @@ def get_cost() -> any:
     bias = ast.literal_eval(bias)
     # Step 1: Use ast.literal_eval to safely parse the string as a 2D list
     parsed_data = ast.literal_eval(w)
-    # Step 2: Convert each element to a float (if needed, as ast.literal_eval already gives us floats)
+    # Step 2: Convert each element to a float
     parsed_data = [[float(value) for value in row] for row in parsed_data]
-    # Print the result
     w = parsed_data
 
     theta_0 = bias
     theta_1 = w
 
     predictions = []
+    # values ndf.iloc[:, 1:].values refers to normalized values (btw -1 and 1)
+    # for each student in each course -> shape is (1600, 13)
+    # print("values:", ndf.iloc[:, 1:].values)
+    # print("values shape:", ndf.iloc[:, 1:].shape)
+
+    # print("weights", DataFrame(w).shape)
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])
+        # print("col", col)
 
         for j in range(len(houses)):
+            # as weights (w) is of shape (4, 13), we can use dot product between col (13 elements)
+            # and w[index] where index goes from 0 to 3 (there are four houses)
+            # we do that 4 times: one hogwarts House at a time
             z = dot(col, w[j]) + bias
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
 
-    # predictions = [p.index(max(p)) for p in predictions]
-    # Choose here 0, 1, 2 or 3 depending on the house you want to analyze
+    # Show all houses TBD -> predictions = [p.index(max(p)) for p in predictions]
+    # Choose here 0, 1, 2 or 3 depending on the house you want to analyze below
     predictions = [1 if p.index(max(p)) == 0 else 0 for p in predictions]
+    # print("predictions", predictions)
 
+    # meshgrid is a function from the numpy library used to create coordinate grids,
+    # typically for 3D plotting or evaluating functions over a 2D domain
+    # numpy.meshgrid(*xi, indexing='xy')
+    # *xi: The input vectors. These are 1D arrays representing the range of values for each axis.
+    # indexing: A string that can be either 'xy' or 'ij'. It determines how the coordinate matrices are ordered.
+    # By default, it uses 'xy', which is the most common for plotting and graphical tasks.
+
+    # rhs.mean() gives us the average of all students' scores per course (shape 13, 1)
+    # predictions is the preficted house: 0 if under 0.5 and 1 if upper than 0.5
     A, B = meshgrid(rhs.mean(), predictions)
+    # print(DataFrame(rhs.mean()).shape)
+    # print(DataFrame(predictions).shape)
+    # print("A shape", A.shape) # 1600, 13
+    # print("B shape", A.shape) # 1600, 13
 
     loss = zeros_like(A)
     y_hat = zeros_like(A)
 
     for i in range(A.shape[0]):
         for j in range(A.shape[1]):
-            z = A[i, j] * mean(theta_1) + theta_0
+            # Mean along axis 0 (columns): this calculates the mean for each column (across the rows).
+            # The result will be a 1D array with the shape (13,):
+            # print("shape theta_1:", mean(theta_1, axis=0).shape)
+            t_1 = mean(theta_1, axis=0)[j]
+            z = A[i, j] * t_1 + theta_0
             y_hat[i, j] = 1 / (1 + e ** -z)
             loss[i, j] = -B[i, j] * log(y_hat[i, j]) - (1 - B[i, j]) * log(1 - y_hat[i, j])
 
     fig = figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
-    surface = ax.plot_surface(A, B, loss, cmap='viridis',
+    surface = ax.plot_surface(A, B, loss, cmap='cool',
                               edgecolor='none')
     fig.colorbar(surface, ax=ax, shrink=0.5, aspect=5)
     title("Cost function in logistic regression")
@@ -93,13 +105,4 @@ if __name__ == "__main__":
     try:
         get_cost()
     except AssertionError as error:
-        print(f"{error}")# Generate a random dataset with 1600 samples and 13 features
-    # np.random.seed(0)
-    # X = np.random.rand(1600, 13)  # 1600 examples with 13 features
-    # y = (X[:, 0] + X[:, 1] > 1).astype(int)  # Binary labels (0 or 1)
-
-    # # Create a grid of theta_0 and theta_1 values
-    # theta_0_vals = np.linspace(-5, 5, 50)  # Varying intercept
-    # theta_1_vals = np.linspace(-5, 5, 50)  # Varying feature coefficient
-
-    # Create a meshgrid for 
+        print(f"{error}")
