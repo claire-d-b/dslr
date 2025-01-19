@@ -39,7 +39,15 @@ def predict():
         for j in range(len(houses)):
             z = dot(col, w[j]) + bias
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
-
+    # predictions shape is (400, 4) with values between 0 and 1.
+    # Values upper than 0.5 indicates a probability that the student
+    # will be in target class (houses[j]), whereas a < 0.5 value
+    # tends to indicate the student belongs to another class.
+    # when z is pos, the sigmoid function approches 1, whereas when
+    # z is negative, the sigmoid function approaches 0.
+    # From predictions get the highest value and corresponding house:
+    # print("predictions", predictions)
+    # print("predictions shape", DataFrame(predictions).shape)
     ndf['Hogwarts House'] = [get_housename(p.index(max(p))) for p
                              in predictions]
 
