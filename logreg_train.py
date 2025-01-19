@@ -1,10 +1,8 @@
-from utils import load, get_housename, normalize_column
+from utils import load, normalize_column
 from linear_regression import minimize_cost
 from matplotlib.pyplot import savefig, clf, close
 from pandas import concat
 from seaborn import pairplot
-from math import e
-from numpy import dot
 import random
 
 
@@ -37,23 +35,28 @@ def train():
     for i in range(len(houses)):
         w.insert(i, [])
         b.insert(i, [])
-        # Scores of all students in the 13 courses for each house
+        # Scores of all students in the 13 courses for each house :
+        # 4 lists of 13 values
         overall_scores = [item for sublist in summed_df[summed_df
                           ['Hogwarts House'] == houses[i]].iloc[:, 1:].values
                           for item in sublist]
+        # print("overall scores", overall_scores)
+        # print("overall scores shape", DataFrame(overall_scores).shape)
 
         for j, item in enumerate(overall_scores):
             weight, bias, mse = minimize_cost(len(origin_df), theta_0, theta_1,
                                               item, houses[i], 0.0001)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
-
+    # Here we take the average value of ou bias
     total_sum = sum(sum(sublist) for sublist in b)
     total_length = sum(len(sublist) for sublist in b)
     bias = total_sum / total_length
 
+    # Write reusable thetas to a file
     f = open("thetas.csv", "w")
-    f.write(f"theta_0: {bias}\ntheta_1: {[[float(x) for x in row] for row in w]}")
+    f.write(f"theta_0: {bias}\ntheta_1: {[[float(x) for x in row]
+                                         for row in w]}")
     f.close()
 
     colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}

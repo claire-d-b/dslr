@@ -1,11 +1,9 @@
 from utils import load, get_housename, normalize_column, open_thetas_file
-from linear_regression import minimize_cost
 from matplotlib.pyplot import savefig, clf, close
 from pandas import concat
 from seaborn import pairplot
 from math import e
 from numpy import dot
-import random
 import ast
 
 
@@ -26,18 +24,14 @@ def predict():
     ndf = concat([ndf_house, ndf_course], axis=1)
 
     bias, w = open_thetas_file("thetas.csv")
-
     bias = ast.literal_eval(bias)
-
     # Step 1: Use ast.literal_eval to safely parse the string as a 2D list
     parsed_data = ast.literal_eval(w)
-
-    # Step 2: Convert each element to a float (if needed, as ast.literal_eval already gives us floats)
+    # Step 2: Convert each element to a float
     parsed_data = [[float(value) for value in row] for row in parsed_data]
-
-    # Print the result
     w = parsed_data
 
+    # Make predictions based on computed thetas
     predictions = []
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])

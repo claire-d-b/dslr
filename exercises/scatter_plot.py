@@ -2,7 +2,6 @@
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title, legend, scatter
-from matplotlib.patches import Patch
 from utils_figures import load, normalize_column
 from numpy import repeat
 
@@ -24,7 +23,7 @@ def get_scatter_plot(df: DataFrame) -> any:
 
         df_house = df.iloc[:, [0]]
         df_courses = df.iloc[:, 5:]
-        
+
         min_value = df_courses.min()
         max_value = df_courses.max()
         df_courses = normalize_column(df_courses, min_value, max_value)
@@ -33,7 +32,8 @@ def get_scatter_plot(df: DataFrame) -> any:
         nhouses = repeat(nhouses, 13).values
 
         courses = repeat(df_courses.columns, grouped.shape[0])
-        courses_values = [x for sublist in df_courses.values.T for x in sublist]
+        courses_values = [x for sublist in df_courses.values.T
+                          for x in sublist]
 
         scatter(courses, courses_values, label=house, c=color)
 
