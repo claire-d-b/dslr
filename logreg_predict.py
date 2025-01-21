@@ -1,6 +1,6 @@
 from utils import load, get_housename, normalize_column, open_thetas_file
 from matplotlib.pyplot import savefig, clf, close
-from pandas import concat
+from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
 from numpy import dot
@@ -33,6 +33,11 @@ def predict():
 
     # Make predictions based on computed thetas
     predictions = []
+    # print("ndf.iloc[:, 1:]", ndf.iloc[:, 1:])
+    # We iterate on 400 rows (students) and 13 columns (courses)
+    # We make 4 predictions <=> probability that the student will
+    # belong to each house.
+    # We take the highest probability.
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])
 

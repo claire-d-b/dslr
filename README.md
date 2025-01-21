@@ -82,3 +82,26 @@ which means flying would be a differantiating feature.
 By contrast, Gryffindor shows weak scores in courses Transfiguration and
 Hisory of Magic. Finally, the diagonal curves for Divination show that
 Divination is a differentiating feature, where low scores are associated to Slytherin.
+
+# 5th and 6th programs: train model and predict
+
+There are 2 programs. The first one - logreg_train - searches for the
+minimum squared error from a linear regression perspective, and doing so,
+computes an array of thetas as weights and a single theta as bias.
+The program writes thetas' values in a csv file, so they can be used
+by the prediction program.
+Logreg_predict uses linear regression equation y = wx + b and it makes
+a sigmoid function out of it. The sigmoid function is a mathematical function
+that maps any real-valued number to a value between 0 and 1.
+It is defined by the formula 1 / 1 + e \*\* -z where z = wx + b.
+When z is positive the result approaches 1, whereas when it is negative,
+the result approaches 0.
+For each of the students from the dataset "test", we compute a probability
+between 0 and 0.5 based on the 13 scores (normalized scores: between -1 and 1)
+multiplied by the corresponding 13 weights (13 computed weights for
+each of the 4 houses), and we add the bias. Doing so we get a (400, 4)
+dataframe of predictions.
+Then, we get the highest prediction value at a specific index and we associate
+the corresponding house to the student.
+The pairplot output from the test dataset shows same trends as the pairplot
+output from the train dataset.
