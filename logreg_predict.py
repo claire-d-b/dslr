@@ -11,6 +11,7 @@ def predict():
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
     ndf = load("dataset_test.csv")
+    ndf = ndf.fillna(0)
 
     ndf_house = ndf['Hogwarts House']
     ndf_course = ndf.iloc[:, 5:]
@@ -57,7 +58,7 @@ def predict():
                              in predictions]
 
     # Write the entire DataFrame to a CSV file
-    ndf.iloc[:, 0].to_csv("houses.csv")
+    DataFrame(ndf.iloc[:, 0].values).to_csv("houses.csv", index=None)
 
     ndf = ndf.sort_values(by='Hogwarts House')
 

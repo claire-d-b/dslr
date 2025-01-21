@@ -9,6 +9,7 @@ import random
 def train():
     """Plot the scores per course and classify"""
     origin_df = load("dataset_train.csv")
+    origin_df = origin_df.fillna(0)
 
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
@@ -23,6 +24,7 @@ def train():
                                 min_values[col.name], max_values[col.name]))
 
     df = concat([df_house, df_course], axis=1)
+    
     df = df.sort_values(by='Hogwarts House')
 
     summed_df = df.groupby("Hogwarts House", as_index=False).sum()
@@ -48,6 +50,7 @@ def train():
                                               item, houses[i], 0.01)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
+
     # Here we take the average value of ou bias
     total_sum = sum(sum(sublist) for sublist in b)
     total_length = sum(len(sublist) for sublist in b)
