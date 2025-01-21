@@ -57,7 +57,7 @@ def get_cost() -> any:
 
     # Show all houses TBD -> predictions = [p.index(max(p)) for p in predictions]
     # Choose here 0, 1, 2 or 3 depending on the house you want to analyze below
-    predictions = [1 if p.index(max(p)) == 0 else 0 for p in predictions]
+    real_houses = [1 if houses.index(h) == 0 else 0 for h in lhs]
     # print("predictions", predictions)
 
     # meshgrid is a function from the numpy library used to create coordinate grids,
@@ -69,7 +69,7 @@ def get_cost() -> any:
 
     # rhs.mean() gives us the average of all students' scores per course (shape 13, 1)
     # predictions is the preficted house: 0 if under 0.5 and 1 if upper than 0.5
-    A, B = meshgrid(rhs.mean(), predictions)
+    A, B = meshgrid(rhs.mean(), real_houses)
     # print(DataFrame(rhs.mean()).shape)
     # print(DataFrame(predictions).shape)
     # print("A shape", A.shape) # 1600, 13

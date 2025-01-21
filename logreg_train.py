@@ -45,7 +45,7 @@ def train():
 
         for j, item in enumerate(overall_scores):
             weight, bias, mse = minimize_cost(len(origin_df), theta_0, theta_1,
-                                              item, houses[i], 0.0001)
+                                              item, houses[i], 0.01)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
     # Here we take the average value of ou bias
