@@ -22,7 +22,7 @@ def print_dataframe(df: DataFrame) -> any:
     indexes = list(df.index)
 
     values = []
-    data = ["Count:", "Std:", "Min:", "25%:", "50%:", "75%:", "Max:"]
+    data = ["Count", "Std", "Min", "25%", "50%", "75%", "Max"]
     ndf = DataFrame(data)
 
     for i in range(df.shape[0]):
@@ -55,7 +55,6 @@ def print_dataframe(df: DataFrame) -> any:
 
 if __name__ == "__main__":
     try:
-        print_dataframe(load("../dataset_train.csv"))
-        # print_dataframe(load("../dataset_test_completed.csv"))
+        print(print_dataframe(load("../dataset_train.csv")))
     except AssertionError as error:
         print(f"{error}")

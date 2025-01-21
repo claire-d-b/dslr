@@ -44,9 +44,14 @@ scores above ~86000, vs ~54000 for Hufflepuff and Ravenclaw, and a low ~1800 for
 Comparing houses' 1st quartile, we notice that 25% of students in Slytherin have a score
 under ~ -35000, which is low compared to other houses. The median of the Slytherin house
 is negative as compared with other houses' medians which are positive.
-Gryffindor shows a median that is significantly lower then that of Hufflepuff and Ravenclaw.
-The 4 houses' standard deviation is relatively equal, unveiling a comparable deviation
-of scores from the mean for each house.
+Gryffindor shows a median that is significantly lower then that of Hufflepuff and Ravenclaw,
+despite 75% of students in this house have very high scores.
+The minimum score of Hufflepuff is lower than that of Ravenclaw, and more significantly
+of that of Slytherin and Gryffindor. The maximum score of Hufflepuff is also the highest.
+The standard deviation of Gryffindor and Slytherin is relatively equal, unveiling
+a comparable and relatively weak deviation of scores from the mean for each house, whereas
+the dispertion of scores in Ravenclaw and Hufflepuff is higher, as the minimum and maximum
+scores values tend to show.
 
 # 2nd program: histogram
 
@@ -58,14 +63,22 @@ houses when changing the scale of scores with ylim set between -1000 and 1000.
 
 # 3rd program: scatter plot
 
-There is no surprise here as we have Slytherin with the lowest overall scores.
-The spread - std deviation - is comparable among the four houses.
+Here we have the 13 courses and a representation of the dispertion of scores,
+which are normalized to stand between -1 and 1. It is quite difficult to identify
+two similar features.
+A pairplot would give a clearer picture of features, and which of those features
+would be determinant when assessing which house the student would go in.
 
 # 4th program: pair plot (colored scatter plot matrix)
 
-From the figures we can see that the red curve (Hufflepuff) tends to be high.
-Ravenclaw (gray) also has a high curve for all courses.
-The green curve (Slytherin) tends to be the smallest, smaller than the blue curve (Gryffindor).
-Indeed, we saw that the median of scores for Hufflepuff and Ravenclaw students
-are higher than that of Gryffindor, and the median for Gryffindor is significantly higher
-than that of Slytherin.
+From the matrix we can see scatter plots showing in which area are located
+the scores of the 4 Hogwarts Houses.
+It is quite clear in wich course the various houses tend to show upper or
+lower scores. For instance, we can see that Gryffindor students are good
+at flying as compared to all other houses.
+When we look at the curves in the diagonal, we can also see that there is a
+very small area shared between the blue curve and all other curves,
+which means flying would be a differantiating feature.
+By contrast, Gryffindor shows weak scores in courses Transfiguration and
+Hisory of Magic. Finally, the diagonal curves for Divination show that
+Divination is a differentiating feature, where low scores are associated to Slytherin.
