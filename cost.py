@@ -37,28 +37,8 @@ def get_cost() -> any:
     theta_0 = bias
     theta_1 = w
 
-    predictions = []
-    # values ndf.iloc[:, 1:].values refers to normalized values (btw -1 and 1)
-    # for each student in each course -> shape is (1600, 13)
-    # print("values:", ndf.iloc[:, 1:].values)
-    # print("values shape:", ndf.iloc[:, 1:].shape)
-
-    # print("weights", DataFrame(w).shape)
-    for i, col in enumerate(ndf.iloc[:, 1:].values):
-        predictions.insert(i, [])
-        # print("col", col)
-
-        for j in range(len(houses)):
-            # as weights (w) is of shape (4, 13), we can use dot product between col (13 elements)
-            # and w[index] where index goes from 0 to 3 (there are four houses)
-            # we do that 4 times: one hogwarts House at a time
-            z = dot(col, w[j]) + bias
-            predictions[i].insert(j, 1 / (1 + (e ** -z)))
-
-    # Show all houses TBD -> predictions = [p.index(max(p)) for p in predictions]
     # Choose here 0, 1, 2 or 3 depending on the house you want to analyze below
     real_houses = [1 if houses.index(h) == 0 else 0 for h in lhs]
-    # print("predictions", predictions)
 
     # meshgrid is a function from the numpy library used to create coordinate grids,
     # typically for 3D plotting or evaluating functions over a 2D domain
@@ -68,10 +48,9 @@ def get_cost() -> any:
     # By default, it uses 'xy', which is the most common for plotting and graphical tasks.
 
     # rhs.mean() gives us the average of all students' scores per course (shape 13, 1)
-    # predictions is the preficted house: 0 if under 0.5 and 1 if upper than 0.5
     A, B = meshgrid(rhs.mean(), real_houses)
     # print(DataFrame(rhs.mean()).shape)
-    # print(DataFrame(predictions).shape)
+    # print(DataFrame(real_houses).shape)
     # print("A shape", A.shape) # 1600, 13
     # print("B shape", A.shape) # 1600, 13
 
