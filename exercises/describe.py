@@ -9,7 +9,7 @@ def print_dataframe(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
 
     # Select courses and scores
-    df_courses = df.iloc[:, 6:]
+    df_courses = df.iloc[:, 5:]
 
     df = concat([df_house, df_courses], axis=1)
     # Group by house
