@@ -1,6 +1,6 @@
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              xlabel, ylabel, title, legend, bar
+                              xlabel, ylabel, title, legend, hist
 from matplotlib.patches import Rectangle
 from utils_figures import load, normalize_column
 
@@ -8,6 +8,7 @@ from utils_figures import load, normalize_column
 def get_bars(df: DataFrame) -> any:
     """Create a bar chart plotting each house's scores per course"""
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+    colors = ["lightblue", "pink", "lightgray", "lightgreen"]
 
     # Select the 2nd column (index 1)
     df_house = df.iloc[:, [0]]
@@ -19,42 +20,21 @@ def get_bars(df: DataFrame) -> any:
     df_courses = normalize_column(df_courses, min_value, max_value)
     df = concat([df_house, df_courses], axis=1)
 
-    fig, ax = subplots(figsize=(8, 6))
+    # Create a figure with 4 rows and 4 columns of subplots
+    fig, axs = subplots(4, 4, figsize=(15, 5))
+    # Flatten the 2D array of axes (axs) into a 1D array for easier iteration
+    axs = axs.flatten()
 
-    bar_width = 0.2
-    colors = ["lightblue", "pink", "lightgray", "lightgreen"]
-    size = [-1.5, -0.5, 0.5, 1.5]
+    for i, course_unit in enumerate(df.iloc[:, 1:]):
+        data = df[course_unit]
 
-    handles = [Rectangle((0, 0), 1, 1, color=color) for color in colors]
+        for j, house_unit in enumerate(houses):
+            house_data = df[df['Hogwarts House'] == house_unit][course_unit]
 
-    counts = load("describe.csv")
-
-    table = []
-    ndf = df.groupby('Hogwarts House').sum()
-    for i, (unit, house) in enumerate(zip(counts.iloc[[0], :].values,
-                                          ndf.values)):
-        table.insert(i, [])
-
-        for j, course in enumerate(house):
-            course /= unit
-            table[i].insert(j, course)
-
-    table = DataFrame(table)
-
-    for i, col in enumerate(table.columns):
-        course = table[col][0]
-
-        for j, metric in enumerate(course):
-            # X-axis positions for each group of bars
-            bar(i + size[j] * bar_width, metric, width=bar_width,
-                label=houses[j], color=colors[j])
-
+            axs[i].hist(house_data, bins=20, alpha=0.5, color=colors[j], label=course_unit)
+            axs[i].set_title(course_unit)
+    
     tight_layout()
-    legend(handles=handles, labels=houses)
-    # ylim(-1000, 1000)
-    xlabel("Course n°")
-    ylabel("Scores")
-    title("Scores per course per house")
     savefig("histogram")
 
 
