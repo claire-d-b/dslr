@@ -24,7 +24,7 @@ def train():
                                 min_values[col.name], max_values[col.name]))
 
     df = concat([df_house, df_course], axis=1)
-    
+
     df = df.sort_values(by='Hogwarts House')
 
     summed_df = df.groupby("Hogwarts House", as_index=False).sum()

@@ -1,10 +1,8 @@
 # scores / standard deviation / ranges
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              xlabel, ylabel, title, legend, \
-                              scatter
+                              xlabel, ylabel, title
 from utils_figures import load, normalize_column
-from numpy import repeat
 
 
 def get_scatter_plot(df: DataFrame) -> any:
@@ -17,7 +15,7 @@ def get_scatter_plot(df: DataFrame) -> any:
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
     colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
               "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
- 
+
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]
 
@@ -25,7 +23,8 @@ def get_scatter_plot(df: DataFrame) -> any:
     max_value = df_courses.max()
     df_courses = normalize_column(df_courses, min_value, max_value)
 
-    df_courses = concat([df_courses['Astronomy'], df_courses['Defense Against the Dark Arts']], axis=1)
+    df_courses = concat([df_courses['Astronomy'],
+                         df_courses['Defense Against the Dark Arts']], axis=1)
     grouped = concat([df_house, df_courses], axis=1)
 
     fig, ax = subplots(figsize=(10, 8))
@@ -38,7 +37,7 @@ def get_scatter_plot(df: DataFrame) -> any:
         house_data = grouped[grouped['Hogwarts House'] == house]
         x_unit = house_data['Astronomy']
         y_unit = house_data['Defense Against the Dark Arts']
-        
+
         # Scatter plot for each house
         scatter_plot = ax.scatter(x_unit, y_unit, c=colors[house], label=house)
 
@@ -47,7 +46,8 @@ def get_scatter_plot(df: DataFrame) -> any:
         labels.append(house)  # House name as the label for the legend
 
     # Create custom legend by passing handles and labels explicitly
-    ax.legend(handles=handles, labels=labels, loc="lower right", title="Hogwarts Houses")
+    ax.legend(handles=handles, labels=labels, loc="lower right",
+              title="Hogwarts Houses")
 
     # Add labels and title
     xlabel("Astronomy")

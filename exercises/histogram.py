@@ -1,7 +1,5 @@
 from pandas import DataFrame, concat
-from matplotlib.pyplot import savefig, tight_layout, subplots, \
-                              xlabel, ylabel, title, legend, hist
-from matplotlib.patches import Rectangle
+from matplotlib.pyplot import savefig, tight_layout, subplots
 from utils_figures import load, normalize_column
 
 
@@ -26,14 +24,14 @@ def get_bars(df: DataFrame) -> any:
     axs = axs.flatten()
 
     for i, course_unit in enumerate(df.iloc[:, 1:]):
-        data = df[course_unit]
 
         for j, house_unit in enumerate(houses):
             house_data = df[df['Hogwarts House'] == house_unit][course_unit]
 
-            axs[i].hist(house_data, bins=20, alpha=0.5, color=colors[j], label=course_unit)
+            axs[i].hist(house_data, bins=20, alpha=0.5, color=colors[j],
+                        label=course_unit)
             axs[i].set_title(course_unit)
-    
+
     tight_layout()
     savefig("histogram")
 

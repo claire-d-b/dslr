@@ -1,11 +1,7 @@
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.impute import SimpleImputer
-from sklearn.metrics import classification_report
 
 # Step 1: Load the datasets (replace these with your actual file paths)
 data1 = pd.read_csv('dataset_train.csv')  # Training data
@@ -62,6 +58,7 @@ pd.DataFrame(y_pred).to_csv('predictions.csv', index=False)
 # print("Confusion Matrix:")
 # print(cm)
 
-# # Optionally, print classification report for more details (precision, recall, f1-score)
+# # Optionally, print classification report for more details
+# (precision, recall, f1-score)
 # print("Classification Report:")
 # print(classification_report(y_test_imputed, y_pred))

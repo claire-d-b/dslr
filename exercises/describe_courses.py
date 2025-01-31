@@ -1,6 +1,6 @@
 from pandas import DataFrame, concat
 from stats import get_median, get_standard_deviation, get_quartile
-from utils_figures import load, normalize_column
+from utils_figures import load
 from math import isnan
 
 
@@ -67,10 +67,12 @@ def print_dataframe(df: DataFrame) -> any:
     ndf.to_csv("describe_courses.csv", index=False)
 
     # A downward-sloping diagonal (from top-left to bottom-right) indicates
-    # a negative correlation, where as one variable increases, the other decreases.
+    # a negative correlation, where as one variable increases, the other
+    # decreases.
     # For example, if you're plotting time spent studying vs. time spent on
     # social media, and they are perfectly inversely related
-    # (one goes up, the other goes down), the scatter plot might show a downward diagonal.
+    # (one goes up, the other goes down), the scatter plot might show
+    # a downward diagonal.
 
     return ndf
 
