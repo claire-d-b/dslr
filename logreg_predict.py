@@ -41,6 +41,7 @@ def predict():
     # We take the highest probability.
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])
+        # print("col", col)
 
         for j in range(len(houses)):
             z = dot(col, w[j]) + bias

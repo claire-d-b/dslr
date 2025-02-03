@@ -1,7 +1,7 @@
 from utils import load, normalize_column
 from linear_regression import minimize_cost
 from matplotlib.pyplot import savefig, clf, close
-from pandas import concat
+from pandas import concat, DataFrame
 from seaborn import pairplot
 import random
 
@@ -46,7 +46,7 @@ def train():
         # print("overall scores shape", DataFrame(overall_scores).shape)
 
         for j, item in enumerate(overall_scores):
-            weight, bias, mse = minimize_cost(len(origin_df), theta_0, theta_1,
+            weight, bias, mse = minimize_cost(len(overall_scores), theta_0, theta_1,
                                               item, houses[i], 0.01)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
