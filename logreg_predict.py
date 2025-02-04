@@ -45,6 +45,7 @@ def predict():
 
         for j in range(len(houses)):
             z = dot(col, w[j]) + bias
+            # print("z", z)
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
     # predictions shape is (400, 4) with values between 0 and 1.
     # Values upper than 0.5 indicates a probability that the student
