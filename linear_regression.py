@@ -1,6 +1,3 @@
-from utils import get_housenumber
-
-
 def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
                   real_house: float, learning_rate: float) -> tuple:
     """Test with a slope value between -0.01 and 0.01, update y-interceipt
@@ -8,6 +5,9 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
     limit = float("inf")
     w = 0.0
     b = 0.0
+
+    # print("real house", real_house)
+    # print("real score", real_score) # 13 * 4 real scores = 52 real scores
 
     minimum = int(- 1 / learning_rate)
     maximum = int(1 / learning_rate)
@@ -19,9 +19,13 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # real_house - theta_0 = theta_1 * real_score
         # -theta_0 = theta_1 * real_score - real_house
         # theta_0 = -(theta_1 * real_score - real_house)
-        theta_0 = -theta_1 * real_score + get_housenumber(real_house)
+        theta_0 = -theta_1 * real_score + real_house
+        # print("res", theta_1 * real_score + theta_0)
+        # print("w", w)
+        # print("b", b)
         se = ((theta_1 * real_score + theta_0) -
-              get_housenumber(real_house)) ** 2
+              real_house) ** 2
+        # print("square error", se)
 
         if se < limit:
 

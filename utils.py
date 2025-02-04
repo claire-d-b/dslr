@@ -21,21 +21,6 @@ def open_thetas_file(name: str) -> tuple:
         raise AssertionError(f"Error: {e}")
 
 
-def get_housenumber(case_value) -> int | None:
-    """Defines 'true house' vs 'wrong houses'"""
-    match case_value:
-        case 'Gryffindor':
-            return 0
-        case 'Hufflepuff':
-            return 0
-        case 'Ravenclaw':
-            return 0
-        case 'Slytherin':
-            return 0
-        case _:
-            return None
-
-
 def get_housename(case_value) -> str | None:
     """Defines 'true house' vs 'wrong houses'"""
     match case_value:
