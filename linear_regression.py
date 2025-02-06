@@ -20,9 +20,12 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
         # -theta_0 = theta_1 * real_score - real_house
         # theta_0 = -(theta_1 * real_score - real_house)
         theta_0 = -theta_1 * real_score + real_house
+        # print("theta 1", theta_1)
+        # print("theta 0", theta_0)
         # print("res", theta_1 * real_score + theta_0)
         # print("w", w)
         # print("b", b)
+        # print("affine", theta_1 * real_score + theta_0)
         se = ((theta_1 * real_score + theta_0) -
               real_house) ** 2
         # print("square error", se)
