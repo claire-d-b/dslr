@@ -105,12 +105,5 @@ Then, we get the highest prediction value at a specific index and we associate
 the corresponding house to the student.
 The pairplot output from the test dataset shows same trends as the pairplot
 output from the train dataset.
-
-# 4th program: cost/loss for logistic regression
-
-A meshgrid is a simple tool that helps you create a grid of coordinates, which is useful for working with multi-dimensional data or for visualizing functions in 2D and 3D.
-We make a meshgrid from 2 lists: the average of all students' scores per course (shape 13, 1), and the predictions we made earlier (1600, 1).
-By creating a meshgrid from both lists, we get 2 (1600, 13) dataframes: A is the score per course for the 1600 students, B is the real house for each student (from the training dataset).
-And we have a y_hat, which stands for the predictions we make with the sigmoid function. The loss defined by:
--y \* log(y_hat) - (1 - y) \* log(1 -y_hat)
-Loss is then injected to the function plot surface as the Z coordinate in addition to A and B, which gives us a 3D visualisation of the cost in logistic regression.
+There is also a s-curve showing when z is negative, y-value is close to 0,
+whereas when z is positive, y-value is close to 1. Multiple colors (?)
