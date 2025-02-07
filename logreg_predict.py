@@ -1,5 +1,5 @@
 from utils import load, get_housename, normalize_column, open_thetas_file
-from matplotlib.pyplot import savefig, clf, close
+from matplotlib.pyplot import savefig, clf, close, figure, plot, axhline, scatter
 from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
@@ -39,6 +39,7 @@ def predict():
     # We make 4 predictions <=> probability that the student will
     # belong to each house.
     # We take the highest probability.
+    figure(figsize=(8, 5))
     for i, col in enumerate(ndf.iloc[:, 1:].values):
         predictions.insert(i, [])
         # print("col", col)
@@ -47,6 +48,13 @@ def predict():
             z = dot(col, w[j]) + bias
             # print("z", z)
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
+            scatter(z, 1 / (1 + (e ** -z)), color='lightblue', marker='o', label="Données réelles")
+            axhline(y=0.5, color='lightgray', linestyle='--', label="Seuil de décision (0.5)")
+
+    savefig("output_scurve")
+    clf()
+    close()
+
     # predictions shape is (400, 4) with values between 0 and 1.
     # Values upper than 0.5 indicates a probability that the student
     # will be in target class (houses[j]), whereas a < 0.5 value
