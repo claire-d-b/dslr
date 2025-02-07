@@ -1,5 +1,5 @@
 from utils import load, get_housename, normalize_column, open_thetas_file
-from matplotlib.pyplot import savefig, clf, close, figure, plot, axhline, scatter
+from matplotlib.pyplot import savefig, clf, close, figure, plot, axhline, scatter, legend, gca
 from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
@@ -9,6 +9,7 @@ import ast
 
 def predict():
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
+    colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
 
     ndf = load("dataset_test.csv")
     ndf = ndf.fillna(0)
@@ -48,9 +49,13 @@ def predict():
             z = dot(col, w[j]) + bias
             # print("z", z)
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
-            scatter(z, 1 / (1 + (e ** -z)), color='lightblue', marker='o', label="Données réelles")
-            axhline(y=0.5, color='lightgray', linestyle='--', label="Seuil de décision (0.5)")
+            scatter(z, 1 / (1 + (e ** -z)), color=colors[j], marker='o', label=houses[j])
 
+    handles, labels = gca().get_legend_handles_labels() # récupère tous les labels.
+    by_label = dict(zip(labels, handles)) # garde seulement un exemplaire de chaque label.
+    legend(by_label.values(), by_label.keys()) # remplace la légende avec des labels uniques.
+
+    axhline(y=0.5, color='purple', linestyle='--', label="Seuil de décision (0.5)")
     savefig("output_scurve")
     clf()
     close()
@@ -78,7 +83,6 @@ def predict():
         print(f"There are {percent}% students from test data \
 who would probably belong to {houses[i]}")
 
-    colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
     # index of category (0 to 3)
     categories = [i for i, x in enumerate(houses)]
 
