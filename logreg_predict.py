@@ -33,6 +33,9 @@ def predict():
     parsed_data = [[float(value) for value in row] for row in parsed_data]
     w = parsed_data
 
+    # print("w:", w)
+    # print("bias", bias)
+
     # Make predictions based on computed thetas
     predictions = []
     # print("ndf.iloc[:, 1:]", ndf.iloc[:, 1:])
@@ -46,7 +49,7 @@ def predict():
         # print("col", col)
 
         for j in range(len(houses)):
-            z = dot(col, w[j]) + bias
+            z = dot(col, w[j]) + bias[j]
             # print("z", z)
             # Le résultat z représente souvent un score ou une valeur avant
             # l'application d'une fonction d'activation.

@@ -53,9 +53,9 @@ def train():
             b[i].insert(j, bias)
 
     # Here we take the average value of ou bias
-    total_sum = sum(sum(sublist) for sublist in b)
-    total_length = sum(len(sublist) for sublist in b)
-    bias = total_sum / total_length
+    # print("bias", b)
+    bias = [sum(b_row) / len(b_row) for b_row in b]
+    # print("bias", bias)
 
     # Write reusable thetas to a file
     f = open("thetas.csv", "w")
