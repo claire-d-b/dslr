@@ -1,5 +1,0 @@
-predictions shape (400, 4)
-There are 19.75% students from test data who would probably belong to Gryffindor
-There are 36.0% students from test data who would probably belong to Hufflepuff
-There are 28.5% students from test data who would probably belong to Ravenclaw
-There are 15.75% students from test data who would probably belong to Slytherin
