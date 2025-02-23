@@ -48,6 +48,8 @@ def predict():
         for j in range(len(houses)):
             z = dot(col, w[j]) + bias
             # print("z", z)
+            # Le résultat z représente souvent un score ou une valeur avant
+            # l'application d'une fonction d'activation.
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
             scatter(z, 1 / (1 + (e ** -z)), color=colors[j], marker='o', label=houses[j])
 
