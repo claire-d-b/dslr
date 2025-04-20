@@ -1,5 +1,5 @@
 from pandas import DataFrame, concat
-from stats import get_min, get_max
+from stats import get_mins, get_maxs
 from matplotlib.pyplot import savefig, tight_layout, subplots
 from utils_figures import load, normalize_column
 
@@ -14,17 +14,20 @@ def get_bars(df: DataFrame) -> any:
     # Select columns starting from 7th (index 6) onward
     df_courses = df.iloc[:, 5:]
 
-    min_value = df_courses.get_min()
-    max_value = df_courses.get_max()
-    df_courses = normalize_column(df_courses, min_value, max_value)
-    df = concat([df_house, df_courses], axis=1)
+    min_value = get_mins(df_courses)
+    max_value = get_maxs(df_courses)
+
+    print(min_value)
+    print(max_value)
+    ndf_courses = normalize_column(df_courses, min_value, max_value)
+    ndf = concat([df_house, df_courses], axis=1)
 
     # Create a figure with 4 rows and 4 columns of subplots
     fig, axs = subplots(4, 4, figsize=(15, 5))
     # Flatten the 2D array of axes (axs) into a 1D array for easier iteration
     axs = axs.flatten()
 
-    for i, course_unit in enumerate(df.iloc[:, 1:]):
+    for i, course_unit in enumerate(ndf.iloc[:, 1:]):
 
         for j, house_unit in enumerate(houses):
             house_data = df[df['Hogwarts House'] == house_unit][course_unit]
