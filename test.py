@@ -1,7 +1,9 @@
 import pandas as pd
+from utils import load
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.impute import SimpleImputer
+from sklearn.metrics import accuracy_score
 
 # Step 1: Load the datasets (replace these with your actual file paths)
 data1 = pd.read_csv('dataset_train.csv')  # Training data
@@ -43,11 +45,31 @@ X_test_scaled = scaler.transform(X_test_imputed)
 model = LogisticRegression(max_iter=200)  # You can adjust max_iter if needed
 model.fit(X_train_scaled, y_train_imputed)
 
+# Load the true values using the same format as your predictions
+houses_data = pd.read_csv('houses.csv')
+print("Houses.csv columns:", houses_data.columns.tolist())
+    
+# Assuming 'houses.csv' contains the ground truth labels in the same order as test data
+# You may need to adjust this depending on your actual data structure
+y_true = houses_data.iloc[:, 0].to_numpy()  # Assuming the target is in the first column
 # Step 5: Make Predictions on the test set
 y_pred = model.predict(X_test_scaled)
+# Make sure y_true and y_pred have the same length
+if len(y_true) != len(y_pred):
+    print(f"Warning: Length mismatch between y_true ({len(y_true)}) and y_pred ({len(y_pred)})")
+    # Adjust to use only the first matching rows
+    min_len = min(len(y_true), len(y_pred))
+    y_true = y_true[:min_len]
+    y_pred = y_pred[:min_len]
+    
+    # Calculate accuracy
+    accuracy = accuracy_score(y_true, y_pred)
+    print(f"Accuracy: {accuracy:.4f}")
 
 # Save the predictions to a CSV file
 pd.DataFrame(y_pred).to_csv('predictions.csv', index=False)
+print("acc score:")
+print(accuracy_score(y_true, y_pred))
 
 # # Step 6: Evaluate the Model
 # accuracy = accuracy_score(y_test_imputed, y_pred)

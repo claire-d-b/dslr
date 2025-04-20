@@ -1,3 +1,5 @@
+from pandas import DataFrame
+
 def len(lst: list):
     i = 0
     for item in lst:
@@ -145,3 +147,11 @@ def get_quartile(largs: any) -> float:
 
     except Exception:
         print("ERROR")
+
+def get_get_min(df: DataFrame):
+    nlst = sort_list(list(df))
+    return nlst[0]
+
+def get_get_max(df: DataFrame):
+    nlst = sort_list(list(df))
+    return list[len(nlst)-1]

@@ -1,5 +1,5 @@
 from pandas import DataFrame, concat
-from stats import get_median, get_standard_deviation, get_quartile
+from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max
 from utils_figures import load
 from math import isnan
 
@@ -41,11 +41,11 @@ def print_dataframe(df: DataFrame) -> any:
         values[i].append(stud_per_course_count)
         # print("courses_count i", stud_per_course_count)
         values[i].append(get_standard_deviation(nrow_values))
-        values[i].append(min(nrow_values))
+        values[i].append(get_min(nrow_values))
         values[i].append(get_quartile(nrow_values)[0])
         values[i].append(get_median(nrow_values))
         values[i].append(get_quartile(nrow_values)[1])
-        values[i].append(max(nrow_values))
+        values[i].append(get_max(nrow_values))
         # Remove NaN values before calculating
         row_values = [x for x in nrow_values if not isnan(x)]
         nvalues = DataFrame(values[i]).fillna(get_median(row_values))

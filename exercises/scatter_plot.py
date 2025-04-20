@@ -1,5 +1,6 @@
 # scores / standard deviation / ranges
 from pandas import DataFrame, concat
+from stats import get_min, get_max
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title
 from utils_figures import load, normalize_column
@@ -19,8 +20,8 @@ def get_scatter_plot(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]
 
-    min_value = df_courses.min()
-    max_value = df_courses.max()
+    min_value = df_courses.get_min()
+    max_value = df_courses.get_max()
     df_courses = normalize_column(df_courses, min_value, max_value)
 
     df_courses = concat([df_courses['Astronomy'],

@@ -1,5 +1,5 @@
 from pandas import DataFrame, concat
-from stats import get_median, get_standard_deviation, get_quartile
+from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max
 from utils_figures import load
 
 
@@ -32,11 +32,11 @@ def print_dataframe(df: DataFrame) -> any:
 
         values[i].append(houses_count.iloc[i])
         values[i].append(get_standard_deviation(row_values))
-        values[i].append(min(row_values))
+        values[i].append(get_min(row_values))
         values[i].append(get_quartile(row_values)[0])
         values[i].append(get_median(row_values))
         values[i].append(get_quartile(row_values)[1])
-        values[i].append(max(row_values))
+        values[i].append(get_max(row_values))
         ndf = concat([ndf, DataFrame(values[i])], axis=1)
 
     ndf = DataFrame(ndf)

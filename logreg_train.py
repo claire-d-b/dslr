@@ -1,4 +1,5 @@
 from utils import load, normalize_column
+from stats import get_min, get_max
 from linear_regression import minimize_cost
 from matplotlib.pyplot import savefig, clf, close
 from pandas import concat, DataFrame
@@ -17,8 +18,8 @@ def train():
     df_course = origin_df.iloc[:, 5:]
 
     # Normalization
-    min_values = df_course.min()
-    max_values = df_course.max()
+    min_values = df_course.get_min()
+    max_values = df_course.get_max()
     # -> résultats entre -1 et 1
     df_course = df_course.apply(lambda col: normalize_column(col,
                                 min_values[col.name], max_values[col.name]))
