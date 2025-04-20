@@ -1,7 +1,7 @@
 from pandas import DataFrame, concat
 from stats import get_mins, get_maxs
 from matplotlib.pyplot import savefig, tight_layout, subplots
-from utils_figures import load, normalize_column
+from utils_figures import load, normalize
 
 
 def get_bars(df: DataFrame) -> any:
@@ -14,12 +14,12 @@ def get_bars(df: DataFrame) -> any:
     # Select columns starting from 7th (index 6) onward
     df_courses = df.iloc[:, 5:]
 
-    min_value = get_mins(df_courses)
-    max_value = get_maxs(df_courses)
+    # min_value = get_mins(df_courses)
+    # max_value = get_maxs(df_courses)
 
     # print(min_value)
     # print(max_value)
-    ndf_courses = normalize_column(df_courses, min_value, max_value)
+    ndf_courses = normalize_df(df_courses)
     ndf = concat([df_house, df_courses], axis=1)
 
     # Create a figure with 4 rows and 4 columns of subplots
