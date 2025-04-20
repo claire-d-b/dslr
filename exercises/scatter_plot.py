@@ -1,6 +1,6 @@
 # scores / standard deviation / ranges
 from pandas import DataFrame, concat
-from stats import get_min, get_max
+from stats import get_mins, get_maxs
 from matplotlib.pyplot import savefig, tight_layout, subplots, \
                               xlabel, ylabel, title
 from utils_figures import load, normalize_column
@@ -20,13 +20,13 @@ def get_scatter_plot(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]
 
-    min_value = df_courses.get_min()
-    max_value = df_courses.get_max()
-    df_courses = normalize_column(df_courses, min_value, max_value)
+    min_value = get_mins(df_courses)
+    max_value = get_maxs(df_courses)
+    ndf_courses = normalize_column(df_courses, min_value, max_value)
 
-    df_courses = concat([df_courses['Astronomy'],
+    ndf_courses = concat([df_courses['Astronomy'],
                          df_courses['Defense Against the Dark Arts']], axis=1)
-    grouped = concat([df_house, df_courses], axis=1)
+    grouped = concat([df_house, ndf_courses], axis=1)
 
     fig, ax = subplots(figsize=(10, 8))
     # Create lists to store custom handles and labels for the legend

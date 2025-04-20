@@ -17,8 +17,8 @@ def get_bars(df: DataFrame) -> any:
     min_value = get_mins(df_courses)
     max_value = get_maxs(df_courses)
 
-    print(min_value)
-    print(max_value)
+    # print(min_value)
+    # print(max_value)
     ndf_courses = normalize_column(df_courses, min_value, max_value)
     ndf = concat([df_house, df_courses], axis=1)
 
