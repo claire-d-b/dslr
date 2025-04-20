@@ -148,10 +148,10 @@ def get_quartile(largs: any) -> float:
     except Exception:
         print("ERROR")
 
-def get_get_min(df: DataFrame):
+def get_min(df: DataFrame):
     nlst = sort_list(list(df))
     return nlst[0]
 
-def get_get_max(df: DataFrame):
+def get_max(df: DataFrame):
     nlst = sort_list(list(df))
-    return list[len(nlst)-1]
+    return nlst[len(nlst)-1]
