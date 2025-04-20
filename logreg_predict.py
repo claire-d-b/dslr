@@ -1,5 +1,4 @@
-from utils import load, get_housename, normalize_column, open_thetas_file
-from stats import get_min, get_max
+from utils import load, get_housename, normalize_df, open_thetas_file, get_min, get_max
 from matplotlib.pyplot import savefig, clf, close, figure, plot, axhline, scatter, legend, gca
 from pandas import concat, DataFrame
 from seaborn import pairplot
@@ -18,11 +17,12 @@ def predict():
     ndf_house = ndf['Hogwarts House']
     ndf_course = ndf.iloc[:, 5:]
 
-    min_values = ndf_course.get_min()
-    max_values = ndf_course.get_max()  # Valeurs maximales par colonne
-    # Normalization of data (between -1 and 1)
-    ndf_course = ndf_course.apply(lambda col: normalize_column(col,
-                                  min_values[col.name], max_values[col.name]))
+    # min_values = ndf_course.get_min()
+    # max_values = ndf_course.get_max()  # Valeurs maximales par colonne
+    # # Normalization of data (between -1 and 1)
+    # ndf_course = ndf_course.apply(lambda col: normalize_column(col,
+    #                               min_values[col.name], max_values[col.name]))
+    ndf_course = normalize_df(ndf_course)
 
     ndf = concat([ndf_house, ndf_course], axis=1)
 

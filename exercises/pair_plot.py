@@ -12,8 +12,6 @@ def get_pair_plot(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]
 
-    # min_value = df_courses.get_min()
-    # max_value = df_courses.get_max()
     df_courses = normalize_df(df_courses)
     grouped = concat([df_house, df_courses], axis=1)
     grouped = grouped.sort_values(by='Hogwarts House')

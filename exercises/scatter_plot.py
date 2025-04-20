@@ -20,8 +20,6 @@ def get_scatter_plot(df: DataFrame) -> any:
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]
 
-    min_value = get_mins(df_courses)
-    max_value = get_maxs(df_courses)
     ndf_courses = normalize_df(df_courses)
 
     ndf_courses = concat([ndf_courses['Astronomy'],
