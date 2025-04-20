@@ -1,7 +1,7 @@
 from pandas import DataFrame, concat
 from stats import get_mins, get_maxs
 from matplotlib.pyplot import savefig, tight_layout, subplots
-from utils_figures import load, normalize
+from utils_figures import load, normalize_df
 
 
 def get_bars(df: DataFrame) -> any:
@@ -20,7 +20,7 @@ def get_bars(df: DataFrame) -> any:
     # print(min_value)
     # print(max_value)
     ndf_courses = normalize_df(df_courses)
-    ndf = concat([df_house, df_courses], axis=1)
+    ndf = concat([df_house, ndf_courses], axis=1)
 
     # Create a figure with 4 rows and 4 columns of subplots
     fig, axs = subplots(4, 4, figsize=(15, 5))
@@ -30,7 +30,7 @@ def get_bars(df: DataFrame) -> any:
     for i, course_unit in enumerate(ndf.iloc[:, 1:]):
 
         for j, house_unit in enumerate(houses):
-            house_data = df[df['Hogwarts House'] == house_unit][course_unit]
+            house_data = ndf[ndf['Hogwarts House'] == house_unit][course_unit]
 
             axs[i].hist(house_data, bins=20, alpha=0.5, color=colors[j],
                         label=course_unit)
