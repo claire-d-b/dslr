@@ -71,6 +71,21 @@ def get_max(df: DataFrame):
     return nlst[len(nlst)-1]
 
 def normalize_df(df):
+    # Normalisation linéaire des valeurs d'une colonne pour les transformer
+    # en valeurs comprises entre -1 et 1.
+
+    # (df[col] - col_min) : Cette partie soustrait la valeur minimale de la colonne
+    # de chaque valeur, ce qui fait que la plus petite valeur devient 0.
+    # (col_max - col_min) : Calcule l'amplitude totale des valeurs dans la colonne.
+    # (df[col] - col_min) / (col_max - col_min) : Cette division normalise les valeurs
+    # pour qu'elles soient toutes dans l'intervalle [0, 1].
+    # La valeur minimale est maintenant 0 et la valeur maximale est 1.
+    # 2 * (...) : Multiplie toutes les valeurs par 2, ce qui transforme l'intervalle en [0, 2].
+    # 2 * (...) - 1 : Soustrait 1, ce qui déplace finalement l'intervalle à [-1, 1].
+
+    # Donc, en résumé, cette formule prend des données avec une plage quelconque et les
+    # transforme pour qu'elles soient réparties entre -1 et 1, où la valeur minimale
+    # d'origine devient -1 et la valeur maximale d'origine devient 1.
     # Créer une copie du DataFrame pour ne pas modifier l'original
     normalized_df = df.copy()
     

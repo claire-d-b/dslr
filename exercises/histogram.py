@@ -1,5 +1,4 @@
 from pandas import DataFrame, concat
-from stats import get_mins, get_maxs
 from matplotlib.pyplot import savefig, tight_layout, subplots
 from utils_figures import load, normalize_df
 

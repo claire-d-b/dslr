@@ -1,5 +1,6 @@
 from pandas import DataFrame, concat
-from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max
+from stats import get_median, get_standard_deviation, get_quartile
+from stats import get_min, get_max
 from utils_figures import load
 
 

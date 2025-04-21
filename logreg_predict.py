@@ -1,5 +1,6 @@
-from utils import load, get_housename, normalize_df, open_thetas_file, get_min, get_max
-from matplotlib.pyplot import savefig, clf, close, figure, plot, axhline, scatter, legend, gca
+from utils import load, get_housename, normalize_df, open_thetas_file, get_max
+from matplotlib.pyplot import savefig, clf, close, figure, axhline, scatter
+from matplotlib.pyplot import legend, gca
 from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
@@ -17,11 +18,6 @@ def predict():
     ndf_house = ndf['Hogwarts House']
     ndf_course = ndf.iloc[:, 5:]
 
-    # min_values = ndf_course.get_min()
-    # max_values = ndf_course.get_max()  # Valeurs maximales par colonne
-    # # Normalization of data (between -1 and 1)
-    # ndf_course = ndf_course.apply(lambda col: normalize_column(col,
-    #                               min_values[col.name], max_values[col.name]))
     ndf_course = normalize_df(ndf_course)
 
     ndf = concat([ndf_house, ndf_course], axis=1)
@@ -55,13 +51,18 @@ def predict():
             # Le résultat z représente souvent un score ou une valeur avant
             # l'application d'une fonction d'activation.
             predictions[i].insert(j, 1 / (1 + (e ** -z)))
-            scatter(z, 1 / (1 + (e ** -z)), color=colors[j], marker='o', label=houses[j])
+            scatter(z, 1 / (1 + (e ** -z)), color=colors[j], marker='o',
+                    label=houses[j])
 
-    handles, labels = gca().get_legend_handles_labels() # récupère tous les labels.
-    by_label = dict(zip(labels, handles)) # garde seulement un exemplaire de chaque label.
-    legend(by_label.values(), by_label.keys()) # remplace la légende avec des labels uniques.
+    # récupère tous les labels.
+    handles, labels = gca().get_legend_handles_labels()
+    # garde seulement un exemplaire de chaque label.
+    by_label = dict(zip(labels, handles))
+    # remplace la légende avec des labels uniques.
+    legend(by_label.values(), by_label.keys())
 
-    axhline(y=0.5, color='purple', linestyle='--', label="Seuil de décision (0.5)")
+    axhline(y=0.5, color='purple', linestyle='--',
+            label="Seuil de décision (0.5)")
     savefig("output_scurve")
     clf()
     close()

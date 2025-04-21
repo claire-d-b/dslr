@@ -15,25 +15,18 @@ def print_dataframe(df: DataFrame) -> any:
 
     # How many scores per course
     stud_per_course_count = df.shape[0]
-    print("stud count", stud_per_course_count)
 
     ncolumns = list(df_courses.columns)
-    print("ncols", ncolumns)
     df = df.iloc[:, 1:]
-    print("df", df)
-
-    # print("df shape", df.shape)
 
     values = []
     data = ["Count", "Std", "Min", "25%", "50%", "75%", "Max"]
     ndf = DataFrame(data)
-    print("df ICI", df)
 
     for i in range(df.shape[1]):
         # Get scores for all 12 courses in a specific house
         nrow_values = df.iloc[:, i]
         # print("row values", nrow_values)
-        print("course", DataFrame(nrow_values).columns)
 
         # print("i:", i)
         values.insert(i, [])
@@ -53,15 +46,12 @@ def print_dataframe(df: DataFrame) -> any:
         ndf = concat([ndf, nvalues], axis=1)
 
     # Get the current columns
-    print("nnddff", ndf)
-    # Get the current columns
     columns = ndf.columns.tolist()
     # print("ncolumns")
     # # Rename columns to new names
     columns[1:14] = ncolumns
     # # Assign the new column names back to the DataFrame
     ndf.columns = columns
-    print("cols", ndf.columns)
 
     # Write the entire DataFrame to a CSV file
     ndf.to_csv("describe_courses.csv", index=False)

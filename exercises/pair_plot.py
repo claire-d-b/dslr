@@ -1,6 +1,5 @@
 from pandas import DataFrame, concat
 from seaborn import pairplot
-from stats import get_min, get_max
 from matplotlib.pyplot import savefig, tight_layout
 from utils_figures import load, normalize_df
 
