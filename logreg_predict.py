@@ -1,10 +1,10 @@
 from utils import load, get_housename, normalize_df, open_thetas_file, get_max
+from utils import _dot
 from matplotlib.pyplot import savefig, clf, close, figure, axhline, scatter
 from matplotlib.pyplot import legend, gca
 from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
-from numpy import dot
 import ast
 
 
@@ -46,7 +46,7 @@ def predict():
         # print("col", col)
 
         for j in range(len(houses)):
-            z = dot(col, w[j]) + bias[j]
+            z = _dot(col, w[j]) + bias[j]
             # print("z", z)
             # Le résultat z représente souvent un score ou une valeur avant
             # l'application d'une fonction d'activation.
