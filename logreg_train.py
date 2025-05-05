@@ -61,8 +61,8 @@ def train():
 
     # Write reusable thetas to a file
     f = open("thetas.csv", "w")
-    f.write(f"theta_0: {bias}\ntheta_1: {[[float(x) for x in row]
-                                         for row in w]}")
+    thetas_1 = [[float(x) for x in row] for row in w]
+    f.write(f"theta_0: {bias}\ntheta_1: {thetas_1}")
     f.close()
 
     colors = {0: "red", 1: "yellow", 2: "blue", 3: "green"}

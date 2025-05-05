@@ -1,4 +1,5 @@
-from pandas import DataFrame, concat
+from pandas import DataFrame
+
 
 def len(lst: list):
     i = 0
@@ -148,26 +149,12 @@ def get_quartile(largs: any) -> float:
     except Exception:
         print("ERROR")
 
+
 def get_min(df: DataFrame):
     nlst = sort_list(list(df))
     return nlst[0]
 
+
 def get_max(df: DataFrame):
     nlst = sort_list(list(df))
     return nlst[len(nlst)-1]
-
-def get_mins(df: DataFrame):
-    min_values = []
-    for j in range(0, df.shape[1]):
-        min_values.insert(j, get_min(df.iloc[:, j]))
-    min_row_df = DataFrame(min_values, index=df.columns, columns=None)
-
-    return min_row_df
-
-def get_maxs(df: DataFrame):
-    max_values = []
-    for j in range(0, df.shape[1]):
-        max_values.insert(j, get_max(df.iloc[:, j]))
-    max_row_df = DataFrame(max_values, index=df.columns, columns=None)
-
-    return max_row_df

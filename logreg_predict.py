@@ -1,5 +1,5 @@
 from utils import load, get_housename, normalize_df, open_thetas_file, get_max
-from utils import _dot
+from utils import get_dot
 from matplotlib.pyplot import savefig, clf, close, figure, axhline, scatter
 from matplotlib.pyplot import legend, gca
 from pandas import concat, DataFrame
