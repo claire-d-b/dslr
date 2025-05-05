@@ -13,8 +13,8 @@ def get_scatter_plot(df: DataFrame) -> any:
     df = df.sort_values(by='Hogwarts House')
 
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
-    colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
-              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
+    colors = {"Gryffindor": "red", "Hufflepuff": "yellow",
+              "Ravenclaw": "blue", "Slytherin": "green"}
 
     df_house = df.iloc[:, [0]]
     df_courses = df.iloc[:, 5:]

@@ -65,7 +65,7 @@ def train():
                                          for row in w]}")
     f.close()
 
-    colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
+    colors = {0: "red", 1: "yellow", 2: "blue", 3: "green"}
     # index of category (0 to 3)
     categories = [i for i, x in enumerate(houses)]
 

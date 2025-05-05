@@ -6,7 +6,7 @@ from utils_figures import load, normalize_df
 def get_bars(df: DataFrame) -> any:
     """Create a bar chart plotting each house's scores per course"""
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
-    colors = ["lightblue", "pink", "lightgray", "lightgreen"]
+    colors = ["red", "yellow", "blue", "green"]
 
     # Select the 2nd column (index 1)
     df_house = df.iloc[:, [0]]

@@ -108,7 +108,7 @@ def normalize_df(df):
             
     return normalized_df
 
-def _dot(lst: list, other: list):
+def get_dot(lst: list, other: list):
     temp = []
     for index in range(len(lst)):
         temp.append(lst[index] * other[index])

@@ -10,7 +10,7 @@ import ast
 
 def predict():
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
-    colors = {0: "lightblue", 1: "pink", 2: "lightgray", 3: "lightgreen"}
+    colors = {0: "red", 1: "yellow", 2: "blue", 3: "green"}
 
     ndf = load("dataset_test.csv")
     ndf = ndf.fillna(0)
@@ -46,7 +46,7 @@ def predict():
         # print("col", col)
 
         for j in range(len(houses)):
-            z = _dot(col, w[j]) + bias[j]
+            z = get_dot(col, w[j]) + bias[j]
             # print("z", z)
             # Le résultat z représente souvent un score ou une valeur avant
             # l'application d'une fonction d'activation.

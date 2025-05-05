@@ -16,8 +16,8 @@ def get_pair_plot(df: DataFrame) -> any:
     grouped = grouped.sort_values(by='Hogwarts House')
 
     categories = sorted(set(grouped['Hogwarts House']))
-    colors = {"Gryffindor": "lightblue", "Hufflepuff": "pink",
-              "Ravenclaw": "lightgray", "Slytherin": "lightgreen"}
+    colors = {"Gryffindor": "red", "Hufflepuff": "yellow",
+              "Ravenclaw": "blue", "Slytherin": "green"}
 
     pairplot(grouped, hue="Hogwarts House", palette=[colors[category]
                                                      for category
