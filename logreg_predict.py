@@ -80,7 +80,7 @@ def predict():
                              in predictions]
 
     # Write the entire DataFrame to a CSV file
-    DataFrame(ndf.iloc[:, 0].values).to_csv("houses.csv", index=None)
+    DataFrame(ndf.iloc[:, 0].values).to_csv("houses.csv", header=False)
 
     ndf = ndf.sort_values(by='Hogwarts House')
 
