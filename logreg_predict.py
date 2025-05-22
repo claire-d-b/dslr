@@ -22,6 +22,8 @@ def predict():
 
     ndf = concat([ndf_house, ndf_course], axis=1)
 
+    ndf = ndf.reset_index()
+
     bias, w = open_thetas_file("thetas.csv")
     bias = ast.literal_eval(bias)
     # Step 1: Use ast.literal_eval to safely parse the string as a 2D list
@@ -41,7 +43,8 @@ def predict():
     # belong to each house.
     # We take the highest probability.
     figure(figsize=(8, 5))
-    for i, col in enumerate(ndf.iloc[:, 1:].values):
+    for i, col in enumerate(ndf.iloc[:, 2:].values):
+        print(col)
         predictions.insert(i, [])
         # print("col", col)
 
@@ -80,7 +83,7 @@ def predict():
                              in predictions]
 
     # Write the entire DataFrame to a CSV file
-    DataFrame(ndf.iloc[:, 0].values).to_csv("houses.csv", header=False)
+    DataFrame(ndf.iloc[:, :2]).to_csv("houses.csv", header=True, index=False)
 
     ndf = ndf.sort_values(by='Hogwarts House')
 
