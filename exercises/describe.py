@@ -32,7 +32,7 @@ def print_dataframe(df: DataFrame) -> any:
 
     for i in range(df.shape[1]):
         # Get scores for all 12 courses in a specific house
-        nrow_values = df.iloc[:, 0].dropna().values
+        nrow_values = df.iloc[:, i].dropna().values
         # print("row values", nrow_values.tolist())
 
         # print("i:", i)
