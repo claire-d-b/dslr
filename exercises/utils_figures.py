@@ -21,8 +21,9 @@ def load(path: str) -> DataFrame:
         # columns
         set_option('display.width', None)  # Adjust the display
         # width for wrapping
-        set_option('display.colheader_justify', 'lseft')  # Align headers
+        set_option('display.colheader_justify', 'left')  # Align headers
         # to the left
+        set_option('display.precision', 2)  # Show 2 decimal places
 
     except Exception as e:
         raise AssertionError(f"Error: {e}")
