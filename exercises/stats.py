@@ -1,5 +1,5 @@
 from pandas import DataFrame
-
+from math import fabs
 
 def len(lst: list):
     i = 0
@@ -27,7 +27,7 @@ def nearest(number: float, lst: list) -> float:
     mindistance = float('inf')
     index = 0
     for i in range(len(lst)):
-        distance = abs(lst[i] - number)
+        distance = fabs(lst[i] - number)
         if distance < mindistance:
             mindistance = distance
             index = i
@@ -85,11 +85,20 @@ def get_variance(largs: any) -> float:
             sd_mean += item
         sd_mean = sd_mean / len(deviation_lst)
         return sd_mean
-    except Exception:
-        print("ERROR")
+    except Exception as e:
+        raise AssertionError(f"Error: {e}")
 
 
 def get_standard_deviation(largs: any) -> float:
+    # The standard deviation is a measure of
+    # the amount of variation or dispersion in a set
+    # of values. It quantifies how much the values
+    # in a dataset deviate from the mean (average)
+    # of the dataset.
+    # Variance is a measure of the dispersion or
+    # spread of a set of data points.
+    # It quantifies how much the values in a dataset
+    # differ from the mean of the dataset. """
     try:
         len(largs)
         # Calculate the Mean:
@@ -108,11 +117,9 @@ def get_standard_deviation(largs: any) -> float:
         for item in deviation_lst:
             sd_mean += item
         sd_mean = sd_mean / len(deviation_lst)
-
-        # Take the Square Root:
         return sd_mean ** 0.5
-    except Exception:
-        print("ERROR")
+    except Exception as e:
+        raise AssertionError(f"Error: {e}")
 
 
 def get_quartile(largs: any) -> float:
@@ -141,14 +148,13 @@ def get_quartile(largs: any) -> float:
 
         if len(largs) % 2:
             largs = [float(nearest(q1, largs)),
-                     float(nearest(q3, largs))]
+                        float(nearest(q3, largs))]
         else:
             largs = [float(q1), float(q3)]
         return largs
 
-    except Exception:
-        print("ERROR")
-
+    except Exception as e:
+        raise AssertionError(f"Error: {e}")
 
 def get_min(df: DataFrame):
     nlst = sort_list(list(df))
