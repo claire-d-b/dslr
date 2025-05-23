@@ -2,6 +2,8 @@ from pandas import DataFrame, concat
 from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max, get_mean, len
 from utils_figures import load
 from math import isnan
+# from numpy import percentile
+# from statistics import stdev
 
 
 def print_dataframe(df: DataFrame) -> any:
@@ -23,38 +25,49 @@ def print_dataframe(df: DataFrame) -> any:
     df.dropna()
 
     values = []
+    # nvalues = []
 
     data = ["Count", "Mean", "Std", "Min", "25%", "50%", "75%", "Max"]
     ndf = DataFrame(data)
 
     for i in range(df.shape[1]):
         # Get scores for all 12 courses in a specific house
-        nrow_values = df.iloc[:, i].dropna().values
-        # print("row values", nrow_values)
+        nrow_values = df.iloc[:, 0].dropna().values
+        # print("row values", nrow_values.tolist())
 
         # print("i:", i)
         values.insert(i, [])
+        # nvalues.insert(i, [])
         # print("row values shape", DataFrame(row_values).shape)
         values[i].append(len(nrow_values))
+        # nvalues[i].append(len(nrow_values))
 
         # print("courses_count i", stud_per_course_count)
         values[i].append(get_mean(nrow_values))
+        # nvalues[i].append(nrow_values.mean())
 
         values[i].append(get_standard_deviation(nrow_values))
+        # nvalues[i].append(stdev(nrow_values))
 
         values[i].append(get_min(nrow_values))
+        # nvalues[i].append(nrow_values.min())
 
         values[i].append(get_quartile(nrow_values)[0])
+        # nvalues[i].append(percentile(nrow_values, 25))
 
         values[i].append(get_median(nrow_values))
+        # nvalues[i].append(percentile(nrow_values, 50))
 
         values[i].append(get_quartile(nrow_values)[1])
+        # nvalues[i].append(percentile(nrow_values, 75))
 
         values[i].append(get_max(nrow_values))
+        # nvalues[i].append(nrow_values.max())
 
         # Remove NaN values before calculating
         row_values = [x for x in nrow_values if not isnan(x)]
         ndf = concat([ndf, DataFrame(values[i])], axis=1)
+        # nndf = concat([ndf, DataFrame(nvalues[i])], axis=1)
 
     # Get the current columns
     columns = ndf.columns.tolist()
@@ -66,6 +79,7 @@ def print_dataframe(df: DataFrame) -> any:
 
     # Write the entire DataFrame to a CSV file
     ndf.to_csv("describe.csv", index=False)
+    # nndf.to_csv("describe_truth.csv", index=False)
 
     # A downward-sloping diagonal (from top-left to bottom-right) indicates
     # a negative correlation, where as one variable increases, the other
