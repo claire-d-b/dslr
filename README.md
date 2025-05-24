@@ -31,7 +31,7 @@ Q3 (Troisième quartile ou quartile 75%):
 25% des données sont supérieures à Q3
 Ils servent à comparer les performances (ex: étude de notes lors d'un examen), mais
 aussi à détecter ce qui est normal ou exceptionnel: ce qui est très en-dessous de
-Q1 ou très au-dessus de Q3 est
+Q1 ou très au-dessus de Q3 est inhabituel.
 Variance - La variance mesure à quel point les valeurs d'un ensemble de données
 s'écartent de la moyenne. Elle se calcule en faisant la moyenne des carrés des
 écarts à la moyenne.
