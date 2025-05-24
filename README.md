@@ -10,6 +10,38 @@ alias norminette=flake8
 
 deactivate
 
+# Definitions
+
+Mean - La moyenne est la somme de toutes les valeurs divisée by le nombre de valeurs.
+A utiliser quand les données sont symétriques et sans valeurs aberrantes, ou quand
+on veut tenir compte de toutes les données.
+Median - La médiane est la valeur qui se trouve au milieu d'un ensemble de données
+classées par ordre croissant. Elle divise l'ensemble en deux parties égales.
+A utiliser quand les données contiennent des valeurs extrêmes, ou quand on veut
+connaître la valeur "typique" au centre.
+Quartiles - Les quartiles divisent un ensemble de données ordonnées en quatre parties
+égales de taille identique. Ils permettent de comprendre la distribution des données.
+Q1 (Premier quartile ou quartile 25%):
+25% des données sont inférieures ou égales à Q1
+75% des données sont supérieures à Q1
+Q2 - Median:
+50% des données sont de chaque côté de cette valeur
+Q3 (Troisième quartile ou quartile 75%):
+75% des données sont inférieures ou égales à Q3
+25% des données sont supérieures à Q3
+Ils servent à comparer les performances (ex: étude de notes lors d'un examen), mais
+aussi à détecter ce qui est normal ou exceptionnel: ce qui est très en-dessous de
+Q1 ou très au-dessus de Q3 est
+Variance - La variance mesure à quel point les valeurs d'un ensemble de données
+s'écartent de la moyenne. Elle se calcule en faisant la moyenne des carrés des
+écarts à la moyenne.
+Standard deviation - la déviation standard ou écart type est simplement la
+racine carrée de la variance. Elle a l'avantage d'être exprimée dans la même
+unité que les données originales, ce qui la rend plus facile à interpréter.
+Une variance/déviation standard faible indique que les données sont regroupées
+près de la moyenne.
+Une variance/déviation standard élevée indique que les données sont très dispersées.
+
 # Subject
 
 This project invites us to manipulate data and represent it in the shape of figures.
