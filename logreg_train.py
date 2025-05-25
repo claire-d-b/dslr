@@ -4,7 +4,7 @@ from matplotlib.pyplot import savefig, clf, close
 from pandas import concat
 from seaborn import pairplot
 import random
-from exercices.stats import _len
+from exercises.stats import _len
 
 
 def train():
