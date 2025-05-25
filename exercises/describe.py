@@ -1,8 +1,10 @@
 from pandas import DataFrame, concat
-from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max, get_mean, len, get_mean
+from stats import (get_median, get_standard_deviation, get_quartile, get_min,
+    get_max, _len, get_mean)
 from utils_figures import load
 from math import isnan
 # from numpy import percentile, std
+from sys import argv
 
 
 def print_dataframe(df: DataFrame) -> any:
@@ -41,8 +43,8 @@ def print_dataframe(df: DataFrame) -> any:
         values.insert(i, [])
         # nvalues.insert(i, [])
         # print("row values shape", DataFrame(row_values).shape)
-        values[i].append(len(nrow_values))
-        # nvalues[i].append(len(nrow_values))
+        values[i].append(_len(nrow_values))
+        # nvalues[i].append(_len(nrow_values))
 
         # print("courses_count i", stud_per_course_count)
         values[i].append(get_mean(nrow_values))
@@ -98,7 +100,14 @@ def print_dataframe(df: DataFrame) -> any:
 
 
 if __name__ == "__main__":
-    try:
-        print(print_dataframe(load("../dataset_train.csv")))
-    except AssertionError as error:
-        print(f"{error}")
+    if len(argv) != 2:
+        print("Usage: python describe.py <path_to_csv_file>.csv")
+    else:
+        try:
+            # print(print_dataframe(load(sys.argv[1])))
+            ret = print_dataframe(load(argv[1]))
+            with open("describe.csv", "r") as file:
+                lines = file.readlines()
+                print(lines)
+        except AssertionError as error:
+            print(f"{error}")

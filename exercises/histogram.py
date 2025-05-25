@@ -1,6 +1,7 @@
 from pandas import DataFrame, concat
 from matplotlib.pyplot import savefig, tight_layout, subplots
 from utils_figures import load, normalize_df
+from sys import argv
 
 
 def get_bars(df: DataFrame) -> any:
@@ -35,7 +36,10 @@ def get_bars(df: DataFrame) -> any:
 
 
 if __name__ == "__main__":
-    try:
-        get_bars(load("../dataset_train.csv"))
-    except AssertionError as error:
-        print(f"{error}")
+    if len(argv) != 2:
+        print("Usage: python histogram.py <path_to_csv_file>.csv")
+    else:
+        try:
+            get_bars((load(argv[1])))
+        except AssertionError as error:
+            print(f"{error}")

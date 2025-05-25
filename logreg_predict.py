@@ -6,6 +6,7 @@ from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
 import ast
+from exercises.stats import _len
 
 
 def predict():
@@ -47,7 +48,7 @@ def predict():
         predictions.insert(i, [])
         # print("col", col)
 
-        for j in range(len(houses)):
+        for j in range(_len(houses)):
             z = get_dot(col, w[j]) + bias[j]
             # print("z", z)
             # Le résultat z représente souvent un score ou une valeur avant
@@ -86,9 +87,9 @@ def predict():
 
     ndf = ndf.sort_values(by='Hogwarts House')
 
-    for i in range(len(houses)):
+    for i in range(_len(houses)):
         filtered_df = ndf[ndf['Hogwarts House'] == houses[i]]
-        percent = len(filtered_df) * 100 / len(ndf)
+        percent = _len(filtered_df) * 100 / _len(ndf)
         print(f"There are {percent}% students from test data \
 who would probably belong to {houses[i]}")
 

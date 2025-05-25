@@ -1,7 +1,7 @@
 from pandas import DataFrame
 from math import fabs
 
-def len(lst: list):
+def _len(lst: list):
     i = 0
     for item in lst:
         i += 1
@@ -9,7 +9,7 @@ def len(lst: list):
 
 
 def sort_list(sort_list: list):
-    n = len(sort_list)
+    n = _len(sort_list)
     for i in range(n):
         # Find the minimum element in the unsorted part of the list
         min_index = i
@@ -26,7 +26,7 @@ def nearest(number: float, lst: list) -> float:
     distance = 0
     mindistance = float('inf')
     index = 0
-    for i in range(len(lst)):
+    for i in range(_len(lst)):
         distance = fabs(lst[i] - number)
         if distance < mindistance:
             mindistance = distance
@@ -37,10 +37,10 @@ def nearest(number: float, lst: list) -> float:
 def get_mean(largs: any) -> float:
     ret = 0
     try:
-        len(largs)
+        _len(largs)
         for arg in largs:
             ret += arg
-        ret = ret / len(largs)
+        ret = ret / _len(largs)
         return ret
     except Exception:
         print("ERROR")
@@ -49,15 +49,15 @@ def get_mean(largs: any) -> float:
 def get_median(largs: any) -> float:
     ret = 0
     try:
-        len(largs)
+        _len(largs)
         largs = sort_list(largs)
 
-        if len(largs) % 2:
-            index = int(len(largs) / 2)
+        if _len(largs) % 2:
+            index = int(_len(largs) / 2)
             ret = largs[index]
 
         else:
-            index = int(len(largs) / 2)
+            index = int(_len(largs) / 2)
             ret = (largs[index - 1] +
                    largs[index]) / 2
         return ret
@@ -67,12 +67,12 @@ def get_median(largs: any) -> float:
 
 def get_variance(largs: any) -> float:
     try:
-        len(largs)
+        _len(largs)
         # Calculate the Mean:
         mean = 0
         for arg in largs:
             mean += arg
-        mean = mean / len(largs)
+        mean = mean / _len(largs)
         # Calculate Each Deviation from the Mean and
         # Square it:
         deviation_lst = []
@@ -83,7 +83,7 @@ def get_variance(largs: any) -> float:
 
         for item in deviation_lst:
             sd_mean += item
-        sd_mean = sd_mean / len(deviation_lst)
+        sd_mean = sd_mean / _len(deviation_lst)
         return sd_mean
     except Exception as e:
         raise AssertionError(f"Error: {e}")
@@ -100,12 +100,12 @@ def get_standard_deviation(largs: any) -> float:
     # It quantifies how much the values in a dataset
     # differ from the mean of the dataset. """
     try:
-        len(largs)
+        _len(largs)
         # Calculate the Mean:
         mean = 0
         for arg in largs:
             mean += arg
-        mean = mean / len(largs)
+        mean = mean / _len(largs)
         # Calculate Each Deviation from the Mean and
         # Square it:
         deviation_lst = []
@@ -116,7 +116,7 @@ def get_standard_deviation(largs: any) -> float:
 
         for item in deviation_lst:
             sd_mean += item
-        sd_mean = sd_mean / len(deviation_lst)
+        sd_mean = sd_mean / _len(deviation_lst)
         return sd_mean ** 0.5
     except Exception as e:
         raise AssertionError(f"Error: {e}")
@@ -124,13 +124,13 @@ def get_standard_deviation(largs: any) -> float:
 
 def get_quartile(largs: any) -> float:
     try:
-        len(largs)
+        _len(largs)
         largs = sort_list(largs)
 
         # identify quartile position
-        q1 = float((len(largs) + 1) / 4)
+        q1 = float((_len(largs) + 1) / 4)
 
-        q3 = float((3 * (len(largs) + 1)) / 4)
+        q3 = float((3 * (_len(largs) + 1)) / 4)
         # Q1: Interpolate between values:
         if not isinstance(q1, int):
             pos1, pos2 = largs[int(q1)], largs[int(q1) - 1]
@@ -146,7 +146,7 @@ def get_quartile(largs: any) -> float:
         else:
             q3 = largs[q3]
 
-        if len(largs) % 2:
+        if _len(largs) % 2:
             largs = [float(nearest(q1, largs)),
                         float(nearest(q3, largs))]
         else:
@@ -163,4 +163,4 @@ def get_min(df: DataFrame):
 
 def get_max(df: DataFrame):
     nlst = sort_list(list(df))
-    return nlst[len(nlst)-1]
+    return nlst[_len(nlst)-1]
