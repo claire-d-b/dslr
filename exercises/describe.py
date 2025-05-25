@@ -4,6 +4,7 @@ from stats import (get_median, get_standard_deviation, get_quartile, get_min,
 from utils_figures import load
 from math import isnan
 # from numpy import percentile, std
+from sys import argv
 
 
 def print_dataframe(df: DataFrame) -> any:
@@ -99,7 +100,14 @@ def print_dataframe(df: DataFrame) -> any:
 
 
 if __name__ == "__main__":
-    try:
-        print(print_dataframe(load("../dataset_train.csv")))
-    except AssertionError as error:
-        print(f"{error}")
+    if len(argv) != 2:
+        print("Usage: python describe.py <path_to_csv_file>.csv")
+    else:
+        try:
+            # print(print_dataframe(load(sys.argv[1])))
+            ret = print_dataframe(load(argv[1]))
+            with open("describe.csv", "r") as file:
+                lines = file.readlines()
+                print(lines)
+        except AssertionError as error:
+            print(f"{error}")

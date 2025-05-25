@@ -1,4 +1,5 @@
 from pandas import DataFrame, read_csv
+from exercises.stats import _len
 
 
 def open_thetas_file(name: str) -> tuple:
