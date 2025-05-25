@@ -1,7 +1,7 @@
 from pandas import DataFrame, concat
 from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max, get_mean, len, get_mean
 from utils_figures import load
-# from math import isnan
+from math import isnan
 # from numpy import percentile, std
 
 
