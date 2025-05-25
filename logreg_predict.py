@@ -6,6 +6,7 @@ from pandas import concat, DataFrame
 from seaborn import pairplot
 from math import e
 import ast
+from exercises.stats import _len
 
 
 def predict():
