@@ -44,7 +44,6 @@ def predict():
     # We take the highest probability.
     figure(figsize=(8, 5))
     for i, col in enumerate(ndf.iloc[:, 2:].values):
-        print(col)
         predictions.insert(i, [])
         # print("col", col)
 
