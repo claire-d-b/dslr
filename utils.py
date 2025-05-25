@@ -9,11 +9,11 @@ def open_thetas_file(name: str) -> tuple:
         file_content = f.read()
 
         index = file_content.find("theta_0:")
-        i = index + len("theta_0:")
+        i = index + _len("theta_0:")
         theta_0 = file_content[i:file_content.find("\n")]
 
         index = file_content.find("theta_1:")
-        i = index + len('\ntheta_1:')
+        i = index + _len('\ntheta_1:')
         theta_1 = file_content[i:]
 
         return theta_0, theta_1
@@ -51,7 +51,7 @@ def load(path: str) -> DataFrame:
 
 
 def sort_list(sort_list: list):
-    n = len(sort_list)
+    n = _len(sort_list)
     for i in range(n):
         # Find the minimum element in the unsorted part of the list
         min_index = i
@@ -71,7 +71,7 @@ def get_min(df: DataFrame):
 
 def get_max(df: DataFrame):
     nlst = sort_list(list(df))
-    return nlst[len(nlst)-1]
+    return nlst[_len(nlst)-1]
 
 
 def normalize_df(df):
@@ -121,9 +121,9 @@ def normalize_df(df):
 
 def get_dot(lst: list, other: list):
     temp = []
-    for index in range(len(lst)):
+    for index in range(_len(lst)):
         temp.append(lst[index] * other[index])
     res = 0
-    for index in range(len(lst)):
+    for index in range(_len(lst)):
         res += temp[index]
     return res

@@ -1,5 +1,6 @@
 from pandas import DataFrame, concat
-from stats import get_median, get_standard_deviation, get_quartile, get_min, get_max, get_mean, len, get_mean
+from stats import (get_median, get_standard_deviation, get_quartile, get_min,
+    get_max, _len, get_mean)
 from utils_figures import load
 from math import isnan
 # from numpy import percentile, std
@@ -41,8 +42,8 @@ def print_dataframe(df: DataFrame) -> any:
         values.insert(i, [])
         # nvalues.insert(i, [])
         # print("row values shape", DataFrame(row_values).shape)
-        values[i].append(len(nrow_values))
-        # nvalues[i].append(len(nrow_values))
+        values[i].append(_len(nrow_values))
+        # nvalues[i].append(_len(nrow_values))
 
         # print("courses_count i", stud_per_course_count)
         values[i].append(get_mean(nrow_values))

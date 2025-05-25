@@ -35,7 +35,7 @@ def train():
     # Generate a random floating-point number between -0.01 and 0.01
     theta_0 = random.uniform(-0.01, 0.01)
     theta_1 = random.uniform(-0.01, 0.01)
-    for i in range(len(houses)):
+    for i in range(_len(houses)):
         w.insert(i, [])
         b.insert(i, [])
         # Scores of all students in the 13 courses for each house :
@@ -48,7 +48,7 @@ def train():
 
         for j, item in enumerate(overall_scores):
             # print("i:", i)
-            weight, bias, mse = minimize_cost(len(overall_scores),
+            weight, bias, mse = minimize_cost(_len(overall_scores),
                                               theta_0, theta_1,
                                               item, 1, 0.01)
             w[i].insert(j, weight)
@@ -56,7 +56,7 @@ def train():
 
     # Here we take the average value of ou bias
     # print("bias", b)
-    bias = [sum(b_row) / len(b_row) for b_row in b]
+    bias = [sum(b_row) / _len(b_row) for b_row in b]
     # print("bias", bias)
 
     # Write reusable thetas to a file
