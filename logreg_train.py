@@ -29,14 +29,14 @@ def train():
 
     df = df.sort_values(by='Hogwarts House')
 
-    summed_df = df.groupby("Hogwarts House", as_index=False).sum()
+    summed_df = df.groupby("Hogwarts House", as_index=False).mean()
     summed_df = normalize_df(summed_df)
 
     w = []
     b = []
     # Generate a random floating-point number between -0.01 and 0.01
-    theta_0 = random.uniform(-0.01, 0.01)
-    theta_1 = random.uniform(-0.01, 0.01)
+    theta_0 = random.uniform(-1, 1)
+    theta_1 = random.uniform(-1, 1)
     for i in range(_len(houses)):
         w.insert(i, [])
         b.insert(i, [])

@@ -9,7 +9,7 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
     # print("real house", real_house)
     # print("real score", real_score) # 13 * 4 real scores = 52 real scores
 
-    minimum = int(- 1 / learning_rate)
+    minimum = int(-1 / learning_rate)
     maximum = int(1 / learning_rate)
 
     for i in range(minimum, maximum, 1):
