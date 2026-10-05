@@ -30,6 +30,7 @@ def train():
     df = df.sort_values(by='Hogwarts House')
 
     summed_df = df.groupby("Hogwarts House", as_index=False).sum()
+    summed_df = normalize_df(summed_df)
 
     w = []
     b = []
@@ -51,7 +52,7 @@ def train():
             # print("i:", i)
             weight, bias, mse = minimize_cost(_len(overall_scores),
                                               theta_0, theta_1,
-                                              item, 1, 0.01)
+                                              item, 1, 0.001)
             w[i].insert(j, weight)
             b[i].insert(j, bias)
 

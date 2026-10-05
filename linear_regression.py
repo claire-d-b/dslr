@@ -13,13 +13,14 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
     maximum = int(1 / learning_rate)
 
     for i in range(minimum, maximum, 1):
-        theta_1 = float(i / ((2 * m) / learning_rate))
+        theta_0 = float(i / ((2 * m) / learning_rate))
 
         # real_house = theta_1 * real_score + theta_0
         # real_house - theta_0 = theta_1 * real_score
         # -theta_0 = theta_1 * real_score - real_house
         # theta_0 = -(theta_1 * real_score - real_house)
-        theta_0 = -theta_1 * real_score + real_house
+        # theta_1 = -theta_1 * real_score + real_house
+        theta_1 = (real_house - theta_0) / real_score # attention si real_score == 0
         # print("theta 1", theta_1)
         # print("theta 0", theta_0)
         # print("res", theta_1 * real_score + theta_0)
@@ -32,8 +33,8 @@ def minimize_cost(m: int, theta_0: float, theta_1: float, real_score: float,
 
         if se < limit:
 
-            limit = se
             b = theta_0
             w = theta_1
+            limit = se
 
-    return b, w, limit
+    return w, b, limit
