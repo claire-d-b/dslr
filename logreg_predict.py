@@ -14,7 +14,7 @@ def predict():
     colors = {0: "red", 1: "yellow", 2: "blue", 3: "green"}
 
     ndf = load("dataset_test.csv")
-    ndf = ndf.fillna(0)
+    ndf = ndf.fillna(ndf.mean(numeric_only=True))
 
     ndf_house = ndf['Hogwarts House']
     ndf_course = ndf.iloc[:, 5:]

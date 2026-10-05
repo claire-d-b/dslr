@@ -10,7 +10,7 @@ from exercises.stats import _len
 def train():
     """Plot the scores per course and classify"""
     origin_df = load("dataset_train.csv")
-    origin_df = origin_df.fillna(0)
+    origin_df = origin_df.fillna(origin_df.mean(numeric_only=True))
 
     houses = ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"]
 
@@ -23,7 +23,7 @@ def train():
     # # -> résultats entre -1 et 1
     # df_course = df_course.apply(lambda col: normalize_column(col,
     #                             min_values[col.name], max_values[col.name]))
-    df_course = normalize_df(df_course)
+    # df_course = normalize_df(df_course)
 
     df = concat([df_house, df_course], axis=1)
 
